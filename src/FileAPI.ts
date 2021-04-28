@@ -1,5 +1,5 @@
 
-let fs, path, os
+let fs:any, path:any, os:any
 
 try {
     fs = require('fs')
@@ -11,7 +11,7 @@ try {
 
 function PathNotFound(path:string) {
     class PathNotFound extends Error {
-        constructor(path) {
+        constructor(path:string) {
             super(`Path ${path} does not exist`)
         }
     }
@@ -94,8 +94,8 @@ export function fileCopy(pathName:string, toPathName:string) {
 // export type FileInfo = fs.Stats
 
 export class FileDetails  {
-    parentPath: string
-    fileName:string
+    parentPath: string = ''
+    fileName:string = ''
     info:any // FileInfo
 }
 
@@ -128,7 +128,7 @@ export function readFolder(pathName:string):FileDetails[] {
     const details:FileDetails[] = []
 
     const entries = fs.readdirSync(pathName, {withFileTypes: true})
-    entries.forEach(entry => {
+    entries.forEach((entry:any) => {
         const det = new FileDetails()
         det.parentPath = pathName
         det.fileName = entry.name
@@ -139,11 +139,11 @@ export function readFolder(pathName:string):FileDetails[] {
 }
 
 class UserPathInfo {
-    home:string
-    cwd:string
-    userName:string
-    uid:Number
-    gid:Number
+    home:string = ''
+    cwd:string = ''
+    userName:string = ''
+    uid:Number | undefined
+    gid:Number | undefined
 }
 export function getUserAndPathInfo(): UserPathInfo {
     const userInfo = os.userInfo()

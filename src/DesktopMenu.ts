@@ -1,6 +1,10 @@
 
-import {MenuItem} from './application/MenuApi'
-// import {Menu} from "electron";
+// import {MenuItem} from './application/MenuApi'
+class MenuItem {
+    public label:string = ''
+    public id:string = ''
+}
+
 import * as electron from 'electron'
 const Menu = electron.Menu;
 const EMenuItem = electron.MenuItem
@@ -17,7 +21,9 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
     let n = menuId.indexOf('-')
     if(n === -1) n=menuId.length;
     const menuName = menuId.substring(0, n)
+    // @ts-ignore
     if(!menus[menuName]) {
+        // @ts-ignore
         menus[menuName] = Menu.buildFromTemplate([]) // create a new menu of this name
     }
     const parentItem = getSubmenuFromId(menuId)
@@ -35,7 +41,7 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
     setToMenuBar(menuName)
 
 }
-function convertMenuItem(item) {
+function convertMenuItem(item:any) {
     const dmi:any =  {
         label: item.label,
         role: item.role,
@@ -61,7 +67,7 @@ function convertMenuItem(item) {
         dmi.type = 'submenu'
         let smpath = item.path;
         const submenu:any = []
-        item.children.forEach(smi => {
+        item.children.forEach((smi:any) => {
             submenu.push(convertMenuItem(smi))
         })
         dmi.submenu = submenu
@@ -72,6 +78,7 @@ function getSubmenuFromId(menuId:string) {
     let n = menuId.indexOf('-')
     if(n === -1) n = menuId.length
     let menuName = menuId.substring(0, n)
+    // @ts-ignore
     let topItem = menus[menuName]
     if(!topItem) {
         console.error('menuId may not be complete ', menuId)
@@ -145,7 +152,7 @@ export function clearMenu(menuId:string) {
     }
 }
 
-function onMenuItem(item, browserWindow, event) {
+function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
     let id = item.id
     console.log('Clicked on Desktop menu item '+id)
     AppGateway.sendMessage('EV', {subject: 'menuAction', data: id})
@@ -155,7 +162,8 @@ function onMenuItem(item, browserWindow, event) {
  * When all items have been added to menu template, this
  * realizes it into the menu bar
  */
-export function setToMenuBar(menuName) {
+export function setToMenuBar(menuName:string) {
+    // @ts-ignore
     const menu = menus[menuName]
     Menu.setApplicationMenu(menu)
 }

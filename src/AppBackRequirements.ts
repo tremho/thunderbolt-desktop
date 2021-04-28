@@ -10,7 +10,7 @@ process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'YES'
 
 const preloadPath = path.join(__dirname, 'src', 'preload.js')
 
-const inject = {
+export default {
     electronApp: electron.app,
     BrowserWindow: electron.BrowserWindow,
     ipcMain: electron.ipcMain,
