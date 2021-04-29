@@ -1,5 +1,7 @@
 
-import startupInjection from "./AppBackRequirements"
+import targetPlatform from "./AppBackRequirements"
 
-export {startupInjection as startupInjection}
+export {targetPlatform as targetPlatform}
+
+
 
