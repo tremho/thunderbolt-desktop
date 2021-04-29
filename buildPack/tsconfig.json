@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "target": "es5",
+    "module": "commonjs",   /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.proxy"
+    ]
+  },
+  "exclude": [
+    "./node_modules/"
+  ],
+  "include": [
+    "./src/*.js",
+    "./src/**/*.ts",
+    "./mobile.ts",
+    "./test/**/*.test.ts"
+  ]
+}

@@ -30,7 +30,8 @@
   },
   "homepage": "https://github.com/tremho/thunderbolt-desktop#readme",
   "dependencies": {
-    "electron": "^12.0.5"
+    "electron": "^12.0.5",
+    "riot": "^5.3.3"
   },
   "devDependencies": {
     "@types/node": "^15.0.1",
