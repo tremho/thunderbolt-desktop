@@ -56,7 +56,7 @@ function convertMenuItem(item:any) {
     }
     dmi.tooltip = 'this is a tooltip' // todo: is my Electron current?
     if(item.icon) {
-        console.log('setting icon to '+item.icon)
+        // console.log('setting icon to '+item.icon)
         dmi.icon = item.icon
     }
     if(item.label === '--') {

@@ -64,7 +64,7 @@ fnames.forEach(fname => {
     }
     ipcRenderer.send(fname, data)
     ipcRenderer.on(fname, (event, data) => {
-      console.log(`in response handler for ${fname} ${data.id}`)
+      // console.log(`in response handler for ${fname} ${data.id}`)
       const respIn = responders[data.id]
       if(respIn) {
         if (data.error) {
@@ -144,4 +144,4 @@ contextBridge.exposeInMainWorld("api", api);
 contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer)
 contextBridge.exposeInMainWorld('extAccess', extAccess)
 
-console.log('preload loaded successfully')
+// console.log('preload loaded successfully')
