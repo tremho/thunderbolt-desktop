@@ -1,0 +1,25 @@
+<!-- same as stack-layout but does not support orientation -->
+<!-- designed to be used with 'if' properties for conditional portability to {N} -->
+<cond-sect>
+    <div>
+        <slot />
+    </div>
+    <style>
+    </style>
+    <script>
+
+      import {newCommon} from 'Framework/app-core/ComCommon'
+      let cm;
+
+      export default {
+        onBeforeMount(props, state) {
+          cm = newCommon(this)
+        },
+        onMounted(props, state) {
+          // console.log(this.root.tagName)
+          let div = this.$('DIV')
+          cm.setCommonProps(div, props)
+        }
+      }
+    </script>
+</cond-sect>
