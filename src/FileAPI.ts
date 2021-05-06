@@ -1,13 +1,7 @@
 
-let fs:any, path:any, os:any
-
-try {
-    fs = require('fs')
-    path = require('path')
-    os = require('os')
-} catch(e) {
-    console.warn('FileAPI unavailable -- make a forking solution for this')
-}
+import * as fs from 'fs'
+import * as path from 'path'
+import * as os from 'os'
 
 function PathNotFound(path:string) {
     class PathNotFound extends Error {
@@ -90,18 +84,30 @@ export function fileCopy(pathName:string, toPathName:string) {
     }
 }
 
-// TODO: should have a better fix for this overall
-// export type FileInfo = fs.Stats
-
 export class FileDetails  {
     parentPath: string = ''
     fileName:string = ''
-    info:any // FileInfo
+    mtimeMs:number = 0
+    size:number = 0
+    type:string = '' // file|folder|pipe|socket|blkdevice|chrdevice|symlink
 }
 
-export function fileStats(pathName:string) /*:FileInfo*/ {
+export function fileStats(pathName:string) : FileDetails {
     try {
-        return fs.lstatSync(pathName)
+        const fd = new FileDetails()
+        const stats = fs.lstatSync(pathName)
+        fd.fileName = pathName.substring(pathName.lastIndexOf('/')+1)
+        fd.parentPath = pathName.substring(0, pathName.lastIndexOf('/'))
+        fd.size = stats.size
+        fd.mtimeMs = stats.mtimeMs
+        if(stats.isFile()) fd.type = 'file'
+        if(stats.isDirectory()) fd.type = 'folder'
+        if(stats.isFIFO()) fd.type = 'pipe'
+        if(stats.isSocket()) fd.type = 'socket'
+        if(stats.isBlockDevice()) fd.type = 'blkdevice'
+        if(stats.isCharacterDevice()) fd.type = 'chrdevice'
+        if(stats.isSymbolicLink()) fd.type = 'symlink'
+        return fd
     } catch(e) {
         throw e
     }
@@ -127,12 +133,21 @@ export function removeFolder(pathName:string, andClear:boolean) {
 export function readFolder(pathName:string):FileDetails[] {
     const details:FileDetails[] = []
 
-    const entries = fs.readdirSync(pathName, {withFileTypes: true})
-    entries.forEach((entry:any) => {
+    const entries = fs.readdirSync(pathName)
+    entries.forEach((name:string) => {
         const det = new FileDetails()
         det.parentPath = pathName
-        det.fileName = entry.name
-        det.info = fileStats(path.join(pathName, entry.name))
+        det.fileName = name
+        const entry = fs.lstatSync(path.join(pathName, name))
+        det.size = entry.size
+        det.mtimeMs = entry.mtimeMs
+        if(entry.isFile()) det.type = 'file'
+        if(entry.isDirectory()) det.type = 'folder'
+        if(entry.isFIFO()) det.type = 'pipe'
+        if(entry.isSocket()) det.type = 'socket'
+        if(entry.isBlockDevice()) det.type = 'blkdevice'
+        if(entry.isCharacterDevice()) det.type = 'chrdevice'
+        if(entry.isSymbolicLink()) det.type = 'symlink'
         details.push(det)
     })
     return details
