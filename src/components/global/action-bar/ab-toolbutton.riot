@@ -1,24 +1,20 @@
 <ab-toolbutton>
-    <div class="ab-toolbutton { bound.className || '' }">
+    <div class="tb-toolbutton { bound.className || '' }" onclick="{performAction}">
         <div style="vertical-align: middle; text-align: center">
-            <div style="position:absolute" onclick="{performAction}">
+            <div style="position:absolute;">
                 <img if="{bound.icon}" src="{bound.icon}" style="position:absolute; left:-0.5rem; top:-0.5rem;">
                 <span style="position:absolute; left:-0.4rem; top:-0.5rem;">{props.label}</span>
             </div>
         </div>
     </div>
     <style>
-        .ab-toolbutton {
+        .tb-toolbutton {
             border: 2px solid blue;
             height: 2rem;
             width: 2rem;
             display: flex;
             justify-content: center;
             align-items: center;
-
-        }
-        [data-state='on'] {
-            background-color: red;
         }
     </style>
     <script>
@@ -39,6 +35,9 @@
         onMounted(props, state) {
           // console.log(this.root.tagName, 'onBeforeMount', props, state)
           let div = this.$('div')
+          div.style.cursor = 'pointer'
+          div.style.userSelect = 'none'
+          div.style.pointerEvents = 'auto'
           // apply tooltip handling
           div.setAttribute('title', props.tooltip || props.label)
           if(this.extension) {
@@ -56,6 +55,7 @@
               this.extension.onRelease(comp)
             }
             this.extension.onSetToPage(this)
+
           }
           // bind to a state change on this component
           // and update and call this.extension.onStateChange(comp, comp.bound.state)
@@ -65,13 +65,28 @@
               comp.update({ state: value })
             }
           })
+          this.onBeforeUpdate(props, state)
         },
         onBeforeUpdate(props, state) {
           // console.log(this.root.tagName, 'onBeforeUpdate', props, state)
+          this.bound.state = state.state
           let div = this.$('div')
           // update dom attributes to match state
-          div.dataset.state = state.state
-          this.bound.icon = props.icons && props.icons[state.state] // pick the icon for the state
+          let stateValue = div.dataset.state = state.state || 'default'
+          this.bound.icon = props.icons && props.icons[stateValue] // pick the icon for the state
+          // for compabilitity with {N} solution:
+          // Sets a class name as a workaround for data attribute selector tool-state-<state>
+          let cn = div.className || ''
+          let n = cn.indexOf('tool-state')
+          if(n !== -1) {
+            let nn = cn.indexOf(' ', n)
+            if(nn === -1) nn = cn.length
+            cn = cn.substring(0, n) + cn.substring(nn)
+          }
+          cn = cn.trim()
+          cn += ' tool-state-'+ stateValue
+          div.className = cn
+          console.log('toolbar '+this.bound.id+' class '+cn)
         },
         performAction(e) {
           let comp = cm.getComponent(e.srcElement)

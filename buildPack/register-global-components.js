@@ -14,9 +14,9 @@ function basename(path) {
 
 export default () => {
 
-  console.log('>>>> REGISTER GLOBAL COMPONENTS <<<<')
+  // console.log('>>>> REGISTER GLOBAL COMPONENTS <<<<')
 
-  console.log(frameworkComponentsContext)
+  // console.log(frameworkComponentsContext)
   frameworkComponentsContext.keys().map(path => {
     console.log(path)
     const name = basename(path, '.riot')
@@ -31,7 +31,7 @@ export default () => {
       component
     }
   })
-  console.log(appComponentsContext)
+  // console.log(appComponentsContext)
   appComponentsContext.keys().map(path => {
     console.log(path)
     const name = basename(path, '.riot')
@@ -40,7 +40,7 @@ export default () => {
     // we get an already registered for some reason, but can't find where else it occurs...
     // and this must be here or else main-page is never found.
     try {
-      console.log('register', name, component.default)
+      // console.log('register', name, component.default)
       register(name, component.default)
     } catch(e) {}
 
@@ -49,9 +49,9 @@ export default () => {
       component
     }
   })
-  console.log(appPagesContext)
+  // console.log(appPagesContext)
   appPagesContext.keys().map(path => {
-    console.log(path)
+    // console.log(path)
     const name = basename(path, '.riot')
     const component = appPagesContext(path)
 
