@@ -18,7 +18,7 @@ export default () => {
 
   // console.log(frameworkComponentsContext)
   frameworkComponentsContext.keys().map(path => {
-    console.log(path)
+    // console.log(path)
     const name = basename(path, '.riot')
     const component = frameworkComponentsContext(path)
 
@@ -33,7 +33,7 @@ export default () => {
   })
   // console.log(appComponentsContext)
   appComponentsContext.keys().map(path => {
-    console.log(path)
+    // console.log(path)
     const name = basename(path, '.riot')
     const component = appComponentsContext(path)
 

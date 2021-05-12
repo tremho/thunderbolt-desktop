@@ -1,5 +1,5 @@
 <ab-toolbutton>
-    <div class="tb-toolbutton { bound.className || '' }" onclick="{performAction}">
+    <div class="tb-toolbutton { bound.className || '' }">
         <div style="vertical-align: middle; text-align: center">
             <div style="position:absolute;">
                 <img if="{bound.icon}" src="{bound.icon}" style="position:absolute; left:-0.5rem; top:-0.5rem;">
@@ -40,11 +40,12 @@
           div.style.pointerEvents = 'auto'
           // apply tooltip handling
           div.setAttribute('title', props.tooltip || props.label)
+          let prevent = false
           if(this.extension) {
             // apply extension handling
             div.onmousedown = (e) => {
               let comp = cm.getComponent(e.srcElement)
-              let prevent = this.extension.onPress(comp)
+              prevent = this.extension.onPress({info:props, component: comp})
               if(prevent) {
                 e.stopPropagation()
                 e.preventDefault()
@@ -52,16 +53,18 @@
             }
             div.onmouseup = (e) => {
               let comp = cm.getComponent(e.srcElement)
-              this.extension.onRelease(comp)
+              prevent = this.extension.onRelease({info:props, component: comp})
             }
             this.extension.onSetToPage(this)
-
+          }
+          div.onclick = (e) => {
+            if(!prevent) this.performAction(e)
           }
           // bind to a state change on this component
           // and update and call this.extension.onStateChange(comp, comp.bound.state)
           cm.getCombinder().applyComponentBindings(this, "toolbar-"+this.bound.id+".state", (comp,prop,value) =>{
             if(prop === 'state') { // sanity
-              if(comp.extension) comp.extension.onStateChange(comp, value)
+              if(comp.extension) comp.extension.onStateChange({info:props, component: comp}, value)
               comp.update({ state: value })
             }
           })
