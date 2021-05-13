@@ -2,8 +2,8 @@
 import { register } from 'riot'
 
 const frameworkComponentsContext = require.context('FrameworkComponents', true, /[a-zA-Z0-9-]+\.riot/)
-const appComponentsContext = require.context('Components', true, /[a-zA-Z0-9-]+\.riot/)
-const appPagesContext = require.context('Pages', true, /[a-zA-Z0-9-]+\.riot/)
+const appComponentsContext = require.context('Generated/components', true, /[a-zA-Z0-9-]+\.riot/)
+const appPagesContext = require.context('Generated/Pages', true, /[a-zA-Z0-9-]+\.riot/)
 
 function basename(path) {
   let n = path.lastIndexOf('.')
@@ -38,7 +38,7 @@ export default () => {
     const component = appComponentsContext(path)
 
     // we get an already registered for some reason, but can't find where else it occurs...
-    // and this must be here or else main-page is never found.
+    // and this must be here
     try {
       // console.log('register', name, component.default)
       register(name, component.default)

@@ -1,7 +1,7 @@
 <!-- this is the page-top title / menu / tool / indicator bar for riot.-->
 <!-- brings in several helper subcomponents for individual pieces -->
 <action-bar>
-    <div class="action-bar">
+    <div class="title-bar">
         <ab-backbutton if="{!props.noBack}"/>
         <p if="{props.noBack}"/>
         <action-toolbar>
@@ -33,16 +33,16 @@
         </indicator-bar>
     </div>
     <style>
-        .action-bar {
+        .title-bar {
             display:grid;
-            grid-template-columns: 2rem 1fr 2rem 2fr auto;
+            grid-template-columns: auto auto auto 2fr auto;
             grid-template-areas: "back toolbar menu title indicators";
             column-gap: 6px;
             align-items: center;
-            border-bottom: 0.2rem solid cornflowerblue;
-            padding-bottom: 0.4rem;
-            margin-bottom: 0.5rem;
-            cursor: none;
+            /*border-bottom: 0.2rem solid cornflowerblue;*/
+            /*padding-bottom: 0.4rem;*/
+            /*margin-bottom: 0.5rem;*/
+            /*cursor: none;*/
         }
     </style>
     <script>
