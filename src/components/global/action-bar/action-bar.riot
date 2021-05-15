@@ -49,6 +49,9 @@
       import {newCommon} from 'Framework/app-core/ComCommon'
       import * as riot from 'riot'
       let cm;
+      function isOverflown(element) {
+        return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+      }
       export default {
         onBeforeMount (props, state) {
           this.bound = new Object()
@@ -56,7 +59,7 @@
           // console.log(this.root.tagName, 'onBeforeMount', props, state, this.bound)
           // get the app (model) toolbar buttons and indicators
           try {
-            state.tools = cm.getApp().model.getAtPath('toolbar.' + props.toolbarId)
+            state.tools = cm.getApp().modetl.getAtPath('toolbar.' + props.toolbarId)
             state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
           } catch(e) {
             // console.error(e)
@@ -65,6 +68,17 @@
         onMounted (props, state) {
           // console.log(this.root.tagName, 'onMounted', props, state, this.bound)
           cm.bindComponent()
+          cm.getApp().model.bind(this, 'environment', 'window', (comp, prop, value, old) => {
+            let el = this.$('.title')
+            console.log('-------- see an update in size ------------', value)
+            try {
+              state.tools = cm.getApp().modetl.getAtPath('toolbar.' + props.toolbarId)
+              state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
+            } catch(e) {
+              // console.error(e)
+            }
+            this.update(state)
+          })
         },
         onBeforeUpdate (props, state) {
           // console.log(this.root.tagName, 'onBeforeUpdate', props, state, this.bound)
