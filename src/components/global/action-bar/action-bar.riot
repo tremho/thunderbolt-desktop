@@ -32,26 +32,10 @@
 
         </indicator-bar>
     </div>
-    <style>
-        .title-bar {
-            display:grid;
-            grid-template-columns: auto auto auto 2fr auto;
-            grid-template-areas: "back toolbar menu title indicators";
-            column-gap: 6px;
-            align-items: center;
-            /*border-bottom: 0.2rem solid cornflowerblue;*/
-            /*padding-bottom: 0.4rem;*/
-            /*margin-bottom: 0.5rem;*/
-            /*cursor: none;*/
-        }
-    </style>
     <script>
       import {newCommon} from 'Framework/app-core/ComCommon'
       import * as riot from 'riot'
       let cm;
-      function isOverflown(element) {
-        return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
-      }
       export default {
         onBeforeMount (props, state) {
           this.bound = new Object()
@@ -59,7 +43,7 @@
           // console.log(this.root.tagName, 'onBeforeMount', props, state, this.bound)
           // get the app (model) toolbar buttons and indicators
           try {
-            state.tools = cm.getApp().modetl.getAtPath('toolbar.' + props.toolbarId)
+            state.tools = cm.getApp().model.getAtPath('toolbar.' + props.toolbarId)
             state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
           } catch(e) {
             // console.error(e)
@@ -69,19 +53,26 @@
           // console.log(this.root.tagName, 'onMounted', props, state, this.bound)
           cm.bindComponent()
           cm.getApp().model.bind(this, 'environment', 'window', (comp, prop, value, old) => {
-            let el = this.$('.title')
             console.log('-------- see an update in size ------------', value)
-            try {
-              state.tools = cm.getApp().modetl.getAtPath('toolbar.' + props.toolbarId)
-              state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
-            } catch(e) {
-              // console.error(e)
-            }
             this.update(state)
           })
         },
         onBeforeUpdate (props, state) {
           // console.log(this.root.tagName, 'onBeforeUpdate', props, state, this.bound)
+          const fullWidth = document.body.clientWidth
+          let el = this.$('.tool-bar')
+          const tbWidth = el.getBoundingClientRect().width
+          el = this.$('.title')
+          const ttWidth = el.getBoundingClientRect().width
+          const rat = tbWidth/ttWidth;
+          console.log(tbWidth, fullWidth, rat)
+          // if(rat > 0.28) {
+          if(fullWidth < 500) {
+            document.body.classList.add('constrained')
+          } else {
+            document.body.classList.remove('constrained')
+          }
+          console.log(document.body.className)
         },
         onUpdated (props, state) {
           // console.log(this.root.tagName, 'onUpdated', props, state, this.bound)

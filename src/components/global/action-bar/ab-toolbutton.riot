@@ -7,16 +7,6 @@
             </div>
         </div>
     </div>
-    <style>
-        .tb-toolbutton {
-            /*border: 2px solid blue;*/
-            height: 2rem;
-            width: 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
     <script>
       import {newCommon} from 'Framework/app-core/ComCommon'
       let cm;
@@ -89,7 +79,7 @@
           cn = cn.trim()
           cn += ' tool-state-'+ stateValue
           div.className = cn
-          console.log('toolbar '+this.bound.id+' class '+cn)
+          // console.log('toolbar '+this.bound.id+' class '+cn)
         },
         performAction(e) {
           let comp = cm.getComponent(e.srcElement)
