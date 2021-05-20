@@ -121,12 +121,12 @@ api.removeMessageListener = (msgName, id) => {
 // BackExtensions listener
 ipcRenderer.on('extApi', (event, data) => {
   const {id, response, error} = data
-  // console.log(`in BackExtensions response handler for id ${id}`)
+  console.log(`in BackExtensions response handler for id ${id}`)
   const respIn = extResponders[id]
   if(respIn) {
-    // console.log(respIn)
+    console.log(respIn)
     if (error) {
-      respIn.error(error)
+      respIn.reject(error)
     } else {
       respIn.resolve(response)
     }
