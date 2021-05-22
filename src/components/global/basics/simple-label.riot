@@ -1,7 +1,7 @@
 
 <simple-label>
-    <div>
-        <span class="Label">{bound.text}</span>
+    <div class="SimpleLabel">
+        {bound.text}
     </div>
     <style>    
     </style>
@@ -17,8 +17,8 @@
             },
             onMounted(props, state) {
               // console.log(this.root.tagName, 'onMounted', props, state, this.bound)
-              let span = this.$('span')
-              cm.setCommonProps(span, props)
+              let div = this.$('div')
+              cm.setCommonProps(div, props)
               cm.bindComponent()
             },
             onBeforeUpdate(props, state) {

@@ -53,26 +53,28 @@
           // console.log(this.root.tagName, 'onMounted', props, state, this.bound)
           cm.bindComponent()
           cm.getApp().model.bind(this, 'environment', 'window', (comp, prop, value, old) => {
-            console.log('-------- see an update in size ------------', value)
+            // console.log('-------- see an update in size ------------', value)
             this.update(state)
           })
         },
         onBeforeUpdate (props, state) {
           // console.log(this.root.tagName, 'onBeforeUpdate', props, state, this.bound)
           const fullWidth = document.body.clientWidth
-          let el = this.$('.tool-bar')
-          const tbWidth = el.getBoundingClientRect().width
-          el = this.$('.title')
-          const ttWidth = el.getBoundingClientRect().width
-          const rat = tbWidth/ttWidth;
-          console.log(tbWidth, fullWidth, rat)
+          // let el = this.$('.tool-bar')
+          // if(!el) return
+          // const tbWidth = el.getBoundingClientRect().width
+          // el = this.$('.title')
+          // if(!el) return
+          // const ttWidth = el.getBoundingClientRect().width
+          // const rat = tbWidth/ttWidth;
+          // console.log(tbWidth, fullWidth, rat)
           // if(rat > 0.28) {
           if(fullWidth < 500) {
             document.body.classList.add('constrained')
           } else {
             document.body.classList.remove('constrained')
           }
-          console.log(document.body.className)
+          // console.log(document.body.className)
         },
         onUpdated (props, state) {
           // console.log(this.root.tagName, 'onUpdated', props, state, this.bound)
