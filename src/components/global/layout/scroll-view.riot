@@ -22,6 +22,10 @@
           cm.setCommonProps(div, props)
           div.style.display = props.orientation === 'horizontal'? 'inline-flex' : 'block'
           cm.parseFits(props)
+        },
+        onBeforeUpdate(props, state) {
+          // @ts-ignore
+          console.log(this.root.tagName, 'onBeforeUpdate', props, state)
         }
       }
     </script>

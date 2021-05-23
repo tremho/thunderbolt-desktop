@@ -4,37 +4,55 @@
         <button onclick="{onClick}">{bound.text}</button>
     </div>
     <style>
+        :host button {
+            width: 100%;
+        }
     </style>
     <script>
-      import {newCommon} from 'Framework/app-core/ComCommon'
-      let cm;
-      export default {
-        onBeforeMount(props, state) {
-          this.bound = new Object()
-          cm = newCommon(this)
-          this.bound.text = props.text || this.root.tagName // reset to props default
-          state.action = props.action
-        },
-        onMounted(props, state) {
-          // console.log(this.root.tagName, 'onMounted', props, state)
-          let span = this.$('button')
-          cm.setCommonProps(span, props, {width:'100%'})
-          cm.bindComponent()
-        },
-        onBeforeUpdate(props, state) {
-        },
-        onUpdated(props, state) {
-        },
-        onBeforeUnmount(props, state) {
-          this.bound = {}
-        },
-        onUnmounted(props, state) {
-        },
-        onClick(e) {
-          // call via binding context
-          cm.getApp().callEventHandler('action', e)
-        }
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+         innerTag: 'button',
+         tagDefaults: {width: '100%'},
 
-      }
+          onClick(e) {
+            console.log('onClick pressed')
+            // call via binding context
+            this.cm.getApp().callEventHandler('action', e)
+          }
+      }, StdComp)
+      export default sc
     </script>
+
+<!--    <script>-->
+<!--      import {newCommon} from 'Framework/app-core/ComCommon'-->
+<!--      let cm;-->
+<!--      export default {-->
+<!--        onBeforeMount(props, state) {-->
+<!--          this.bound = new Object()-->
+<!--          cm = newCommon(this)-->
+<!--          this.bound.text = props.text || this.root.tagName // reset to props default-->
+<!--          state.action = props.action-->
+<!--        },-->
+<!--        onMounted(props, state) {-->
+<!--          // console.log(this.root.tagName, 'onMounted', props, state)-->
+<!--          let span = this.$('button')-->
+<!--          cm.setCommonProps(span, props, {width:'100%'})-->
+<!--          cm.bindComponent()-->
+<!--        },-->
+<!--        onBeforeUpdate(props, state) {-->
+<!--        },-->
+<!--        onUpdated(props, state) {-->
+<!--        },-->
+<!--        onBeforeUnmount(props, state) {-->
+<!--          this.bound = {}-->
+<!--        },-->
+<!--        onUnmounted(props, state) {-->
+<!--        },-->
+<!--        onClick(e) {-->
+<!--          // call via binding context-->
+<!--          cm.getApp().callEventHandler('action', e)-->
+<!--        }-->
+
+<!--      }-->
+<!--    </script>-->
 </simple-label>
