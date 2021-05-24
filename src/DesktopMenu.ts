@@ -115,6 +115,18 @@ export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
     }
 }
 
+export function checkMenuItem(menuId:string, itemId:string, checked: boolean) {
+    const parentItem = getSubmenuFromId(menuId)
+    const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items || []
+    for(let i=0; i< children.length; i++) {
+        let item = children[i]
+        if(item.id === itemId) {
+            item.checked = checked
+            break;
+        }
+    }
+}
+
 export function deleteMenuItem(menuId:string, itemId:string) {
     const parentItem = getSubmenuFromId(menuId)
     const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items
