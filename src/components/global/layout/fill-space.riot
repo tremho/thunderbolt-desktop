@@ -10,6 +10,7 @@
         onMounted(props, state) {
           // console.log(this.root.tagName)
           let span = this.$('span')
+          if(props.height) span.style.display = props.width ? 'inline-block': 'block'
           cm.setCommonProps(span, props)
         }
       }
