@@ -166,7 +166,7 @@ export function clearMenu(menuId:string) {
 
 function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
     let id = item.id
-    console.log('Clicked on Desktop menu item '+id)
+    // console.log('Clicked on Desktop menu item '+id)
     AppGateway.sendMessage('EV', {subject: 'menuAction', data: id})
 }
 
