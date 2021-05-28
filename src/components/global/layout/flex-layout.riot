@@ -17,9 +17,42 @@
           // console.log(this.root.tagName)
           let div = this.$('DIV')
           cm.setCommonProps(div, props)
-          div.style.flexFlow = (props.orientation==='horizontal' ? 'row' : 'column') + (props.wrap ? ' wrap' : ' nowrap')
-          div.style.justifyContent = props.justify || props.justifyContent
-          div.style.alignItems = props.align || props.alignItems
+          let wrap = props.wrap
+          if(wrap === 'true' || wrap === 'wrap') wrap = 'wrap'
+          else if(wrap === 'false' || wrap === 'nowrap') wrap = 'nowrap'
+          else if(wrap === 'reverse' || wrap === 'wrap-reverse') wrap = 'wrap-reverse'
+          else wrap = "nowrap"
+          div.style.flexFlow = (props.orientation==='horizontal' ? 'row' : 'column') + ' '+wrap
+          let justify = props.justify || props.justifycontent || props.justifyContent
+          if(justify === 'left' || justify === 'top' || justify === 'first' || justify === 'flex-start') justify = 'flex-start'
+          else if(justify === 'right' || justify === 'bottom' || justify === 'last' || justify === 'flex-end') justify = 'flex-end'
+          else if(justify === 'center' || justify === 'flex-center') justify = 'center'
+          else if(justify === 'between' || justify === 'space-between') justify = 'space-between'
+          else if(justify === 'around' || justify === 'space-around') justify = 'space-around'
+          else if(justify === 'evenly' || justify === 'space-evenly') justify = 'space-evenly'
+          else justify = 'flex-start'
+          div.style.justifyContent = justify
+
+          let align = props.align || props.alignitems || props.alignItems
+          if(align === 'left' || align === 'top' || align === 'first' || align === 'flex-start') align = 'flex-start'
+          else if(align === 'right' || align === 'bottom' || align === 'last' || align === 'flex-end') align = 'flex-end'
+          else if(align === 'center' || align === 'flex-center') align = 'center'
+          else if(align === 'stretch' || align === 'baseline') align = align
+          else align = 'flex-start'
+          div.style.alignItems = align;
+
+          let alignSelf = props.alignself || props.align || props.alignment
+          this.root.style.alignSelf = alignSelf
+
+
+          let calign = props.aligncontent || props.alignContent
+          if(calign) div.style.alignContent = calign
+
+          div.style.overflow = props.overflow || 'initial'
+
+          div.style.width = props.width || 'inherit'
+          div.style.height = props.height || 'inherit'
+
           cm.parseFits(props)
         }
       }
