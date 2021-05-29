@@ -41,7 +41,7 @@
           else align = 'flex-start'
           div.style.alignItems = align;
 
-          let alignSelf = props.alignself || props.align || props.alignment
+          let alignSelf = props.alignself || props.alignSelf; // must be specific for the container that is also a child
           this.root.style.alignSelf = alignSelf
 
 
