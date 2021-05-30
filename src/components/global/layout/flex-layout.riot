@@ -17,12 +17,17 @@
           // console.log(this.root.tagName)
           let div = this.$('DIV')
           cm.setCommonProps(div, props)
-          let wrap = props.wrap
+          let direction = props.flexDirection || props.flexdirection
+          let orientation = direction === "row" ? "horizontal" : "vertical"
+          let wrap = props.flexWrap || props.flexwrap
           if(wrap === 'true' || wrap === 'wrap') wrap = 'wrap'
           else if(wrap === 'false' || wrap === 'nowrap') wrap = 'nowrap'
           else if(wrap === 'reverse' || wrap === 'wrap-reverse') wrap = 'wrap-reverse'
           else wrap = "nowrap"
-          div.style.flexFlow = (props.orientation==='horizontal' ? 'row' : 'column') + ' '+wrap
+          if(props.flexFlow || props.flexflow) {
+            console.warn('"flexFlow" is not a portable property for flexLayout.  Please use "flexDirection" and "flexWrap" separately.')
+          }
+          div.style.flexFlow = props.flexFlow || props.flexflow || (orientation==='horizontal' ? 'row' : 'column') + ' '+wrap
           let justify = props.justify || props.justifycontent || props.justifyContent
           if(justify === 'left' || justify === 'top' || justify === 'first' || justify === 'flex-start') justify = 'flex-start'
           else if(justify === 'right' || justify === 'bottom' || justify === 'last' || justify === 'flex-end') justify = 'flex-end'
@@ -33,7 +38,7 @@
           else justify = 'flex-start'
           div.style.justifyContent = justify
 
-          let align = props.align || props.alignitems || props.alignItems
+          let align = props.alignitems || props.alignItems
           if(align === 'left' || align === 'top' || align === 'first' || align === 'flex-start') align = 'flex-start'
           else if(align === 'right' || align === 'bottom' || align === 'last' || align === 'flex-end') align = 'flex-end'
           else if(align === 'center' || align === 'flex-center') align = 'center'
