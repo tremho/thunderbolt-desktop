@@ -25,12 +25,33 @@
           }
           let ablock = areas.join(' ')
           div.style.gridTemplateAreas = ablock
-          div.style.gridTemplateColumns = props.gridTemplateColumns
-          div.style.gridTemplateRows = props.gridTemplateRows
-          div.style.gridTemplate = props.gridTemplate
-          div.style.gridAutoColumns = props.gridAutoColumns
-          div.style.gridAutoRows = props.gridAutoRows
-          div.style.gridAutoFlow = props.gridAutoFlow
+
+          let columns = props.gridTemplateColumns || props.gridtemplatecolumns || props.columns || ''
+          while(columns.indexOf(',') !== -1) {
+            columns = columns.replace(',', ' ').replace('  ', ' ')
+          }
+          let n
+          while((n = columns.indexOf('*')) !== -1) {
+            let hasNum = columns.charAt(n-1) >= '0' && columns.charAt(n-1) <= '9'
+            columns = columns.replace('*', hasNum ? 'fr' : '1fr')
+          }
+          div.style.gridTemplateColumns = columns
+          let rows = props.gridTemplateRows || props.gridtemplaterows || props.rows || ''
+          while(rows.indexOf(',') !== -1) {
+            rows = rows.replace(',', ' ').replace('  ', ' ')
+          }
+          while((n = rows.indexOf('*')) !== -1) {
+            let hasNum = rows.charAt(n-1) >= '0' && rows.charAt(n-1) <= '9'
+            rows = rows.replace('*', hasNum ? 'fr' : '1fr')
+          }
+
+          div.style.gridTemplateRows = rows
+
+          div.style.gridTemplate = props.gridTemplate || props.gridtemplate
+          div.style.gridAutoColumns = props.gridAutoColumns || props.gridautocolumns
+          div.style.gridAutoRows = props.gridAutoRows || props.gridautorows
+          div.style.gridAutoFlow = props.gridAutoFlow || props.gridautoflow
+          div.style.gridGap = props.gridGap || props.gridgap
           cm.parseFits(props)
         }
       }
