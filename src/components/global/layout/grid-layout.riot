@@ -19,7 +19,7 @@
           let areas = []
           let i=1;
           let areaRow
-          while((areaRow = props['areaRow'+i])) {
+          while((areaRow = props['areaRow'+i] || props['arearow'+i])) {
             areas.push('"'+areaRow+'"')
             i++
           }
