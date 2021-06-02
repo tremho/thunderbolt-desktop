@@ -7,7 +7,14 @@
     </style>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
-      const sc =  Object.assign({}, StdComp)
+      const sc =  Object.assign({
+        postStdOnBeforeMount(props, state) {
+          const align = props.align || props.alignment || props.verticalalignment || props.verticalAlignment
+          if (align === 'middle') {
+            this.root.style.margin = 'auto'
+          }
+        }
+      }, StdComp)
       export default sc
     </script>
 </simple-label>    
