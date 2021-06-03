@@ -16,15 +16,11 @@
         onMounted(props, state) {
           let div = this.$('DIV')
           cm.setCommonProps(div, props)
-          let areas = []
-          let i=1;
-          let areaRow
-          while((areaRow = props['areaRow'+i] || props['arearow'+i])) {
-            areas.push('"'+areaRow+'"')
-            i++
-          }
-          let ablock = areas.join(' ')
-          div.style.gridTemplateAreas = ablock
+
+          let xareas = props.gridTemplateAreas || props.gridtemplateareas || props.areas || ''
+          xareas='"'+xareas.split('/').join('""')+'"'
+          console.log('areas', xareas)
+          div.style.gridTemplateAreas = xareas
 
           let columns = props.gridTemplateColumns || props.gridtemplatecolumns || props.columns || ''
           while(columns.indexOf(',') !== -1) {
@@ -47,11 +43,7 @@
 
           div.style.gridTemplateRows = rows
 
-          div.style.gridTemplate = props.gridTemplate || props.gridtemplate
-          div.style.gridAutoColumns = props.gridAutoColumns || props.gridautocolumns
-          div.style.gridAutoRows = props.gridAutoRows || props.gridautorows
-          div.style.gridAutoFlow = props.gridAutoFlow || props.gridautoflow
-          div.style.gridGap = props.gridGap || props.gridgap
+          div.style.gridGap = props.gridGap || props.gridgap || props.gap
           cm.parseFits(props)
         }
       }
