@@ -19,7 +19,6 @@
 
           let xareas = props.gridTemplateAreas || props.gridtemplateareas || props.areas || ''
           xareas='"'+xareas.split('/').join('""')+'"'
-          console.log('areas', xareas)
           div.style.gridTemplateAreas = xareas
 
           let columns = props.gridTemplateColumns || props.gridtemplatecolumns || props.columns || ''
