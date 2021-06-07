@@ -2,36 +2,27 @@
     <div>
         <slot />
     </div>
-    <style>
-    </style>
     <script>
-
-      import {newCommon} from 'Framework/app-core/ComCommon'
-      let cm;
-
-      export default {
-        onBeforeMount(props, state) {
-          cm = newCommon(this)
-        },
-        onMounted(props, state) {
-          // console.log(this.root.tagName)
-          let div = this.$('DIV')
-          let def = {}
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+        postStdOnMounted(props, state) {
+          this.innerTag = 'div'
+          let div = this.$(this.innerTag)
+          div.className = this.root.className
+          this.root.className = ''
           if(props.orientation === 'horizontal') {
-
             // markup must declare a height for a horizontal stack if elements are to be aligned (vertically)
             div.style.display = 'inline-flex'
             div.style.flexFlow = 'row nowrap'
           } else {
-            def = {
+            this.tagDefaults = {
               width: '100%' // vertical stack assumes 100% width for alignment (this won't work to assign height to horizontal)
             }
             div.style.display = 'flex'
             div.style.flexFlow = 'column nowrap'
           }
-          cm.setCommonProps(div, props, def)
-          // cm.alignWrapChildren(div)
         }
-      }
+      }, StdComp)
+      export default sc
     </script>
 </stack-layout>
