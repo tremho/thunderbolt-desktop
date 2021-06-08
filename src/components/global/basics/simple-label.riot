@@ -8,12 +8,9 @@
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
-        // postStdOnBeforeMount(props, state) {
-        //   const align = props.align || props.alignment || props.verticalalignment || props.verticalAlignment || props.vAlign || props.valign
-        //   if (align === 'middle') {
-        //     this.root.style.margin = 'auto'
-        //   }
-        // }
+        postStdOnBeforeMount(props, state) {
+          this.isAlignable = true
+        }
       }, StdComp)
       export default sc
     </script>
