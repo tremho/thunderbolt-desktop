@@ -10,7 +10,11 @@
             <span if="{props.checked}"> &#x2611; </span>
         </span>
         <span if="{props.icon}">
-            <img src="{props.icon}"/>
+            <img src="{fromAssets(props.icon)}"
+                 class="menuIcon"
+                 width="{props.iconSize && props.iconSize[0]}"
+                 height="{props.iconSize && (props.iconSize[1] || props.iconSize[0])}"
+            />
         </span>
         {props.label}
         </span>
@@ -37,6 +41,7 @@
                       role="{item.role}"
                       checked="{item.checked}"
                       icon="{item.icon}"
+                      iconSize="{item.iconSize}"
                       disabled="{item.disabled}"
                       children="{item.children}"/>
     </div>
@@ -104,6 +109,13 @@
         allowClose(e) {
           inside--;
           // console.log('allow close '+inside)
+        },
+        fromAssets(path) {
+          if(path.charAt(0) == path.charAt(path.length-1) && (path.charAt(0) === '"' || path.charAt(0) === "'")) {
+            path = path.substring(1, path.length-1)
+          }
+          if(!path) return ''
+          return './assets/'+path
         }
 
 

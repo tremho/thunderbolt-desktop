@@ -26,6 +26,7 @@ export function readFileText(pathName:string):string {
     try {
         return fs.readFileSync(pathName).toString()
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -41,6 +42,7 @@ export function writeFileText(pathName:string, text:string) {
     try {
         fs.writeFileSync(pathName, text)
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -49,6 +51,7 @@ export function writeFileArrayBuffer(pathName:string, data:ArrayBuffer) {
     try {
         fs.writeFileSync(pathName, new Uint8Array(data))
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -57,6 +60,7 @@ export function fileDelete(pathName:string) {
     try {
         fs.unlinkSync(pathName)
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -65,6 +69,7 @@ export function fileMove(pathName:string, newPathName:string) {
     try {
         fs.renameSync(pathName, newPathName)
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -80,6 +85,7 @@ export function fileCopy(pathName:string, toPathName:string) {
     try {
         fs.copyFileSync(pathName, toPathName)
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -109,6 +115,7 @@ export function fileStats(pathName:string) : FileDetails {
         if(stats.isSymbolicLink()) fd.type = 'symlink'
         return fd
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -117,6 +124,7 @@ export function createFolder(pathName:string) {
     try {
         fs.mkdirSync(pathName, {recursive: true})
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
@@ -126,6 +134,7 @@ export function removeFolder(pathName:string, andClear:boolean) {
     try {
         fs.rmdirSync(pathName, {recursive:andClear})
     } catch(e) {
+        console.error(e.message)
         throw e
     }
 }
