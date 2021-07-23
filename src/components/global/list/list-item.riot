@@ -1,0 +1,35 @@
+<list-item>
+
+    <div>
+        <span class="{b('itemClass')}">{b('text') || '--'}</span>
+    </div>
+
+    <style>
+        .selected {
+            background-color: yellow;
+        }
+        .normal {
+
+        }
+    </style>
+    <script>
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+        postStdOnMounted(props, state) {
+          let div = this.$('div')
+          div.addEventListener('click',(ev) => {
+            props.parent.newSelection(this.bound.index)
+            this.cm.app.callEventHandler('action', ev, {text: this.bound.text, index: this.bound.index})
+          })
+        },
+        // we must transfer from props to bound on update unless we render from props only without binding
+        preStdOnBeforeUpdate(props, state) {
+          // all we care about here
+          this.bound.selected = props.selected
+          this.bound.itemClass = props.selected ? 'selected' : 'normal'
+
+        }
+      }, StdComp)
+      export default sc
+    </script>
+</list-item>
