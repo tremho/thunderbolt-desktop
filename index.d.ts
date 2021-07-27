@@ -1,1 +1,1 @@
-declare module "thunderbolt-desktop"
+declare module "@tremho/jove-desktop"

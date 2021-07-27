@@ -2,7 +2,7 @@
 import * as riot from 'riot'
 import * as AppFront from 'Project/tbAppFront'
 import App from 'RiotMain/app.riot'
-import {AppCore, setTheApp} from 'thunderbolt-common'
+import {AppCore, setTheApp} from '@tremho/jove-common'
 import registerGlobalComponents from 'BuildPack/register-global-components'
 
 // import * as MainPage from 'Pages/main-page'
