@@ -1,6 +1,6 @@
 {
   "name": "@tremho/jove-desktop",
-  "version": "0.6.3-prerelease-6",
+  "version": "0.6.5-prerelease-1",
   "description": "Desktop (Electron) component of Jove framework",
   "main": "build/index.js",
   "scripts": {
