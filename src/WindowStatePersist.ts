@@ -54,7 +54,7 @@ export class WindowStatePersist {
             let oldState = this.windowState // in case we haven't saved before
             if (appConfig.has(`windowState.${this.windowName}`)) { // this should do that too, but doesn't always work
                 appConfig.get(`windowState.${this.windowName}`).then(ws => {
-                    console.log('data from appConfig', ws)
+                    // console.log('data from appConfig', ws)
                     this.windowState = (ws as unknown as WindowState) || oldState
                     resolve()
                 })

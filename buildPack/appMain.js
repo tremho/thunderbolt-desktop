@@ -24,8 +24,14 @@ const coreApp = new AppCore()
 coreApp.setupUIElements(AppFront).then(() => {
 
     // Add things from here to the environment. (required)
-    const env = coreApp.model.getAtPath('environment')
-    env.framework.riot = riot.version // add the riot version here
+    let env = {
+        runtime: {
+            framework: {
+                riot: riot.version
+            }
+        }
+    }
+    // this will merge further on event from framework context to listener established in SetupUIElements
     coreApp.model.setAtPath('environment', env)
 
     console.log('now mounting and running Riot app UI')

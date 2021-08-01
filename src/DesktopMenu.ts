@@ -1,5 +1,6 @@
 
 // import {MenuItem} from './application/MenuApi'
+
 class MenuItem {
     public label:string = ''
     public id:string = ''
@@ -10,6 +11,8 @@ const Menu = electron.Menu;
 const EMenuItem = electron.MenuItem
 import {AppGateway} from "./AppGateway";
 
+const nativeImage = require('electron').nativeImage;
+
 let menus = {}
 
 export function resetMenu() {
@@ -19,26 +22,29 @@ export function resetMenu() {
 export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
 
     let n = menuId.indexOf('-')
-    if(n === -1) n=menuId.length;
+    if (n === -1) n = menuId.length;
     const menuName = menuId.substring(0, n)
-    // @ts-ignore
-    if(!menus[menuName]) {
+    try {
         // @ts-ignore
-        menus[menuName] = Menu.buildFromTemplate([]) // create a new menu of this name
-    }
-    const parentItem = getSubmenuFromId(menuId)
-    const curMenu = parentItem.submenu || parentItem
-    if(curMenu) {
-        const emi = convertMenuItem(item)
-
-        if(position === undefined) {
-            curMenu.append(emi)
-        } else {
-            curMenu.insert(position, emi)
+        if (!menus[menuName]) {
+            // @ts-ignore
+            menus[menuName] = Menu.buildFromTemplate([]) // create a new menu of this name
         }
-    }
+        const parentItem = getSubmenuFromId(menuId)
+        const curMenu = parentItem.submenu || parentItem
+        if (curMenu) {
+            const emi = convertMenuItem(item)
 
-    setToMenuBar(menuName)
+            if (position === undefined) {
+                curMenu.append(emi)
+            } else {
+                curMenu.insert(position, emi)
+            }
+        }
+        setToMenuBar(menuName)
+    } catch(e) {
+        console.error("Unable to create menu bar menu "+menuName, e)
+    }
 
 }
 function convertMenuItem(item:any) {
@@ -54,10 +60,22 @@ function convertMenuItem(item:any) {
         accelerator: item.accelerator,
         click: onMenuItem
     }
-    dmi.tooltip = 'this is a tooltip' // todo: is my Electron current?
+    dmi.tooltip = 'this is a tooltip' // todo: tooltip is not really supported. Drop from documented features and API exposure.
     if(item.icon) {
-        // console.log('setting icon to '+item.icon)
-        dmi.icon = item.icon
+        // console.log('setting icon to ',item)
+        try {
+            let width = 16
+            let height = 16
+            if(item.iconSize && Array.isArray(item.iconSize)) {
+                width = item.iconSize[0] || width
+                height = item.iconSize[1] || width
+            }
+            // TODO: Apply a more officially discovered prefix other than this placeholder.
+            let path = 'front/assets/'+item.icon
+            dmi.icon = nativeImage.createFromPath(path).resize({width, height})
+        } catch(e) {
+            console.error("Unable to apply icon "+item.icon, e)
+        }
     }
     if(item.label === '--') {
         dmi.type = 'separator'
@@ -72,7 +90,14 @@ function convertMenuItem(item:any) {
         })
         dmi.submenu = submenu
     }
-    return new EMenuItem(dmi)
+    let rt
+    try {
+        rt = new EMenuItem(dmi)
+    }
+    catch(e) {
+        console.error("Error converting menu item", item, e)
+    }
+    return rt
 }
 function getSubmenuFromId(menuId:string) {
     let n = menuId.indexOf('-')

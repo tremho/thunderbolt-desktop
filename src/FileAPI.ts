@@ -165,17 +165,70 @@ export function readFolder(pathName:string):FileDetails[] {
 class UserPathInfo {
     home:string = ''
     cwd:string = ''
+    assets:string = ''
+    appData:string = ''
+    documents:string = ''
+    downloads:string = ''
+    desktop:string = ''
     userName:string = ''
     uid:Number | undefined
     gid:Number | undefined
 }
-export function getUserAndPathInfo(): UserPathInfo {
+export function getUserAndPathInfo(appName:string): UserPathInfo {
     const userInfo = os.userInfo()
     const out = new UserPathInfo()
     out.home = userInfo.homedir
     out.cwd =  process.cwd()
+    let res = path.join(out.cwd, 'resources', 'app.asar.unpacked') // if we are packaged
+    if(!fs.existsSync(res)) {
+        res = path.join(out.cwd, 'front') // if we aren't packaged
+    }
+    res = path.join(res, 'assets')
+    if(fs.existsSync(res)) {
+        out.assets = res  // out.assets will be undefined if we can't locate assets folder
+    }
     out.userName = userInfo.username
     out.uid = userInfo.uid
     out.gid = userInfo.gid
+
+    if(appName) {
+        if (os.platform() === 'win32') {
+            let appData = path.join(out.home, 'appData', 'Roaming', appName)
+            if(fs.existsSync(appData)) {
+                out.appData = appData
+            }
+            let documents = path.join(out.home, 'Documents')
+            if(fs.existsSync(documents)) {
+                out.documents = documents
+            }
+            let downloads = path.join(out.home, 'Downloads')
+            if(fs.existsSync(downloads)) {
+                out.downloads = downloads
+            }
+            let desktop = '\\Users\\Public\\Desktop'
+            if(fs.existsSync(desktop)) {
+                out.desktop = desktop
+            }
+        } else if (os.platform() === 'darwin') {
+            let appData = path.join(out.home, 'Library', 'Application Support', appName)
+            if(fs.existsSync(appData)) {
+                out.appData = appData
+            }
+            let documents = path.join(out.home, 'Documents')
+            if(fs.existsSync(documents)) {
+                out.documents = documents
+            }
+            let downloads = path.join(out.home, 'Downloads')
+            if(fs.existsSync(downloads)) {
+                out.downloads = downloads
+            }
+            let desktop = path.join(out.home, 'Desktop')
+            if(fs.existsSync(desktop)) {
+                out.desktop = desktop
+            }
+        }
+
+    }
+
     return out
 }

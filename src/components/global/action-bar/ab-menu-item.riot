@@ -12,8 +12,8 @@
         <span if="{props.icon}">
             <img src="{fromAssets(props.icon)}"
                  class="menuIcon"
-                 width="{props.iconSize && props.iconSize[0]}"
-                 height="{props.iconSize && (props.iconSize[1] || props.iconSize[0])}"
+                 width="{(props.iconSize && props.iconSize[0]) || 16}"
+                 height="{(props.iconSize && (props.iconSize[1] ||props.iconSize[0])) || 16 }"
             />
         </span>
         {props.label}

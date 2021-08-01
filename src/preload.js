@@ -74,7 +74,10 @@ fnames.forEach(fname => {
         }
       }
     })
-    return resp.promise
+    return resp.promise.catch(e => {
+      const respIn = responders[data.id]
+      if(respIn) respIn.error(e)
+    })
   }
 })
 
