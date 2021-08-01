@@ -1,6 +1,5 @@
 
 // import {MenuItem} from './application/MenuApi'
-
 class MenuItem {
     public label:string = ''
     public id:string = ''
@@ -70,7 +69,7 @@ function convertMenuItem(item:any) {
                 width = item.iconSize[0] || width
                 height = item.iconSize[1] || width
             }
-            // TODO: Apply a more officially discovered prefix other than this placeholder.
+            // for web-context, assets always come from front/assets (use getUserPathInfo('').assets for back process contexts)
             let path = 'front/assets/'+item.icon
             dmi.icon = nativeImage.createFromPath(path).resize({width, height})
         } catch(e) {
