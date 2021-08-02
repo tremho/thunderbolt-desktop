@@ -132,7 +132,7 @@ export function createFolder(pathName:string) {
 export function removeFolder(pathName:string, andClear:boolean) {
 
     try {
-        fs.rmdirSync(pathName, {recursive:andClear})
+        fs.rmSync(pathName, {recursive:andClear})
     } catch(e) {
         console.error(e.message)
         throw e
