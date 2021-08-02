@@ -23,6 +23,7 @@ const coreApp = new AppCore()
 
 // Add things from here to the environment. (required)
 coreApp._riotVersion = riot.version
+console.log('riot version communicated to  core as ', coreApp._riotVersion)
 
 // console.log('starting app...')
 coreApp.setupUIElements(AppFront).then(() => {
