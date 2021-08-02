@@ -45,7 +45,7 @@ export class WindowStatePersist {
             this.windowState.isMaximized = this.window.isMaximized()
             try {
                 // @ts-ignore
-                appConfig.set(`windowState.${this.windowName}`, this.windowState)
+                appConfig.set(`windowState.${this.windowName}`, this.windowState).catch(e =>{})
             } catch(e) {
                 console.warn(e.message)
             }
@@ -57,15 +57,11 @@ export class WindowStatePersist {
             // Restore from appConfig
             let oldState = this.windowState // in case we haven't saved before
             try {
-                if (appConfig.hasSync(`windowState.${this.windowName}`)) {
-                    appConfig.get(`windowState.${this.windowName}`).then(ws => {
-                        // console.log('data from appConfig', ws)
-                        this.windowState = (ws as unknown as WindowState) || oldState
-                        resolve(undefined)
-                    })
-                } else {
+                appConfig.get(`windowState.${this.windowName}`).catch(e => {throw e}).then(ws => {
+                    // console.log('data from appConfig', ws)
+                    this.windowState = (ws as unknown as WindowState) || oldState
                     resolve(undefined)
-                }
+                }) // avoid unhandled catch in promise
             } catch(e) {
                 console.warn(e.message)
                 resolve(undefined)
