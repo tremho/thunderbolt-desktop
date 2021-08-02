@@ -87,7 +87,11 @@ ipcRenderer.on('message', (event, data) => {
   // console.log('ipcRenderer hears message ', msgName, msg)
   const lsts = messageListeners[msgName] || []
   for(let i=0; i<lsts.length; i++) {
-    lsts[i].callback(msg)
+    try {
+      lsts[i].callback(msg)
+    } catch(e) {
+      console.error(`Error processing ${msgName}, `, msg ,e)
+    }
   }
 })
 

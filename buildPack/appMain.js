@@ -20,19 +20,12 @@ registerGlobalComponents()
 riot.mount('[data-riot-component]')
 const mountApp = riot.component(App)
 const coreApp = new AppCore()
+
+// Add things from here to the environment. (required)
+coreApp._riotVersion = riot.version
+
 // console.log('starting app...')
 coreApp.setupUIElements(AppFront).then(() => {
-
-    // Add things from here to the environment. (required)
-    let env = {
-        runtime: {
-            framework: {
-                riot: riot.version
-            }
-        }
-    }
-    // this will merge further on event from framework context to listener established in SetupUIElements
-    coreApp.model.setAtPath('environment', env)
 
     console.log('now mounting and running Riot app UI')
     mountApp(document.getElementById('root'), { app: coreApp })
