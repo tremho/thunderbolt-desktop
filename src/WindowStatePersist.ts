@@ -1,5 +1,7 @@
+// @ts-ignore
 import {BrowserWindow} from "electron";
 
+// @ts-ignore
 import appConfig from 'electron-settings';
 
 class WindowState {
@@ -57,7 +59,7 @@ export class WindowStatePersist {
             // Restore from appConfig
             let oldState = this.windowState // in case we haven't saved before
             try {
-                appConfig.get(`windowState.${this.windowName}`).catch(e => {throw e}).then(ws => {
+                appConfig.get(`windowState.${this.windowName}`).catch((e:any) => {throw e}).then((ws:any) => {
                     // console.log('data from appConfig', ws)
                     this.windowState = (ws as unknown as WindowState) || oldState
                     resolve(undefined)
