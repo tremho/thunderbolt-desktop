@@ -1,12 +1,14 @@
 
 import * as fileApi from "./FileAPI"
 import * as menuApi from "./DesktopMenu";
+import * as dialogApi from "./DialogAPI"
 
 const exportedFunctions = {
     messageInit: () => { /*console.log('message init stub hit')*/ },
 
     ...menuApi,
-    ...fileApi
+    ...fileApi,
+    ...dialogApi
 }
 
 /**
@@ -39,6 +41,12 @@ export class AppGateway {
                 let response, error;
                 try {
                     response = fn(...callArgs)
+                    if(response.then) {
+                        response.then((presp:any) => {
+                            event.sender.send(fname, {id, presp})
+                        })
+                        return
+                    }
                 } catch (e) {
                     error = e;
                 }
