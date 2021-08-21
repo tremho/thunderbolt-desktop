@@ -2,15 +2,12 @@
 import * as electron from 'electron'
 
 import * as path from 'path'
-import * as fs from 'fs'
-import * as os from 'os'
 
 import {AppGateway} from './AppGateway'
 import {registerExtensionModule} from "./BackExtensions";
 import {WindowStatePersist} from "./WindowStatePersist";
 import * as startupTasks from "./StartupTasks"
 
-const nodeParts = {fs, os, path}
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'YES'
 
