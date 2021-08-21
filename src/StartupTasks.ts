@@ -77,7 +77,7 @@ export function readBuildEnvironment() {
     console.log('returning build environment data as ', be)
     return mergeRuntimeInformation(be)
 }
-function mergeRuntimeInformation(buildEnv) {
+function mergeRuntimeInformation(buildEnv:any) {
     let platName = process.platform
     let platVersion = os.version()
     let platType = 'Computer'
