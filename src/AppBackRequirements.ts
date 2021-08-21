@@ -8,6 +8,7 @@ import * as os from 'os'
 import {AppGateway} from './AppGateway'
 import {registerExtensionModule} from "./BackExtensions";
 import {WindowStatePersist} from "./WindowStatePersist";
+import * as startupTasks from "./StartupTasks"
 
 const nodeParts = {fs, os, path}
 
@@ -28,5 +29,5 @@ export default {
     AppGateway,
     preloadPath,
     registerExtensionModule,
-    nodeParts
+    startupTasks
 }
