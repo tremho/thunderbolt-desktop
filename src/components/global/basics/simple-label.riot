@@ -8,7 +8,14 @@
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
-            isAlignable: true
+            isAlignable: true,
+
+        onClick(e) {
+          console.log('onClick pressed')
+          // call via binding context
+          this.cm.getApp().callEventHandler('action', e)
+        }
+
       }, StdComp)
       export default sc
     </script>
