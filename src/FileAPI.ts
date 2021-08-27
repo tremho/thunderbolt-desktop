@@ -25,7 +25,7 @@ export function getAppPath():string {
 export function readFileText(pathName:string):string {
     try {
         return fs.readFileSync(pathName).toString()
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -41,7 +41,7 @@ export function readFileArrayBuffer(pathName:string):ArrayBuffer {
 export function writeFileText(pathName:string, text:string) {
     try {
         fs.writeFileSync(pathName, text)
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -50,7 +50,7 @@ export function writeFileText(pathName:string, text:string) {
 export function writeFileArrayBuffer(pathName:string, data:ArrayBuffer) {
     try {
         fs.writeFileSync(pathName, new Uint8Array(data))
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -59,7 +59,7 @@ export function writeFileArrayBuffer(pathName:string, data:ArrayBuffer) {
 export function fileDelete(pathName:string) {
     try {
         fs.unlinkSync(pathName)
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -68,7 +68,7 @@ export function fileDelete(pathName:string) {
 export function fileMove(pathName:string, newPathName:string) {
     try {
         fs.renameSync(pathName, newPathName)
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -84,7 +84,7 @@ export function fileRename(pathName:string, newBase:string) {
 export function fileCopy(pathName:string, toPathName:string) {
     try {
         fs.copyFileSync(pathName, toPathName)
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -114,7 +114,7 @@ export function fileStats(pathName:string) : FileDetails {
         if(stats.isCharacterDevice()) fd.type = 'chrdevice'
         if(stats.isSymbolicLink()) fd.type = 'symlink'
         return fd
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -123,7 +123,7 @@ export function fileStats(pathName:string) : FileDetails {
 export function createFolder(pathName:string) {
     try {
         fs.mkdirSync(pathName, {recursive: true})
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
@@ -133,7 +133,7 @@ export function removeFolder(pathName:string, andClear:boolean) {
 
     try {
         fs.rmSync(pathName, {recursive:andClear})
-    } catch(e) {
+    } catch(e:any) {
         console.error(e.message)
         throw e
     }
