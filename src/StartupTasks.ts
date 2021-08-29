@@ -21,8 +21,19 @@ export function readBuildEnvironment() {
     let nld = process.cwd()
     console.log('-------------------------')
     console.log('starting path conditions')
-    console.log('current', process.cwd)
+    console.log('current', process.cwd())
     console.log('argv', process.argv)
+    console.log('argv0', process.argv0)
+    let startPath = process.argv[0]
+    if(startPath.indexOf('.app/Contents/MacOS/') !== -1) {
+        startPath = path.join(startPath.substring(0, startPath.lastIndexOf('/')), '..', 'Resources')
+        startPath = path.normalize(startPath)
+        console.log('startPath ', startPath)
+        if(fs.existsSync(path.join(startPath, 'app.asar.unpacked'))) {
+            console.log('found our way to app.asar.unpacked')
+            process.chdir(path.join(startPath, 'app.asar.unpacked'))
+        }
+    }
     console.log('=========================')
 
 
