@@ -17,6 +17,15 @@ export function readBuildEnvironment() {
 
     console.log('>>$$$$ in readBuildEnvironment ')
 
+    // get the native launch directory
+    let nld = process.cwd()
+    console.log('-------------------------')
+    console.log('starting path conditions')
+    console.log('current', process.cwd)
+    console.log('argv', process.argv)
+    console.log('=========================')
+
+
     // determine our launchDir based on this path
     let scriptPath = __dirname
     // find ourselves in this path
