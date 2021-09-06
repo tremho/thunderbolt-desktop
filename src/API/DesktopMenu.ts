@@ -8,7 +8,7 @@ class MenuItem {
 import * as electron from 'electron'
 const Menu = electron.Menu;
 const EMenuItem = electron.MenuItem
-import {AppGateway} from "./AppGateway";
+import {AppGateway} from "../AppGateway";
 
 const nativeImage = require('electron').nativeImage;
 

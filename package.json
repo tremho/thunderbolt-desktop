@@ -1,6 +1,6 @@
 {
   "name": "@tremho/jove-desktop",
-  "version": "0.6.9-pre-release.18",
+  "version": "0.6.9-pre-release.19",
   "description": "Desktop (Electron) component of Jove framework",
   "main": "build/index.js",
   "scripts": {
@@ -35,7 +35,8 @@
   "dependencies": {
     "electron": "^12.0.5",
     "electron-settings": "^4.0.2",
-    "riot": "^5.3.3"
+    "riot": "^5.3.3",
+    "unirest": "^0.6.0"
   },
   "devDependencies": {
     "@types/node": "^16.4.12",

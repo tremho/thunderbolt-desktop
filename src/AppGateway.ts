@@ -1,14 +1,16 @@
 
-import * as fileApi from "./FileAPI"
-import * as menuApi from "./DesktopMenu";
-import * as dialogApi from "./DialogAPI"
+import * as fileApi from "./API/FileAPI"
+import * as menuApi from "./API/DesktopMenu";
+import * as dialogApi from "./API/DialogAPI"
+import * as webApi from "./API/webAPI"
 
 const exportedFunctions = {
     messageInit: () => { /*console.log('message init stub hit')*/ },
 
     ...menuApi,
     ...fileApi,
-    ...dialogApi
+    ...dialogApi,
+    ...webApi
 }
 
 /**
