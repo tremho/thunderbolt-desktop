@@ -32,11 +32,9 @@ export class AppGateway {
     }
 
     private attach() {
-        console.log('APIGateway attach...')
         Object.getOwnPropertyNames(exportedFunctions).forEach(fname => {
             // @ts-ignore
             const fn = exportedFunctions[fname]
-            console.log(fname, fn)
             this.ipcMain.on(fname, (event:any, ...args:any) => {
                 const data = args[0]
                 const id = data.id
