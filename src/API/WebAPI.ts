@@ -4,7 +4,7 @@ const unirest = require('unirest')
 /**
  * Structure of object for a Web Request
  */
-export class WebRequest {
+class WebRequest {
     endpoint:string = ''
     method: string = ''
     headers: object = {} // key-value object
@@ -16,7 +16,7 @@ export class WebRequest {
 /**
  * Structure of an object for a Parameter
  */
-export class Parameter {
+class Parameter {
     name:string = ''
     value: string = ''
 }
@@ -25,7 +25,7 @@ export class Parameter {
  * Status types enum
  * (a direct mapping of unirest statusType values)
  */
-export enum StatusType {
+enum StatusType {
     None,
     Info,
     Ok,
@@ -37,13 +37,17 @@ export enum StatusType {
 /**
  * Structure of object for a Web Response
  */
-export class WebResponse {
+class WebResponse {
     code: number = 0
     statusType: StatusType = StatusType.None
     headers: object = {} // key value
     body: string = ''
 }
 
+/**
+ * Send a request and get the response
+ * @param request
+ */
 export function webSend(request:WebRequest) : Promise<WebResponse> {
     const resp = new WebResponse()
     let uni = unirest
