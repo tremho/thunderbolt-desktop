@@ -1,7 +1,10 @@
+// implemented with nom unirest module
+const unirest = require('unirest')
+
 /**
  * Structure of object for a Web Request
  */
-class WebRequest {
+export class WebRequest {
     endpoint:string = ''
     method: string = ''
     headers: object = {} // key-value object
@@ -13,7 +16,7 @@ class WebRequest {
 /**
  * Structure of an object for a Parameter
  */
-class Parameter {
+export class Parameter {
     name:string = ''
     value: string = ''
 }
@@ -22,7 +25,7 @@ class Parameter {
  * Status types enum
  * (a direct mapping of unirest statusType values)
  */
-enum StatusType {
+export enum StatusType {
     None,
     Info,
     Ok,
@@ -34,15 +37,12 @@ enum StatusType {
 /**
  * Structure of object for a Web Response
  */
-class WebResponse {
+export class WebResponse {
     code: number = 0
     statusType: StatusType = StatusType.None
     headers: object = {} // key value
     body: string = ''
 }
-
-// implemented with nom unirest module
-const unirest = require('unirest')
 
 export function webSend(request:WebRequest) : Promise<WebResponse> {
     const resp = new WebResponse()
