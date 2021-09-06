@@ -32,6 +32,7 @@ export class AppGateway {
     }
 
     private attach() {
+        console.log('APIGateway attach...')
         Object.getOwnPropertyNames(exportedFunctions).forEach(fname => {
             // @ts-ignore
             const fn = exportedFunctions[fname]
