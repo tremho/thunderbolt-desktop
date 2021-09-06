@@ -45,7 +45,7 @@ export class AppGateway {
                     response = fn(...callArgs)
                     if(response.then) {
                         response.then((presp:any) => {
-                            event.sender.send(fname, {id, presp})
+                            event.sender.send(fname, {id, response: presp})
                         })
                         return
                     }
