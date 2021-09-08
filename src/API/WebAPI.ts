@@ -66,11 +66,6 @@ export function webSend(request:WebRequest) : Promise<WebResponse> {
     uni=uni.type(request.type)
     console.log('websend sending ')
     return uni.send(request.body).then((result:any) => {
-        // console.log('result = ',result)
-        console.log('making copy...')
-        const rcopy = Object.assign({},result)
-        console.log('result = ',rcopy)
-
         resp.code = result.code
         resp.statusType = result.statusType
         resp.headers = result.headers
