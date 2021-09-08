@@ -51,7 +51,7 @@ class WebResponse {
 export function webSend(request:WebRequest) : Promise<WebResponse> {
     const resp = new WebResponse()
     let uni = unirest
-    // console.log('websend preparing')
+    console.log('websend preparing')
     uni = uni[request.method](request.endpoint)
     uni=uni.headers(request.headers)
     if(request.parameters) {
@@ -59,17 +59,19 @@ export function webSend(request:WebRequest) : Promise<WebResponse> {
             const param = request.parameters[i]
             const uq: any = {}
             uq[param.name] = param.value
+            console.log('parameter '+i, uq)
             uni = uni.query(uq)
         }
     }
     uni=uni.type(request.type)
-    // console.log('websend sending ')
+    console.log('websend sending ')
     return uni.send(request.body).then((result:any) => {
+        console.log('result = ',result)
         resp.code = result.code
         resp.statusType = result.statusType
         resp.headers = result.headers
         resp.body = result.body
-        // console.log('returning resp', resp)
+        console.log('returning resp', resp)
         return resp
     })
 }
