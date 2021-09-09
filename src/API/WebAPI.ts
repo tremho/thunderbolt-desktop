@@ -51,7 +51,7 @@ class WebResponse {
 export function webSend(request:WebRequest) : Promise<WebResponse> {
     const resp = new WebResponse()
     let uni = unirest
-    console.log('websend preparing')
+    console.log('websend preparing', request.method+' '+request.endpoint)
     uni = uni[request.method](request.endpoint)
     uni=uni.headers(request.headers)
     if(request.parameters) {
