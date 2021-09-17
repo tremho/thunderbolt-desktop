@@ -2,7 +2,7 @@
 import * as fileApi from "./API/FileAPI"
 import * as menuApi from "./API/DesktopMenu";
 import * as dialogApi from "./API/DialogAPI"
-import * as webApi from "./API/WebAPI"
+// import * as webApi from "./API/WebAPI"       // for some reason this is failing, but we don't need it for DoW
 
 const exportedFunctions = {
     messageInit: () => { /*console.log('message init stub hit')*/ },
@@ -10,7 +10,7 @@ const exportedFunctions = {
     ...menuApi,
     ...fileApi,
     ...dialogApi,
-    ...webApi
+    // ...webApi
 }
 
 /**
