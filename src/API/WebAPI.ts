@@ -54,15 +54,8 @@ export function webSend(request:WebRequest) : Promise<WebResponse> {
     console.log('websend preparing', request.method+' '+request.endpoint)
     uni = uni[request.method](request.endpoint)
     uni=uni.headers(request.headers)
-    if(request.parameters) {
-        for (let i = 0; i < request.parameters.length; i++) {
-            const param = request.parameters[i]
-            const uq: any = {}
-            uq[param.name] = param.value
-            console.log('parameter '+i, uq)
-            uni = uni.query(uq)
-        }
-    }
+    // possible todo: format parameters into body for a form post instead of query line, and/or use some other semantic (options?) in case we want both.
+    uni=uni.query(request.parameters)
     uni=uni.type(request.type)
     console.log('websend sending ')
     return uni.send(request.body).then((result:any) => {
