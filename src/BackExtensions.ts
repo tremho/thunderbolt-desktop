@@ -34,7 +34,7 @@ ipcMain.on('extApi', (event, msg) => {
             error = e;
         }
     }
-    // console.log('extApi return', id, response, error)
+    console.log('extApi return', id, response, error)
     event.sender.send('extApi', {id, response, error})
 })
 
