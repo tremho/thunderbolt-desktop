@@ -1,7 +1,9 @@
 import {ipcMain} from 'electron'
 
 import AppBackRequirements from "./AppBackRequirements";
+import {FrameworkBackContext} from "../../thunderbolt-common/typings";
 
+let frameworkBackContext:FrameworkBackContext
 const registeredModules:any = {}
 
 // back side listener to dispatch to functions registered
@@ -15,7 +17,7 @@ ipcMain.on('extApi', (event, msg) => {
     if(!module.contextSent) {
         if(typeof module.initContext === 'function') {
             try {
-                module.initContext(AppBackRequirements)
+                module.initContext(AppBackRequirements, frameworkBackContext)
                 module.contextSent = true
             } catch(e) {
                 error = e
@@ -43,6 +45,7 @@ ipcMain.on('extApi', (event, msg) => {
     }
 })
 
-export function registerExtensionModule(moduleName:string, module:any) {
+export function registerExtensionModule(fbc:FrameworkBackContext, moduleName:string, module:any) {
+    frameworkBackContext = fbc
     registeredModules[moduleName] = module
 }
