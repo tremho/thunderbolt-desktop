@@ -34,7 +34,7 @@ ipcMain.on('extApi', (event, msg) => {
             error = e;
         }
     }
-    if(typeof response.then === 'function') {
+    if(response && typeof response.then === 'function') {
         response.then((result:any) => {
             event.sender.send('extApi', {id, result, error})
         })
