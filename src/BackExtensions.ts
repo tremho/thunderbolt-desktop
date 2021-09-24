@@ -1,7 +1,8 @@
 import {ipcMain} from 'electron'
 
-const registeredModules:any = {}
+import AppBackRequirements from "./AppBackRequirements";
 
+const registeredModules:any = {}
 
 // back side listener to dispatch to functions registered
 ipcMain.on('extApi', (event, msg) => {

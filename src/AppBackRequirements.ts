@@ -19,6 +19,7 @@ function makeWindowStatePersist(name:string, width?:number, height?:number) {
 
 
 export default {
+    electron: electron,
     electronApp: electron.app,
     BrowserWindow: electron.BrowserWindow,
     ipcMain: electron.ipcMain,
