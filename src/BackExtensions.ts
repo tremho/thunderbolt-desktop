@@ -11,7 +11,7 @@ ipcMain.on('extApi', (event, msg) => {
     const module = registeredModules[moduleName]
     // console.log('module for '+moduleName, module)
 
-    let response, error;
+    let response:any, error:any;
     if(!module.contextSent) {
         if(typeof module.initContext === 'function') {
             try {
@@ -34,8 +34,13 @@ ipcMain.on('extApi', (event, msg) => {
             error = e;
         }
     }
-    console.log('extApi return', id, response, error)
-    event.sender.send('extApi', {id, response, error})
+    if(typeof response.then === 'function') {
+        response.then((result:any) => {
+            event.sender.send('extApi', {id, result, error})
+        })
+    } else {
+        event.sender.send('extApi', {id, response, error})
+    }
 })
 
 export function registerExtensionModule(moduleName:string, module:any) {
