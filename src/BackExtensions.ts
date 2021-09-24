@@ -11,6 +11,12 @@ ipcMain.on('extApi', (event, msg) => {
     const module = registeredModules[moduleName]
     // console.log('module for '+moduleName, module)
     // @ts-ignore
+    if(!module.contextSent) {
+        if(typeof module.initContext === 'function') {
+            module.initContext(AppBackRequirements)
+            module.contextSent = true
+        }
+    }
     const fn = module[functionName]
     // console.log('function for '+functionName, fn)
     let response, error;
