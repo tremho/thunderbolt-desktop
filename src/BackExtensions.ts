@@ -1,7 +1,7 @@
 import {ipcMain} from 'electron'
 
 import AppBackRequirements from "./AppBackRequirements";
-import {FrameworkBackContext} from "../../thunderbolt-common/typings";
+import {FrameworkBackContext} from "../../thunderbolt-common";
 
 let frameworkBackContext:FrameworkBackContext
 const registeredModules:any = {}
