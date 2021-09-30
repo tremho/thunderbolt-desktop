@@ -1,9 +1,9 @@
 import {ipcMain} from 'electron'
 
 import AppBackRequirements from "./AppBackRequirements";
-import {FrameworkBackContext} from "../../thunderbolt-common";
+// import {FrameworkBackContext} from "../../thunderbolt-common"; // just use any; we can't easily get the class def
 
-let frameworkBackContext:FrameworkBackContext
+let frameworkBackContext:any
 const registeredModules:any = {}
 
 // back side listener to dispatch to functions registered
@@ -45,7 +45,7 @@ ipcMain.on('extApi', (event, msg) => {
     }
 })
 
-export function registerExtensionModule(fbc:FrameworkBackContext, moduleName:string, module:any) {
+export function registerExtensionModule(fbc:any, moduleName:string, module:any) {
     frameworkBackContext = fbc
     registeredModules[moduleName] = module
 }
