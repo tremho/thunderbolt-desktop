@@ -1,6 +1,6 @@
 
 import * as riot from 'riot'
-import * as AppFront from 'Project/tbAppFront'
+import * as AppFront from 'Project/joveAppFront'
 import App from 'RiotMain/app.riot'
 import {AppCore, setTheApp} from '@tremho/jove-common'
 import registerGlobalComponents from 'BuildPack/register-global-components'
