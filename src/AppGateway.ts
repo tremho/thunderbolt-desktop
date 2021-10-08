@@ -11,10 +11,10 @@ const exportedFunctions = {
 
     requestEnvironment: () => {passEnvironmentAndGetTitles()},
 
-    MENU: {...menuApi},
-    FILE: {...fileApi},
-    DIALOG: {...dialogApi},
-    INET: {...webApi}
+    MENU: menuApi,
+    FILE: fileApi,
+    DIALOG: dialogApi,
+    INET: webApi
 }
 
 /**
