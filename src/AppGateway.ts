@@ -4,13 +4,17 @@ import * as menuApi from "./API/DesktopMenu";
 import * as dialogApi from "./API/DialogAPI"
 import * as webApi from "./API/WebAPI"
 
+import {passEnvironmentAndGetTitles} from "./StartupTasks";
+
 const exportedFunctions = {
     messageInit: () => { /*console.log('message init stub hit')*/ },
 
-    ...menuApi,
-    ...fileApi,
-    ...dialogApi,
-    ...webApi
+    requestEnvironment: () => {passEnvironmentAndGetTitles()},
+
+    MENU: menuApi,
+    FILE: fileApi,
+    DIALOG: dialogApi,
+    INET: webApi
 }
 
 /**
