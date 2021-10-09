@@ -14,7 +14,13 @@ const exportedFunctions = {
     MENU: menuApi,
     FILE: fileApi,
     DIALOG: dialogApi,
-    INET: webApi
+    INET: webApi,
+    FOO: {
+        thing1: fileApi.fileCopy,
+        thing2: menuApi.resetMenu,
+        thing3: dialogApi.openDialog,
+        thingy: dialogApi.DialogOptions
+    }
 }
 
 /**
