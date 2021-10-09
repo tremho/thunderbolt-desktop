@@ -11,16 +11,10 @@ const exportedFunctions = {
 
     requestEnvironment: () => {passEnvironmentAndGetTitles()},
 
-    MENU: menuApi,
-    FILE: fileApi,
-    DIALOG: dialogApi,
-    INET: webApi,
-    FOO: {
-        thing1: fileApi.fileCopy,
-        thing2: menuApi.resetMenu,
-        thing3: dialogApi.openDialog,
-        thingy: dialogApi.DialogOptions
-    }
+    ...menuApi,
+    ...fileApi,
+    ...dialogApi,
+    ...webApi
 }
 
 /**
