@@ -3,6 +3,7 @@ import * as fileApi from "./API/FileAPI"
 import * as menuApi from "./API/DesktopMenu";
 import * as dialogApi from "./API/DialogAPI"
 import * as webApi from "./API/WebAPI"
+import * as testApi from "./API/TestAPI/testApi"
 
 import {passEnvironmentAndGetTitles} from "./StartupTasks";
 
@@ -14,7 +15,8 @@ const exportedFunctions = {
     ...menuApi,
     ...fileApi,
     ...dialogApi,
-    ...webApi
+    ...webApi,
+    ...testApi
 }
 
 /**
