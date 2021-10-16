@@ -12,6 +12,8 @@ const exportedFunctions = {
 
     requestEnvironment: () => {passEnvironmentAndGetTitles()},
 
+    appExit: (code:number) => {process.exit(code)},
+
     ...menuApi,
     ...fileApi,
     ...dialogApi,
