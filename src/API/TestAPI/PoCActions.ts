@@ -68,7 +68,9 @@ export async function executeDirective(action:string):Promise<string> {
         break
         case 'fetch': {
             console.log('awaiting fetch')
-            res = doSomethingAsync()
+            res = await doSomethingAsync()
+            console.log('result of async', res)
+            res = "not the droids you are looking for"
         }
         default: {
             res = ''
