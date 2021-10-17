@@ -70,11 +70,6 @@ export async function executeDirective(action:string):Promise<string> {
             console.log(Date.now(), 'awaiting fetch')
             res = await doSomethingAsync()
             console.log(Date.now(), 'result of async', res)
-            res = "not the droids you are looking for"
-        }
-        default: {
-            console.log('default is triggered')
-            // res = ''
         }
         break
     }
