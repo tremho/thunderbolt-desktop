@@ -67,9 +67,9 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break
         case 'fetch': {
-            console.log('awaiting fetch')
+            console.log(Date.now(), 'awaiting fetch')
             res = await doSomethingAsync()
-            console.log('result of async', res)
+            console.log(Date.now(), 'result of async', res)
             res = "not the droids you are looking for"
         }
         default: {
@@ -77,10 +77,10 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break
     }
-    console.log('resolving res', res)
+    console.log(Date.now(), `resolving res for ${cmd} from "${res}" (${typeof res})`)
     return Promise.resolve(res).then((rec) => {
         rec = ''+rec
-        console.log('post resolve rec=', rec)
+        console.log(Date.now(), 'post resolve rec=', rec)
         record(action, rec)
         return rec
     })
