@@ -44,7 +44,7 @@ export async function executeDirective(action:string):Promise<string> {
     const cmd = parts[0]
     const arg1 = parts[1]
     const arg2 = parts[2]
-    let res
+    let res:any = ''
     switch(cmd) {
         case 'add': {
             res = add(Number(arg1), Number(arg2))
@@ -67,16 +67,12 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break
         case 'fetch': {
-            console.log(Date.now(), 'awaiting fetch')
             res = await doSomethingAsync()
-            console.log(Date.now(), 'result of async', res)
         }
         break
     }
-    console.log(Date.now(), `resolving res for ${cmd} from "${res}" (${typeof res})`)
     return Promise.resolve(res).then((rec) => {
         rec = ''+rec
-        console.log(Date.now(), 'post resolve rec=', rec)
         record(action, rec)
         return rec
     })
