@@ -73,7 +73,8 @@ export async function executeDirective(action:string):Promise<string> {
             res = "not the droids you are looking for"
         }
         default: {
-            res = ''
+            console.log('default is triggered')
+            // res = ''
         }
         break
     }
