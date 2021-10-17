@@ -39,7 +39,7 @@ export function getReport() {
     return rpt
 }
 
-export function executeDirective(action:string):Promise<string> {
+export async function executeDirective(action:string):Promise<string> {
     const parts = action.split(' ')
     const cmd = parts[0]
     const arg1 = parts[1]
@@ -67,7 +67,7 @@ export function executeDirective(action:string):Promise<string> {
         }
         break
         case 'fetch': {
-            res = doSomethingAsync()
+            res = await doSomethingAsync()
         }
         default: {
             res = ''
