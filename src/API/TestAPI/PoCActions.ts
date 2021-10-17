@@ -77,6 +77,7 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break
     }
+    console.log('resolving res', res)
     return Promise.resolve(res).then((rec) => {
         rec = ''+rec
         console.log('post resolve rec=', rec)
