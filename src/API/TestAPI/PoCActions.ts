@@ -68,15 +68,15 @@ export async function executeDirective(action:string):Promise<string> {
         break
         case 'fetch': {
             console.log('awaiting fetch')
-            res = await doSomethingAsync()
-            console.log('fetch result is ', res)
+            res = doSomethingAsync()
         }
         default: {
             res = ''
         }
         break
     }
-    return Promise.resolve(''+res).then((rec) => {
+    return Promise.resolve(res).then((rec) => {
+        rec = ''+rec
         console.log('post resolve rec=', rec)
         record(action, rec)
         return rec
