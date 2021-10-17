@@ -23,7 +23,7 @@ async function doSomethingAsync():Promise<string> {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve('Okay, here I am')
-        }, 1000)
+        }, 2500)
     })
 }
 
@@ -67,7 +67,9 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break
         case 'fetch': {
+            console.log('awaiting fetch')
             res = await doSomethingAsync()
+            console.log('fetch result is ', res)
         }
         default: {
             res = ''
@@ -75,6 +77,7 @@ export async function executeDirective(action:string):Promise<string> {
         break
     }
     return Promise.resolve(''+res).then((rec) => {
+        console.log('post resolve rec=', rec)
         record(action, rec)
         return rec
     })
