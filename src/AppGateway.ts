@@ -76,7 +76,7 @@ export class AppGateway {
 
             // Test exchange listener
             this.ipcMain.on('testXchg', (event:any, ...args:any) => {
-                console.log('testXchg listener event', event, args)
+                console.log('testXchg listener event', args)
                 const data = args[0]
                 const id = data.id
 
