@@ -147,6 +147,28 @@ const extAccess = {
   removeResponder(id) { delete extResponders[id]}
 }
 
+/*
+TestXchg -- test api calls from back end to app and gets responses
+ */
+
+const testResponders = {}
+
+// Test exchange response listener
+// note: the request to response handler is in AppGateway
+ipcRenderer.on('testXchg', (event, data) => {
+  const {id, response, error} = data
+  console.log(`in testXchg preload response listener for id ${id}`)
+  const respIn = testResponders[id]
+  if(respIn) {
+    // console.log(respIn)
+    if (error) {
+      respIn.reject(error)
+    } else {
+      respIn.resolve(response)
+    }
+  }
+})
+
 contextBridge.exposeInMainWorld("api", api);
 contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer)
 contextBridge.exposeInMainWorld('extAccess', extAccess)

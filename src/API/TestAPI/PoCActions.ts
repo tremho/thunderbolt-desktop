@@ -1,4 +1,6 @@
 
+import * as testActions from './TestActions'
+import {readModelValue} from "./TestActions";
 
 function add(num1:number, num2:number) {
     return num1+num2
@@ -68,6 +70,9 @@ export async function executeDirective(action:string):Promise<string> {
         break
         case 'fetch': {
             res = await doSomethingAsync()
+        }
+        case 'readModelValue': {
+            res = await readModelValue(arg1)
         }
         break
     }

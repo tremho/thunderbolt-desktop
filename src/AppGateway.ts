@@ -21,6 +21,12 @@ const exportedFunctions = {
     ...testApi
 }
 
+function callTestHandler(request:string, params:string[]) {
+    return new Promise(resolve => {
+        resolve('mock execute '+ request) // just return the request string passed in for now
+    })
+}
+
 /**
  * Inter-Process Communication support for Electron
  * Supports Remote Procedure calls and messaging
@@ -67,6 +73,29 @@ export class AppGateway {
                 }
                 event.sender.send(fname, {id, response, error})
             })
+
+            // Test exchange listener
+            this.ipcMain.on('testXchg', (event:any, ...args:any) => {
+                console.log('testXchg listener event', event, args)
+                const data = args[0]
+                const id = data.id
+
+                let response, error;
+                try {
+                    response = callTestHandler(data.request, data.params)
+                    if(response.then) {
+                        response.then((presp:any) => {
+                            event.sender.send(fname, {id, response: presp})
+                        })
+                        return
+                    }
+                } catch (e) {
+                    error = e;
+                }
+                event.sender.send(fname, {id, response, error})
+            })
+
+
         })
     }
 
@@ -83,5 +112,21 @@ export class AppGateway {
         }
     }
 
+
+    public static sendTestRequest(request: string, params: string[]) {
+        const id = testRequestId++
+        console.log('sending Test Request from AppGateway', id, request, params)
+        if (AppGateway.ipcMessageSender) {
+            // @ts-ignore
+            AppGateway.ipcMessageSender.send('testXchg', {id, request, params})
+        } else {
+            console.error('no ipcMessageSender')
+            setTimeout(() => {
+                AppGateway.sendTestRequest(request, params)
+            }, 1000)
+        }
+    }
 }
+let testRequestId = 1
+
 
