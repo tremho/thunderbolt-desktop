@@ -85,14 +85,16 @@ export class AppGateway {
                     response = callTestHandler(data.request, data.params)
                     if(response.then) {
                         response.then((presp:any) => {
-                            event.sender.send(fname, {id, response: presp})
+                            console.log('sending resolved result of response > ', id, presp)
+                            event.sender.send('testXchg', {id, response: presp})
                         })
                         return
                     }
                 } catch (e) {
                     error = e;
                 }
-                event.sender.send(fname, {id, response, error})
+                console.log("sending raw response >", id, response || error)
+                event.sender.send('testXchg', {id, response, error})
             })
 
 
