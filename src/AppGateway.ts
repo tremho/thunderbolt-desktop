@@ -22,9 +22,8 @@ const exportedFunctions = {
 }
 
 function callTestHandler(request:string, params:string[]) {
-    return new Promise(resolve => {
-        resolve('mock execute '+ request) // just return the request string passed in for now
-    })
+    const r = 'mock execute '+ request
+    return Promise.resolve(r)
 }
 
 /**
