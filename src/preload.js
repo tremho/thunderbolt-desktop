@@ -151,26 +151,33 @@ const extAccess = {
 TestXchg -- test api calls from back end to app and gets responses
  */
 
-const testResponders = {}
-
 // Test exchange response listener
-// note: the request to response handler is in AppGateway
 ipcRenderer.on('testXchg', (event, data) => {
-  const {id, response, error} = data
-  console.log(`in testXchg preload response listener for id ${id}`)
-  const respIn = testResponders[id]
-  if(respIn) {
-    // console.log(respIn)
-    if (error) {
-      respIn.reject(error)
-    } else {
-      respIn.resolve(response)
+  const {id, request, params} = data
+
+  let response, error;
+  try {
+    response = callTestExchange(request, params)
+    if(response.then) {
+      response.then((presp) => {
+        event.sender.send('testXchg', {id, response: presp})
+      })
+      return
     }
+  } catch (e) {
+    error = e;
   }
+  event.sender.send('testXchg', {id, response, error})
 })
 
 contextBridge.exposeInMainWorld("api", api);
 contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer)
 contextBridge.exposeInMainWorld('extAccess', extAccess)
 
+function callTestExchange(request, params) {
+  console.log('>>>> preload stub callTestExchange', request, params)
+  return 'echo back '+request
+}
+
 // console.log('preload loaded successfully')
+

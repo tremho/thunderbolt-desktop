@@ -114,19 +114,59 @@ export class AppGateway {
 
 
     public static sendTestRequest(request: string, params: string[]) {
-        const id = testRequestId++
-        console.log('sending Test Request from AppGateway', id, request, params)
-        if (AppGateway.ipcMessageSender) {
-            // @ts-ignore
-            AppGateway.ipcMessageSender.send('testXchg', {id, request, params})
-        } else {
-            console.error('no ipcMessageSender')
-            setTimeout(() => {
-                AppGateway.sendTestRequest(request, params)
-            }, 1000)
+
+        const ipc:any = AppGateway.ipcMessageSender
+
+        const resp = new Responder()
+        const data = {
+            id: resp.id,
+            request,
+            params
         }
+        console.log('sending Test Request from AppGateway', data)
+        ipc.send('testXchg', data)
+        ipc.on('testXchg', (event:any, data:any) => {
+            console.log(`in testXchg AG:sendTestRequest handler for ${data.id}`)
+            const respIn = responders[data.id]
+            if(respIn) {
+                if (data.error) {
+                    respIn.error(data.error)
+                } else {
+                    respIn.respond(data.response)
+                }
+            }
+        })
+        return resp.promise.catch(e => {
+            const respIn = responders[data.id]
+            if(respIn) respIn.error(e)
+        })
     }
 }
-let testRequestId = 1
+const responders:any = {}
+let nextId = 1
+
+class Responder {
+    id: number;
+    promise:Promise<any>
+    resolve:any
+    reject:any
+    constructor() {
+        this.id = nextId++
+        this.promise = new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+            responders[this.id] = this;
+        })
+    }
+    respond(value:any) {
+        delete responders[this.id]
+        this.resolve(value)
+    }
+    error(e:Error) {
+        delete responders[this.id]
+        // console.error(e.stack)
+        this.reject(e)
+    }
+}
 
 

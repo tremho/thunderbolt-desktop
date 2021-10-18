@@ -23,7 +23,12 @@
 
 import {AppGateway} from "../../AppGateway";
 
+async function sendTestRequest(request:string, params:string[]) {
+    const resp = await AppGateway.sendTestRequest(request, params)
+
+}
+
 export async function readModelValue(modelPath:string) {
-    const resp = await AppGateway.sendTestRequest('readModelValue', [modelPath])
+    const resp = await sendTestRequest('readModelValue', [modelPath])
     console.log('test response: ', resp)
 }
