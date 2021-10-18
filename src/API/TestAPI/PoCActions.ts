@@ -71,6 +71,7 @@ export async function executeDirective(action:string):Promise<string> {
         case 'fetch': {
             res = await doSomethingAsync()
         }
+        break;
         case 'readModelValue': {
             res = await readModelValue(arg1)
         }
