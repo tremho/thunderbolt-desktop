@@ -151,11 +151,12 @@ const extAccess = {
 TestXchg -- test api calls from back end to app and gets responses
  */
 
-// Test exchange response listener
+// Test exchange response listener #B
 ipcRenderer.on('testXchg', (event, data) => {
   const {id, request, params} = data
+  console.log('testXchg B: ', id, request, params)
 
-  let response, error;
+  let response, error;z
   try {
     response = callTestExchange(request, params)
     if(response.then) {

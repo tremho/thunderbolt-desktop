@@ -26,6 +26,8 @@ function callTestHandler(request:string, params:string[]) {
     return Promise.resolve(r)
 }
 
+let g_ipcMain:any
+
 /**
  * Inter-Process Communication support for Electron
  * Supports Remote Procedure calls and messaging
@@ -37,6 +39,7 @@ export class AppGateway {
 
     constructor(ipcMainIn: any) {
         this.ipcMain = ipcMainIn;
+        g_ipcMain = ipcMainIn
         this.attach();
     }
 
@@ -75,7 +78,7 @@ export class AppGateway {
 
             // Test exchange listener
             this.ipcMain.on('testXchg', (event:any, ...args:any) => {
-                console.log('testXchg listener event', args)
+                console.log('testXchg listener event  #C-', args) // #1
                 const data = args[0]
                 const id = data.id
 
@@ -84,7 +87,7 @@ export class AppGateway {
                     response = callTestHandler(data.request, data.params)
                     if(response.then) {
                         response.then((presp:any) => {
-                            console.log('sending resolved result of response > ', id, presp)
+                            console.log('sending resolved result of response #C-2a > ', id, presp) // #2
                             event.sender.send('testXchg', {id, response: presp})
                         })
                         return
@@ -92,7 +95,7 @@ export class AppGateway {
                 } catch (e) {
                     error = e;
                 }
-                console.log("sending raw response >", id, response || error)
+                console.log("sending raw response #C-2b >", id, response || error)
                 event.sender.send('testXchg', {id, response, error})
             })
 
@@ -124,11 +127,12 @@ export class AppGateway {
             request,
             params
         }
-        console.log('sending Test Request from AppGateway', data)
-        ipc.send('testXchg', data)
-        ipc.on('testXchg', (event:any, data:any) => {
-            console.log(`in testXchg AG:sendTestRequest handler for ${data.id}`)
+        console.log('sending Test Request from AppGateway  #A->B', data)  // #A
+        ipc.send('testXchg', data) //(#B in preload)
+        g_ipcMain.on('testXchg', (event:any, data:any) => { // #C
+            console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
             const respIn = responders[data.id]
+            console.log('#D respIn', respIn)
             if(respIn) {
                 if (data.error) {
                     respIn.error(data.error)
