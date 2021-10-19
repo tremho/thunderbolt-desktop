@@ -87,6 +87,7 @@ ipcRenderer.on('message', (event, data) => {
   console.log('ipcRenderer hears message ', msgName, msg)
   if(msgName === 'testXchg') {
     let {request, params} = msg
+    console.log('testXchg vm #B (preload ln 90)')
     const resp = callTestExchange(request, params)
     console.log('sending testXchg response from preload ', resp)
     ipcRenderer.send('testXchg', resp)
@@ -163,7 +164,7 @@ ipcRenderer.on('testXchg', (event, data) => {
   const {id, request, params} = data
   console.log('testXchg B: ', id, request, params)
 
-  let response, error;z
+  let response, error
   try {
     response = callTestExchange(request, params)
     if(response.then) {
