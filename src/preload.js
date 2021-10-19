@@ -85,6 +85,13 @@ ipcRenderer.on('message', (event, data) => {
   const msgName = data.name
   const msg = data.data
   console.log('ipcRenderer hears message ', msgName, msg)
+  if(msgName === 'testXchg') {
+    let {request, params} = msg
+    const resp = callTestExchange(request, params)
+    console.log('sending testXchg response from preload ', resp)
+    ipcRenderer.send('testXchg', resp)
+    return
+  }
   const lsts = messageListeners[msgName] || []
   for(let i=0; i<lsts.length; i++) {
     try {

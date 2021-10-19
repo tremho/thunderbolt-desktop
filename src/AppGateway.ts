@@ -116,66 +116,36 @@ export class AppGateway {
 
     public static sendTestRequest(request: string, params: string[]) {
 
+        console.log('#A sending testXchg message', request, params)
         AppGateway.sendMessage('testXchg', {request, params})
     }
-
-    /*
-    const ipc:any = AppGateway.ipcMessageSender
-
-    const resp = new Responder()
-    const data = {
-        id: resp.id,
-        request,
-        params
-    }
-    console.log('sending Test Request from AppGateway  #A->B', data)  // #A
-    ipc.send('testXchg', data) //(#B in preload)
-    ipc.on('testXchg', (event:any, data:any) => { // #C
-        console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
-        const respIn = responders[data.id]
-        console.log('#D respIn', respIn)
-        if(respIn) {
-            if (data.error) {
-                respIn.error(data.error)
-            } else {
-                respIn.respond(data.response)
-            }
-        }
-    })
-    return resp.promise.catch(e => {
-        const respIn = responders[data.id]
-        if(respIn) respIn.error(e)
-    })
 }
-}
-*/
-}
-
-const responders:any = {}
-let nextId = 1
-
-class Responder {
-    id: number;
-    promise:Promise<any>
-    resolve:any
-    reject:any
-    constructor() {
-        this.id = nextId++
-        this.promise = new Promise((resolve, reject) => {
-            this.resolve = resolve;
-            this.reject = reject;
-            responders[this.id] = this;
-        })
-    }
-    respond(value:any) {
-        delete responders[this.id]
-        this.resolve(value)
-    }
-    error(e:Error) {
-        delete responders[this.id]
-        // console.error(e.stack)
-        this.reject(e)
-    }
-}
+//
+// const responders:any = {}
+// let nextId = 1
+//
+// class Responder {
+//     id: number;
+//     promise:Promise<any>
+//     resolve:any
+//     reject:any
+//     constructor() {
+//         this.id = nextId++
+//         this.promise = new Promise((resolve, reject) => {
+//             this.resolve = resolve;
+//             this.reject = reject;
+//             responders[this.id] = this;
+//         })
+//     }
+//     respond(value:any) {
+//         delete responders[this.id]
+//         this.resolve(value)
+//     }
+//     error(e:Error) {
+//         delete responders[this.id]
+//         // console.error(e.stack)
+//         this.reject(e)
+//     }
+// }
 
 
