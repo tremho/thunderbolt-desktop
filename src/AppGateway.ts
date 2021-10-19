@@ -128,7 +128,7 @@ export class AppGateway {
             params
         }
         console.log('sending Test Request from AppGateway  #A->B', data)  // #A
-        ipc.send('testXchg', data) //(#B in preload)
+        g_ipcMain.send('testXchg', data) //(#B in preload)
         g_ipcMain.on('testXchg', (event:any, data:any) => { // #C
             console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
             const respIn = responders[data.id]
