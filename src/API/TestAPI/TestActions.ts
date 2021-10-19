@@ -32,4 +32,5 @@ async function sendTestRequest(request:string, params:string[]) {
 export async function readModelValue(modelPath:string) {
     const resp = await sendTestRequest('readModelValue', [modelPath])
     console.log('test response: ', resp)
+    return resp
 }
