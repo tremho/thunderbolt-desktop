@@ -80,6 +80,9 @@ export class AppGateway {
                 let {id, response, error} = data
                 console.log('>> Should resolve id with ', id,  response || error)
                 const responder = responders[id]
+                console.log('looking for responder ', id)
+                console.log(' in ', JSON.stringify(responders))
+                console.log( ' got ', responder)
                 if(error) {
                     responder.reject(error)
                 } else {
@@ -128,6 +131,7 @@ class Responder {
         this.promise = new Promise((resolve, reject) => {
             this.resolve = resolve;
             this.reject = reject;
+            console.log('recording responder ', this.id)
             responders[this.id] = this;
         })
     }
