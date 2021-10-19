@@ -26,8 +26,6 @@ function callTestHandler(request:string, params:string[]) {
     return Promise.resolve(r)
 }
 
-let g_ipcMain:any
-
 /**
  * Inter-Process Communication support for Electron
  * Supports Remote Procedure calls and messaging
@@ -39,7 +37,6 @@ export class AppGateway {
 
     constructor(ipcMainIn: any) {
         this.ipcMain = ipcMainIn;
-        g_ipcMain = ipcMainIn
         this.attach();
     }
 
@@ -128,8 +125,8 @@ export class AppGateway {
             params
         }
         console.log('sending Test Request from AppGateway  #A->B', data)  // #A
-        g_ipcMain.send('testXchg', data) //(#B in preload)
-        g_ipcMain.on('testXchg', (event:any, data:any) => { // #C
+        ipc.send('testXchg', data) //(#B in preload)
+        ipc.on('testXchg', (event:any, data:any) => { // #C
             console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
             const respIn = responders[data.id]
             console.log('#D respIn', respIn)
