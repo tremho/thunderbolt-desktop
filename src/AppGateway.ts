@@ -48,7 +48,7 @@ export class AppGateway {
         Object.getOwnPropertyNames(exportedFunctions).forEach(fname => {
             // @ts-ignore
             const fn = exportedFunctions[fname]
-            this.ipcMain.on(fname, (event:any, ...args:any) => {
+            this.ipcMain.on(fname, (event: any, ...args: any) => {
                 const data = args[0]
                 const id = data.id
                 const callArgs = data.args || []
@@ -56,8 +56,8 @@ export class AppGateway {
                 let response, error;
                 try {
                     response = fn(...callArgs)
-                    if(response.then) {
-                        response.then((presp:any) => {
+                    if (response.then) {
+                        response.then((presp: any) => {
                             event.sender.send(fname, {id, response: presp})
                         })
                         return
@@ -74,7 +74,7 @@ export class AppGateway {
             })
 
             // Test exchange listener
-            this.ipcMain.on('testXchg', (event:any, ...args:any) => {
+            this.ipcMain.on('testXchg', (event: any, ...args: any) => {
                 console.log('testXchg listener event  #C-', args) // #1
                 const data = args[0]
                 const id = data.id
@@ -82,8 +82,8 @@ export class AppGateway {
                 let response, error;
                 try {
                     response = callTestHandler(data.request, data.params)
-                    if(response.then) {
-                        response.then((presp:any) => {
+                    if (response.then) {
+                        response.then((presp: any) => {
                             console.log('sending resolved result of response #C-2a > ', id, presp) // #2
                             event.sender.send('testXchg', {id, response: presp})
                         })
@@ -116,34 +116,41 @@ export class AppGateway {
 
     public static sendTestRequest(request: string, params: string[]) {
 
-        const ipc:any = AppGateway.ipcMessageSender
-
-        const resp = new Responder()
-        const data = {
-            id: resp.id,
-            request,
-            params
-        }
-        console.log('sending Test Request from AppGateway  #A->B', data)  // #A
-        ipc.send('testXchg', data) //(#B in preload)
-        ipc.on('testXchg', (event:any, data:any) => { // #C
-            console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
-            const respIn = responders[data.id]
-            console.log('#D respIn', respIn)
-            if(respIn) {
-                if (data.error) {
-                    respIn.error(data.error)
-                } else {
-                    respIn.respond(data.response)
-                }
-            }
-        })
-        return resp.promise.catch(e => {
-            const respIn = responders[data.id]
-            if(respIn) respIn.error(e)
-        })
+        AppGateway.sendMessage('testXchg', {request, params})
     }
+
+    /*
+    const ipc:any = AppGateway.ipcMessageSender
+
+    const resp = new Responder()
+    const data = {
+        id: resp.id,
+        request,
+        params
+    }
+    console.log('sending Test Request from AppGateway  #A->B', data)  // #A
+    ipc.send('testXchg', data) //(#B in preload)
+    ipc.on('testXchg', (event:any, data:any) => { // #C
+        console.log(`in testXchg #D:sendTestRequest handler for ${data.id}`)
+        const respIn = responders[data.id]
+        console.log('#D respIn', respIn)
+        if(respIn) {
+            if (data.error) {
+                respIn.error(data.error)
+            } else {
+                respIn.respond(data.response)
+            }
+        }
+    })
+    return resp.promise.catch(e => {
+        const respIn = responders[data.id]
+        if(respIn) respIn.error(e)
+    })
 }
+}
+*/
+}
+
 const responders:any = {}
 let nextId = 1
 
