@@ -25,6 +25,7 @@ import {AppGateway} from "../../AppGateway";
 
 async function sendTestRequest(request:string, params:string[]) {
     const resp = await AppGateway.sendTestRequest(request, params)
+    return resp
 
 }
 
