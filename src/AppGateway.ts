@@ -73,27 +73,19 @@ export class AppGateway {
                 event.sender.send(fname, {id, response, error})
             })
 
-            // Test exchange listener
+            // Test exchange response
             this.ipcMain.on('testXchg', (event: any, ...args: any) => {
-                console.log('testXchg listener event  #C-', args) // #1
+                console.log('testXchg response #C', args)
                 const data = args[0]
-                const id = data.id
-
-                let response, error;
-                try {
-                    response = callTestHandler(data.request, data.params)
-                    if (response.then) {
-                        response.then((presp: any) => {
-                            console.log('sending resolved result of response #C-2a > ', id, presp) // #2
-                            event.sender.send('testXchg', {id, response: presp})
-                        })
-                        return
-                    }
-                } catch (e) {
-                    error = e;
+                let {id, response, error} = data
+                console.log('>> Should resolve id with ', id,  response || error)
+                const responder = responders[id]
+                if(error) {
+                    responder.reject(error)
+                } else {
+                    responder.resolve(response)
                 }
-                console.log("sending raw response #C-2b >", id, response || error)
-                event.sender.send('testXchg', {id, response, error})
+
             })
 
 
@@ -117,35 +109,37 @@ export class AppGateway {
     public static sendTestRequest(request: string, params: string[]) {
 
         console.log('#A sending testXchg message', request, params)
-        AppGateway.sendMessage('testXchg', {request, params})
+        let r = new Responder()
+        let id = r.id
+        AppGateway.sendMessage('testXchg', {id, request, params})
+        return r.promise
     }
 }
-//
-// const responders:any = {}
-// let nextId = 1
-//
-// class Responder {
-//     id: number;
-//     promise:Promise<any>
-//     resolve:any
-//     reject:any
-//     constructor() {
-//         this.id = nextId++
-//         this.promise = new Promise((resolve, reject) => {
-//             this.resolve = resolve;
-//             this.reject = reject;
-//             responders[this.id] = this;
-//         })
-//     }
-//     respond(value:any) {
-//         delete responders[this.id]
-//         this.resolve(value)
-//     }
-//     error(e:Error) {
-//         delete responders[this.id]
-//         // console.error(e.stack)
-//         this.reject(e)
-//     }
-// }
+
+const responders:any = {}
+let nextId = 1;
+class Responder {
+    id: number;
+    promise:Promise<any>
+    resolve:any
+    reject:any
+    constructor() {
+        this.id = nextId++
+        this.promise = new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+            responders[this.id] = this;
+        })
+    }
+    respond(value:any) {
+        delete responders[this.id]
+        this.resolve(value)
+    }
+    error(e:Error) {
+        delete responders[this.id]
+        // console.error(e.stack)
+        this.reject(e)
+    }
+}
 
 
