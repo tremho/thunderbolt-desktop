@@ -15,7 +15,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 const {
-  BrowserWindow,
   contextBridge,
   ipcRenderer
 } = require("electron");
@@ -187,7 +186,10 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  return BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(`testOp.${request}(${params})`)
+  if(window.callTestRequest) {
+      console.log('callTestRequest seen')
+      return window.callTestRequest(request, params)
+  }
 }
 
 // console.log('preload loaded successfully')
