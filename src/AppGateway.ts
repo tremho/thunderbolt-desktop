@@ -116,7 +116,7 @@ export class AppGateway {
                 console.log('then resolution of BrowserWindow call results in ', typeof rv, rv)
                 resolve(rv)
             })
-            console.log('BrowserWindow call return type is ', typeof pr)
+            console.log('BrowserWindow call return type is ', typeof pr, pr)
         })
         //
         //
