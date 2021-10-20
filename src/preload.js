@@ -186,7 +186,13 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  return 'echo back '+request
+  if(api) {
+    console.log('api seen')
+    if(api.callTestRequest) {
+      console.log('callTestRequest seen')
+      return api.callTestRequest(request, params)
+    }
+  }
 }
 
 // console.log('preload loaded successfully')
