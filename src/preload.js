@@ -189,6 +189,9 @@ function callTestExchange(request, params) {
   if(window.callTestRequest) {
       console.log('callTestRequest seen')
       return window.callTestRequest(request, params)
+  } else {
+    console.error('DID NOT SEE callTestRequest!')
+    console.log('window foobar == ', window.foobar)
   }
 }
 
