@@ -21,24 +21,21 @@
 
 */
 
-import {AppGateway, setTestRequestRelay} from "../../AppGateway";
-
-function callTestRequest(request:string, params:string[]) {
-    console.log('able to call test from here', request, params)
-    if(request === 'readModelValue') {
-        return readModelValue(params[0])
-    }
-}
-
-async function sendTestRequest(request:string, params:string[]) {
-    setTestRequestRelay(callTestRequest)
-    const resp = await AppGateway.sendTestRequest(request, params)
-    return resp
-
-}
+// import {AppGateway, setTestRequestRelay} from "../../AppGateway";
+//
+// function callTestRequest(request:string, params:string[]) {
+//     console.log('able to call test from here', request, params)
+//     if(request === 'readModelValue') {
+//         return readModelValue(params[0])
+//     }
+// }
+//
+// async function sendTestRequest(request:string, params:string[]) {
+//     setTestRequestRelay(callTestRequest)
+//     const resp = await AppGateway.sendTestRequest(request, params)
+//     return resp
+//
+// }
 
 export async function readModelValue(modelPath:string) {
-    const resp = await sendTestRequest('readModelValue', [modelPath])
-    console.log('test response: ', resp)
-    return resp
 }

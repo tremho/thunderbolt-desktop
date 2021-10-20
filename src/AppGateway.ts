@@ -7,6 +7,8 @@ import * as testApi from "./API/TestAPI/testApi"
 
 import {passEnvironmentAndGetTitles} from "./StartupTasks";
 
+import injections from './AppBackRequirements'
+
 const exportedFunctions = {
     messageInit: () => { /*console.log('message init stub hit')*/ },
 
@@ -106,11 +108,16 @@ export class AppGateway {
 
     public static sendTestRequest(request: string, params: string[]) {
 
-        console.log('#A sending testXchg message', request, params)
-        let r = new Responder()
-        let id = r.id
-        AppGateway.sendMessage('testXchg', {id, request, params})
-        return r.promise
+        console.log('calling testOp method in Main World #A', request)
+        injections.BrowserWindow.getAllWindows()[0].webContents.executeJavaScript('console.log("Wanna call ", request, params)')
+
+        //
+        //
+        // console.log('#A sending testXchg message', request, params)
+        // let r = new Responder()
+        // let id = r.id
+        // AppGateway.sendMessage('testXchg', {id, request, params})
+        // return r.promise
     }
 }
 
