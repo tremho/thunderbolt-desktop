@@ -141,3 +141,10 @@ class Responder {
     }
 }
 
+let testRequestRelay:any
+export function setTestRequestRelay(trr:any) {
+    testRequestRelay = trr
+}
+export function callTestRequest(request:string, params:string[]) {
+    testRequestRelay(request, params)
+}

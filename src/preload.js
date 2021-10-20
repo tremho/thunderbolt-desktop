@@ -19,8 +19,7 @@ const {
   ipcRenderer
 } = require("electron");
 
-
-const {AppGateway} = require('./AppGateway')
+const {AppGateway, callTestRequest} = require('./AppGateway')
 
 const extResponders = {}
 
@@ -186,13 +185,11 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  const win = window.window
-  if(win.callTestRequest) {
+  if(callTestRequest) {
       console.log('callTestRequest seen')
-      return win.callTestRequest(request, params)
+      return callTestRequest(request, params)
   } else {
     console.error('DID NOT SEE callTestRequest!')
-    console.log('window foobar == ', win.foobar)
   }
 }
 

@@ -21,7 +21,15 @@
 
 */
 
-import {AppGateway} from "../../AppGateway";
+import {AppGateway, setTestRequestRelay} from "../../AppGateway";
+
+function callTestRequest(request:string, params:string[]) {
+    console.log('able to call test from here', request, params)
+    if(request === 'readModelValue') {
+        return readModelValue(params[0])
+    }
+}
+setTestRequestRelay(callTestRequest)
 
 async function sendTestRequest(request:string, params:string[]) {
     const resp = await AppGateway.sendTestRequest(request, params)
