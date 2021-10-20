@@ -85,10 +85,7 @@ export class AppGateway {
                 } else {
                     responder.resolve(response)
                 }
-
             })
-
-
         })
     }
 
@@ -109,7 +106,7 @@ export class AppGateway {
     public static sendTestRequest(request: string, params: string[]) {
 
         console.log('calling testOp method in Main World #A', request)
-        BrowserWindow.getAllWindows()[0].webContents.executeJavaScript('console.log("Wanna call ", request, params)')
+        BrowserWindow.getAllWindows()[0].webContents.executeJavaScript('console.log(`Wanna call (${request}, ${params})`)')
 
         //
         //
