@@ -79,7 +79,7 @@ export async function executeDirective(action:string):Promise<string> {
         break
     }
     return Promise.resolve(res).then((rec) => {
-        rec = typeof rec === 'object' ? JSON.stringify(rec) : ''+rec
+        rec = typeof rec === 'object' ? rec : ''+rec
         record(action, rec)
         return rec
     })
