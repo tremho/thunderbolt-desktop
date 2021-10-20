@@ -19,7 +19,7 @@ const {
   ipcRenderer
 } = require("electron");
 
-const {AppGateway, callTestRequest} = require('./AppGateway')
+const {AppGateway} = require('./AppGateway')
 
 const extResponders = {}
 
@@ -163,6 +163,7 @@ TestXchg -- test api calls from back end to app and gets responses
 ipcRenderer.on('testXchg', (event, data) => {
   const {id, request, params} = data
   console.log('testXchg B: ', id, request, params)
+  console.warn("This shouldn't be in effect anymore!!")
 
   let response, error
   try {
@@ -185,12 +186,6 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  if(callTestRequest) {
-      console.log('callTestRequest seen')
-      return callTestRequest(request, params)
-  } else {
-    console.error('DID NOT SEE callTestRequest!')
-  }
 }
 
 // console.log('preload loaded successfully')

@@ -21,7 +21,7 @@
 
 */
 
-// import {AppGateway, setTestRequestRelay} from "../../AppGateway";
+import {AppGateway} from "../../AppGateway";
 //
 // function callTestRequest(request:string, params:string[]) {
 //     console.log('able to call test from here', request, params)
@@ -38,4 +38,6 @@
 // }
 
 export async function readModelValue(modelPath:string) {
+    console.log('TestActions readModelValue is calling AppGateway to relay to front')
+    AppGateway.sendTestRequest('readModelValue', [modelPath])
 }
