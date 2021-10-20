@@ -15,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 const {
+  BrowserWindow,
   contextBridge,
   ipcRenderer
 } = require("electron");
