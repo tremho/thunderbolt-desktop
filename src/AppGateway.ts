@@ -106,9 +106,9 @@ export class AppGateway {
     public static sendTestRequest(request: string, params: string[]) {
 
         console.log('calling testOp method in Main World #A', request)
-        const ex = 'console.log("Wanna call ('+request+', '+params+')")'
+        const ex = 'callTestRequest('+request+', '+params+')")'
         console.log('execute', ex)
-        BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex)
+        return BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex)
 
         //
         //
