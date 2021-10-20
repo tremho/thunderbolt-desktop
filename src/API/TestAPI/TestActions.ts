@@ -39,5 +39,7 @@ import {AppGateway} from "../../AppGateway";
 
 export async function readModelValue(modelPath:string) {
     console.log('TestActions readModelValue is calling AppGateway to relay to front')
-    AppGateway.sendTestRequest('readModelValue', [modelPath])
+    const resp = await AppGateway.sendTestRequest('readModelValue', [modelPath])
+    console.log('response from ApppGateway is', resp)
+    return resp
 }
