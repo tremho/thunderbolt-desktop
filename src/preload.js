@@ -186,12 +186,13 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  if(window.callTestRequest) {
+  const win = window.window
+  if(win.callTestRequest) {
       console.log('callTestRequest seen')
-      return window.callTestRequest(request, params)
+      return win.callTestRequest(request, params)
   } else {
     console.error('DID NOT SEE callTestRequest!')
-    console.log('window foobar == ', window.foobar)
+    console.log('window foobar == ', win.foobar)
   }
 }
 
