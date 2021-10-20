@@ -23,14 +23,6 @@
 
 import {AppGateway} from "../../AppGateway";
 
-const gwindow:any = typeof window !== 'undefined' ? window : {}
-let mainApi = gwindow && gwindow.api;
-
-mainApi.callTestRequest = (request:string, params:string[]) => {
-
-}
-
-
 async function sendTestRequest(request:string, params:string[]) {
     const resp = await AppGateway.sendTestRequest(request, params)
     return resp
