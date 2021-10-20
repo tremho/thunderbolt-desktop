@@ -103,7 +103,7 @@ export class AppGateway {
     }
 
 
-    public static sendTestRequest(request: string, params: string[]) {
+    public static sendTestRequest(request: string, params: string[], cb?:any) {
 
         return new Promise(resolve => {
             console.log('calling testOp method in Main World #A', request)
