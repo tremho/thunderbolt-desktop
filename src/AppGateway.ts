@@ -144,7 +144,9 @@ class Responder {
 let testRequestRelay:any
 export function setTestRequestRelay(trr:any) {
     testRequestRelay = trr
+    console.log('testRequestRelay set', typeof testRequestRelay)
 }
 export function callTestRequest(request:string, params:string[]) {
+    console.log('testRequestRelay is', typeof testRequestRelay)
     testRequestRelay(request, params)
 }
