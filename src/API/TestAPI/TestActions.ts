@@ -29,9 +29,9 @@ function callTestRequest(request:string, params:string[]) {
         return readModelValue(params[0])
     }
 }
-setTestRequestRelay(callTestRequest)
 
 async function sendTestRequest(request:string, params:string[]) {
+    setTestRequestRelay(callTestRequest)
     const resp = await AppGateway.sendTestRequest(request, params)
     return resp
 
