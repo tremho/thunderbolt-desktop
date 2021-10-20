@@ -186,13 +186,7 @@ contextBridge.exposeInMainWorld('extAccess', extAccess)
 
 function callTestExchange(request, params) {
   console.log('>>>> preload stub callTestExchange', request, params)
-  if(api) {
-    console.log('api seen')
-    if(api.callTestRequest) {
-      console.log('callTestRequest seen')
-      return api.callTestRequest(request, params)
-    }
-  }
+  return BrowserWindow.getFocusedWindow().webContents.executeJavaScript(`testOp.${request}(${params})`)
 }
 
 // console.log('preload loaded successfully')

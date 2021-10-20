@@ -21,11 +21,6 @@ const exportedFunctions = {
     ...testApi
 }
 
-function callTestHandler(request:string, params:string[]) {
-    const r = 'mock execute '+ request
-    return Promise.resolve(r)
-}
-
 /**
  * Inter-Process Communication support for Electron
  * Supports Remote Procedure calls and messaging
