@@ -69,23 +69,6 @@ export class AppGateway {
                 }
                 event.sender.send(fname, {id, response, error})
             })
-
-            // Test exchange response
-            this.ipcMain.on('testXchg', (event: any, ...args: any) => {
-                console.log('testXchg response #C', args)
-                const data = args[0]
-                let {id, response, error} = data
-                console.log('>> Should resolve id with ', id,  response || error)
-                const responder = responders[id]
-                console.log('looking for responder ', id)
-                console.log(' in ', JSON.stringify(responders))
-                console.log( ' got ', responder)
-                if(error) {
-                    responder.reject(error)
-                } else {
-                    responder.resolve(response)
-                }
-            })
         })
     }
 
@@ -106,60 +89,16 @@ export class AppGateway {
     public static sendTestRequest(request: string, params: string[], cb?:any) {
 
         return new Promise(resolve => {
-            console.log('calling testOp method in Main World #A', request)
+            // console.log('calling testOp method in Main World #A', request)
             let tparams = '['
             params.forEach(p => {tparams += ` "${p}",`})
             tparams = tparams.substring(0, tparams.length-1) + ']'
             const ex = `callTestRequest("${request}", ${tparams})`
-            console.log('execute', ex)
+            // console.log('execute', ex)
             BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex).then(rv => {
-                console.log('then resolution of BrowserWindow call results in ', typeof rv, rv)
+                // console.log('then resolution of BrowserWindow call results in ', typeof rv, rv)
                 resolve(rv)
             })
         })
-        //
-        //
-        // console.log('#A sending testXchg message', request, params)
-        // let r = new Responder()
-        // let id = r.id
-        // AppGateway.sendMessage('testXchg', {id, request, params})
-        // return r.promise
     }
 }
-
-const responders:any = {}
-let nextId = 1;
-class Responder {
-    id: number;
-    promise:Promise<any>
-    resolve:any
-    reject:any
-    constructor() {
-        this.id = nextId++
-        this.promise = new Promise((resolve, reject) => {
-            this.resolve = resolve;
-            this.reject = reject;
-            console.log('recording responder ', this.id)
-            responders[this.id] = this;
-        })
-    }
-    respond(value:any) {
-        delete responders[this.id]
-        this.resolve(value)
-    }
-    error(e:Error) {
-        delete responders[this.id]
-        // console.error(e.stack)
-        this.reject(e)
-    }
-}
-
-// let testRequestRelay:any
-// export function setTestRequestRelay(trr:any) {
-//     testRequestRelay = trr
-//     console.log('testRequestRelay set', typeof testRequestRelay)
-// }
-// export function callTestRequest(request:string, params:string[]) {
-//     console.log('testRequestRelay is', typeof testRequestRelay)
-//     testRequestRelay(request, params)
-// }

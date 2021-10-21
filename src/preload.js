@@ -84,15 +84,15 @@ ipcRenderer.on('message', (event, data) => {
   const msgName = data.name
   const msg = data.data
   console.log('ipcRenderer hears message ', msgName, msg)
-  if(msgName === 'testXchg') {
-    let {id, request, params} = msg
-    console.log('testXchg vm #B (preload ln 90), id is', id)
-    const response = callTestExchange(request, params)
-    let error
-    console.log('sending testXchg response from preload ', response)
-    ipcRenderer.send('testXchg', { id, response, error })
-    return
-  }
+  // if(msgName === 'testXchg') {
+  //   let {id, request, params} = msg
+  //   console.log('testXchg vm #B (preload ln 90), id is', id)
+  //   const response = callTestExchange(request, params)
+  //   let error
+  //   console.log('sending testXchg response from preload ', response)
+  //   ipcRenderer.send('testXchg', { id, response, error })
+  //   return
+  // }
   const lsts = messageListeners[msgName] || []
   for(let i=0; i<lsts.length; i++) {
     try {
@@ -160,33 +160,33 @@ TestXchg -- test api calls from back end to app and gets responses
  */
 
 // Test exchange response listener #B
-ipcRenderer.on('testXchg', (event, data) => {
-  const {id, request, params} = data
-  console.log('testXchg B: ', id, request, params)
-  console.warn("This shouldn't be in effect anymore!!")
-
-  let response, error
-  try {
-    response = callTestExchange(request, params)
-    if(response.then) {
-      response.then((presp) => {
-        event.sender.send('testXchg', {id, response: presp})
-      })
-      return
-    }
-  } catch (e) {
-    error = e;
-  }
-  event.sender.send('testXchg', {id, response, error})
-})
+// ipcRenderer.on('testXchg', (event, data) => {
+//   const {id, request, params} = data
+//   console.log('testXchg B: ', id, request, params)
+//   console.warn("This shouldn't be in effect anymore!!")
+//
+//   let response, error
+//   try {
+//     response = callTestExchange(request, params)
+//     if(response.then) {
+//       response.then((presp) => {
+//         event.sender.send('testXchg', {id, response: presp})
+//       })
+//       return
+//     }
+//   } catch (e) {
+//     error = e;
+//   }
+//   event.sender.send('testXchg', {id, response, error})
+// })
 
 contextBridge.exposeInMainWorld("api", api);
 contextBridge.exposeInMainWorld('ipcRenderer', ipcRenderer)
 contextBridge.exposeInMainWorld('extAccess', extAccess)
 
-function callTestExchange(request, params) {
-  console.log('>>>> preload stub callTestExchange', request, params)
-}
+// function callTestExchange(request, params) {
+//   console.log('>>>> preload stub callTestExchange', request, params)
+// }
 
 // console.log('preload loaded successfully')
 
