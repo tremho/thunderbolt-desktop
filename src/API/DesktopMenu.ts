@@ -18,6 +18,10 @@ export function resetMenu() {
     menus = {}
 }
 
+export function openDevTools() {
+    electron.BrowserWindow.getAllWindows()[0].webContents.openDevTools()
+}
+
 export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
 
     let n = menuId.indexOf('-')
