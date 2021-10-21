@@ -43,7 +43,10 @@ export async function assignComponent(name:string, tagName:string, prop?:string,
  * @param propName
  */
 export async function readComponentProperty(componentName:string, propName:string) {
-    return await AppGateway.sendTestRequest('readComponentProperty', [componentName, propName])
+    console.log('readComponentProperty ', componentName, propName)
+    const resp =  await AppGateway.sendTestRequest('readComponentProperty', [componentName, propName])
+    console.log('     response:', resp)
+    return resp
 }
 
 /**
@@ -64,6 +67,7 @@ export async function setComponentProperty(componentName:string, propName:string
  * @param action
  */
 export async function triggerAction(componentName:string, action:string) {
+    console.log('triggerAction', componentName, action)
     return await AppGateway.sendTestRequest('triggerAction', [componentName, action])
 }
 
