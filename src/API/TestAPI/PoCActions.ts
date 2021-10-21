@@ -76,8 +76,11 @@ export async function executeDirective(action:string):Promise<string> {
         default: {
             const tactany:any = testActions
             const ta = tactany[cmd]
+            console.log('looking for testAction', cmd)
             if(typeof ta === 'function') {
+                console.log('found', cmd)
                 res = await ta(arg1, arg2, arg3)
+                console.log('result is ', res)
             }
         }
         break
