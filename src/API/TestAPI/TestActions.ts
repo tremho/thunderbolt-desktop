@@ -31,7 +31,9 @@ export async function setModelValue(modelPath:string, value:any) {
  */
 export async function assignComponent(name:string, tagName:string, prop?:string, propValue?:string) {
     console.log('assignComponent', name, tagName, prop, propValue)
-    return await AppGateway.sendTestRequest('assignComponent', [name, tagName, prop || '', propValue || ''])
+    const resp =  await AppGateway.sendTestRequest('assignComponent', [name, tagName, prop || '', propValue || ''])
+    console.log('assignComponent response', resp)
+
 }
 
 /**
