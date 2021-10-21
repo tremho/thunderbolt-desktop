@@ -74,7 +74,7 @@ export async function executeDirective(action:string):Promise<string> {
         break;
         case 'readModelValue': {
             res = await readModelValue(arg1)
-            console.log('RMV @ PoC', res)
+            // console.log('RMV @ PoC', res)
         }
         break
     }
