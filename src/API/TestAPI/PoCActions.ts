@@ -46,6 +46,7 @@ export async function executeDirective(action:string):Promise<string> {
     const cmd = parts[0]
     const arg1 = parts[1]
     const arg2 = parts[2]
+    const arg3 = parts[3]
     let res:any = ''
     switch(cmd) {
         case 'add': {
@@ -72,9 +73,12 @@ export async function executeDirective(action:string):Promise<string> {
             res = await doSomethingAsync()
         }
         break;
-        case 'readModelValue': {
-            res = await readModelValue(arg1)
-            // console.log('RMV @ PoC', res)
+        default: {
+            const tactany:any = testActions
+            const ta = tactany[cmd]
+            if(typeof ta === 'function') {
+                res = await ta(arg1, arg2, arg3)
+            }
         }
         break
     }
