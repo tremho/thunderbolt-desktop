@@ -1,31 +1,97 @@
 
-/*
-    THINGS TO DO IN TEST
-
- read value from model
- set a model value
- select a component on a page
-  - and give it a variable name
-  - reference by variable name
- read a property value from a component
- set the class for a component
- perform an action at a component
- call a function on the page
- navigate to a named page
- wait
-
- perform a menu action
- perform a tool action
-
- take + record screenshot
-
-*/
-
 import {AppGateway} from "../../AppGateway";
 
+/**
+ * Reads the value in the app model at the given model path
+ * @param modelPath
+ */
 export async function readModelValue(modelPath:string) {
     // console.log('TestActions readModelValue is calling AppGateway to relay to front')
     const resp = await AppGateway.sendTestRequest('readModelValue', [modelPath])
     // console.log('response from AppGateway is', resp)
     return resp
 }
+
+/**
+ * Sets a value in the model at the given model path
+ * @param modelPath
+ * @param value
+ */
+export async function setModelValue(modelPath:string, value:any) {
+    return await AppGateway.sendTestRequest('setModelValue', [modelPath, value])
+}
+
+/**
+ * Selects a component on the page via a selector and assigns it to a name we can reference later
+ *
+ * @param name Name to assign to the component
+ * @param tagName tag name of the component (e.g. simple-label)
+ * @param [prop] optional name of a property to check on this component
+ * @param [propValue] optional if prop given, this is the value to match
+ */
+export async function assignComponent(name:string, tagName:string, prop?:string, propValue?:string) {
+    return await AppGateway.sendTestRequest('assignComponent', [name, prop || '', propValue || ''])
+}
+
+/**
+ * Reads the value of a property of the named component
+ *
+ * @param componentName
+ * @param propName
+ */
+export async function readComponentProperty(componentName:string, propName:string) {
+    return await AppGateway.sendTestRequest('readComponentProperty', [componentName, propName])
+}
+
+/**
+ * Sets the  property of a named component to the given value
+ *
+ * @param componentName
+ * @param propName
+ * @param propValue
+ */
+export async function setComponentProperty(componentName:string, propName:string, propValue:string) {
+    return await AppGateway.sendTestRequest('setComponentProperty', [componentName, propName, propValue])
+}
+
+/**
+ * Triggers the named action on the named component.
+ * Actions are psuedo-actions, such as "press" (alias for click or tap)
+ * @param componentName
+ * @param action
+ */
+export async function triggerAction(componentName:string, action:string) {
+    return await AppGateway.sendTestRequest('triggerAction', [componentName, action])
+}
+
+/**
+ * Navigate to the given page, optionally passing a context object
+ * @param pageName
+ * @param context
+ */
+export async function goToPage(pageName:string, context?:any) {
+    return await AppGateway.sendTestRequest('goToPage', [pageName, context])
+}
+
+/**
+ * Call a function of a given name on the current page, passing optional parameters
+ * @param funcName  Name of exported function found on current page logic
+ * @param [parameters]  Array of optional parameters to pass
+ */
+export async function callPageFunction(funcName:string, parameters:string[] = []) {
+    return await AppGateway.sendTestRequest('callPageFunction', [funcName, ...parameters])
+}
+
+/**
+ * wait for a given number of milliseconds
+ * @param delay
+ */
+export async function wait(delay:number) {
+    return new Promise(resolve => { setTimeout(resolve, delay)})
+}
+
+// perform a menu action
+// perform a tool action
+//
+// take + record screenshot
+
