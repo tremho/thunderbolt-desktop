@@ -30,7 +30,7 @@ export async function setModelValue(modelPath:string, value:any) {
  * @param [propValue] optional if prop given, this is the value to match
  */
 export async function assignComponent(name:string, tagName:string, prop?:string, propValue?:string) {
-    return await AppGateway.sendTestRequest('assignComponent', [name, prop || '', propValue || ''])
+    return await AppGateway.sendTestRequest('assignComponent', [name, tagName, prop || '', propValue || ''])
 }
 
 /**
