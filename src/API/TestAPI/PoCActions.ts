@@ -79,7 +79,7 @@ export async function executeDirective(action:string):Promise<string> {
             console.log('looking for testAction', cmd)
             if(typeof ta === 'function') {
                 console.log('found', cmd)
-                res = await ta(arg1, arg2, arg3)
+                res = await ta(...parts.slice(1))
                 console.log('result is ', res)
             }
         }
