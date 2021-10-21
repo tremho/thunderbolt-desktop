@@ -106,13 +106,16 @@ export class AppGateway {
     public static sendTestRequest(request: string, params: string[], cb?:any) {
 
         return new Promise(resolve => {
-            // console.log('calling testOp method in Main World #A', request)
+            console.log('calling testOp method in Main World #A', request)
             let tparams = '['
             params.forEach(p => {tparams += ` "${p}",`})
             tparams = tparams.substring(0, tparams.length-1) + ']'
             const ex = `callTestRequest("${request}", ${tparams})`
-            // console.log('execute', ex)
-            return BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex)
+            console.log('execute', ex)
+            BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex).then(rv => {
+                console.log('then resolution of BrowserWindow call results in ', typeof rv, rv)
+                resolve(rv)
+            })
         })
         //
         //
