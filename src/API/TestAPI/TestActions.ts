@@ -33,7 +33,7 @@ export async function assignComponent(name:string, tagName:string, prop?:string,
     console.log('assignComponent', name, tagName, prop, propValue)
     const resp =  await AppGateway.sendTestRequest('assignComponent', [name, tagName, prop || '', propValue || ''])
     console.log('assignComponent response', resp)
-
+    return resp
 }
 
 /**
