@@ -1,22 +1,15 @@
 
-import {H2Client} from "./H2Client";
+import {WSClient, clientTest} from "./WSClient"
 
-let testStatus:string = "{}"
-
-function setTestStatus(inStatus:any) {
-    testStatus = JSON.stringify(inStatus)
-}
-
-export async function startTest(testPath:string = '/test') {
-    const client = new H2Client()
+export async function startTest() {
+    const client = new WSClient()
     console.log('Client starting')
-    client.request(testPath)
-    let alive = true
-    while(alive) {
-        const code = await client.syncStatus(testStatus)
-        alive = await client.processDirectives()
-    }
 
-    console.log('done')
+    let service = "ws://localhost:51610"
+
+    const code = await clientTest(service)
+
+    console.log('done', code)
     client.end()
+    return code
 }
