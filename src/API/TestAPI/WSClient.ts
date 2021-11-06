@@ -67,6 +67,14 @@ export async function clientTest(service:string) {
         }
         const reply = executeDirective(directive)
         Promise.resolve(reply).then((res:string) => {
+            if( (res.charAt(0) === '{' && res.charAt(res.length-1) === '}')
+             || (res.charAt(0) === '[' && res.charAt(res.length-1) === ']')) {
+                try {
+                    res = JSON.parse(res)
+                } catch(e) {
+                    console.warn(e)
+                }
+            }
             const srep = `${rcount}:${directive}=${res}`
             rcount++
             console.log('replying ', srep)
