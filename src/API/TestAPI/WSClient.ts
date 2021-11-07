@@ -25,7 +25,7 @@ export class WSClient {
     }
 
     end(code:number = 1000) {
-        this.ws.close(code)
+        this.ws?.close(code)
     }
 
     on(event:string, handler:ClientEventHandler) {
@@ -52,30 +52,28 @@ export async function connectClient(service:string):Promise<WSClient> {
 
 let rcount = 1
 let code = 1000
-export async function clientTest(service:string) {
-    let sessionResolve:any
-    console.log('starting client test')
-    const client = await connectClient(service)
-    client.on('data', (data:any) => {
-        const directive = data.toString()
-        console.log('received directive', directive)
-        if(directive === 'end')  {
-            // todo: we should get an overall test report and a code from this end and report it.
-            client.send(`${rcount}:${directive}=${code}`)
-            client.end(code)
-            if(sessionResolve) sessionResolve(code)
-        }
-        const reply = executeDirective(directive)
-        Promise.resolve(reply).then((res:string) => {
-            const srep = `${rcount}:${directive}=${res}`
-            rcount++
-            console.log('replying ', srep)
-            client.send(srep)
-        })
-    })
+export async function clientTest(service:string):Promise<number> {
     return new Promise(resolve => {
-        sessionResolve = resolve
-        console.log('client connected')
+        console.log('starting client test')
+        connectClient(service).then((client:any) => {
+            client.on('data', (data:any) => {
+                const directive = data.toString()
+                console.log('received directive', directive)
+                if(directive === 'end')  {
+                    // todo: we should get an overall test report and a code from this end and report it.
+                    client.send(`${rcount}:${directive}=${code}`)
+                    client.end(code)
+                    resolve(code)
+                }
+                const reply = executeDirective(directive)
+                Promise.resolve(reply).then((res:string) => {
+                    const srep = `${rcount}:${directive}=${res}`
+                    rcount++
+                    console.log('replying ', srep)
+                    client.send(srep)
+                })
+            })
+        })
     })
 }
 
