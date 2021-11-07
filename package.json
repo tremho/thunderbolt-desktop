@@ -1,6 +1,6 @@
 {
   "name": "@tremho/jove-desktop",
-  "version": "0.6.9-pre-release.134",
+  "version": "0.6.9-pre-release.135",
   "description": "Desktop (Electron) component of Jove framework",
   "main": "build/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/tremho/thunderbolt-desktop#readme",
   "dependencies": {
-    "electron": "^12.0.5",
+    "electron": "^15.3.0",
     "electron-settings": "^4.0.2",
     "riot": "^5.3.3",
     "unirest": "^0.6.0",
