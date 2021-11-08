@@ -2,6 +2,7 @@
   "name": "tbapp",
   "version": "1.0.0",
   "dependencies": {
-    "ts-loader": "^9.2.6"
+    "ts-loader": "^9.2.6",
+    "@riotjs/webpack-loader": "^6.0.0"
   }
 }
