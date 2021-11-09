@@ -1,10 +1,6 @@
 
 import WebSocket from 'ws'
 import {executeDirective, getReport} from "./PoCActions";
-
-console.log('hello client')
-
-
 export type ClientEventHandler = (data:any) => void
 
 export class WSClient {
