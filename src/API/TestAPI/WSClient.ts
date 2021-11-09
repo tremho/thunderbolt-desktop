@@ -48,7 +48,7 @@ export async function connectClient(service:string):Promise<WSClient> {
 
 let rcount = 1
 let code = 1000
-export async function clientTest(service:string):Promise<number> {
+export function clientTest(service:string):Promise<number> {
     return new Promise(resolve => {
         console.log('starting client test')
         connectClient(service).then((client:any) => {
@@ -56,7 +56,7 @@ export async function clientTest(service:string):Promise<number> {
                 if(data.code === 1000) {// normal close
                     console.log('client closed normally', data.reason)
                 } else {
-                    console.warn('cient closed abnormally', code, data.reason)
+                    console.warn('client closed abnormally', code, data.reason)
                 }
             })
             client.on('data', (data:any) => {
