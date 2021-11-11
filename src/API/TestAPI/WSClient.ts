@@ -67,7 +67,7 @@ export function clientTest(service:string):Promise<number> {
                 if(directive === 'end')  {
                     // todo: we should get an overall test report and a code from this end and report it.
                     client.send(`${rcount}:${directive}=${code}`)
-                    client.end(code)
+                    // client.end(code)
                     resolve(code)
                 }
                 const reply = executeDirective(directive)
