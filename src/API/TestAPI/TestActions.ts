@@ -94,6 +94,7 @@ export async function callPageFunction(funcName:string, parameters:string[] = []
  * @param delay
  */
 export async function wait(delay:number) {
+    console.log('waiting for '+delay/1000+' seconds')
     return new Promise(resolve => { setTimeout(resolve, delay)})
 }
 
