@@ -30,9 +30,9 @@ export async function setModelValue(modelPath:string, value:any) {
  * @param [propValue] optional if prop given, this is the value to match
  */
 export async function assignComponent(name:string, tagName:string, prop?:string, propValue?:string) {
-    console.log('assignComponent', name, tagName, prop, propValue)
+    // console.log('assignComponent', name, tagName, prop, propValue)
     const resp =  await AppGateway.sendTestRequest('assignComponent', [name, tagName, prop || '', propValue || ''])
-    console.log('assignComponent response', resp)
+    // console.log('assignComponent response', resp)
     return resp
 }
 
@@ -43,9 +43,9 @@ export async function assignComponent(name:string, tagName:string, prop?:string,
  * @param propName
  */
 export async function readComponentProperty(componentName:string, propName:string) {
-    console.log('readComponentProperty ', componentName, propName)
+    // console.log('readComponentProperty ', componentName, propName)
     const resp =  await AppGateway.sendTestRequest('readComponentProperty', [componentName, propName])
-    console.log('     response:', resp)
+    // console.log('     response:', resp)
     return resp
 }
 
@@ -67,7 +67,7 @@ export async function setComponentProperty(componentName:string, propName:string
  * @param action
  */
 export async function triggerAction(componentName:string, action:string) {
-    console.log('triggerAction', componentName, action)
+    // console.log('triggerAction', componentName, action)
     return await AppGateway.sendTestRequest('triggerAction', [componentName, action])
 }
 

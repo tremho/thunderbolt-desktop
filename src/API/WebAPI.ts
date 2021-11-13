@@ -51,19 +51,19 @@ class WebResponse {
 export function webSend(request:WebRequest) : Promise<WebResponse> {
     const resp = new WebResponse()
     let uni = unirest
-    console.log('websend preparing', request.method+' '+request.endpoint)
+    // console.log('websend preparing', request.method+' '+request.endpoint)
     uni = uni[request.method](request.endpoint)
     uni=uni.headers(request.headers)
     // possible todo: format parameters into body for a form post instead of query line, and/or use some other semantic (options?) in case we want both.
     uni=uni.query(request.parameters)
     uni=uni.type(request.type)
-    console.log('websend sending ')
+    // console.log('websend sending ')
     return uni.send(request.body).then((result:any) => {
         resp.code = result.code
         resp.statusType = result.statusType
         resp.headers = result.headers
         resp.body = result.body
-        console.log('returning resp', resp)
+        // console.log('returning resp', resp)
         return resp
     })
 }
