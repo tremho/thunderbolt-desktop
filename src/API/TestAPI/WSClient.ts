@@ -74,7 +74,7 @@ export function clientTest(service:string):Promise<number> {
                 Promise.resolve(reply).then((res:string) => {
                     const srep = `${rcount}:${directive}=${res}`
                     rcount++
-                    // console.log('replying ', srep)
+                    //   console.log('replying ', srep)
                     client.send(srep)
                 })
             })
