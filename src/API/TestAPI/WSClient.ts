@@ -63,15 +63,9 @@ export function clientTest(service:string):Promise<number> {
             })
             client.on('data', (data:any) => {
                 const directive = data.toString()
+                console.log('appium client received raw directive', directive)
                 if(directive.substring(0, 7) === 'appium:') {
                     return
-                }
-                // console.log('received directive', directive)
-                if(directive === 'end')  {
-                    // todo: we should get an overall test report and a code from this end and report it.
-                    client.send(`${rcount}:${directive}=${code}`)
-                    // client.end(code)
-                    resolve(code)
                 }
                 const reply = executeDirective(directive)
                 Promise.resolve(reply).then((res:string) => {
