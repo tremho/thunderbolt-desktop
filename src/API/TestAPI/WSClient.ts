@@ -22,6 +22,7 @@ export class WSClient {
     }
 
     end(code:number = 1000) {
+        console.log('client ending with code ', code)
         this.ws?.close(code)
     }
 
@@ -71,6 +72,7 @@ export function clientTest(service:string):Promise<number> {
                     //   console.log('replying ', srep)
                     client.send(srep)
                     if(directive === 'end') {
+                        console.log("detecting end in clientTest, so ending")
                         client.end()
                     }
                 })
