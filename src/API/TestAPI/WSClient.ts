@@ -65,6 +65,7 @@ export function clientTest(service:string):Promise<number> {
                 const directive = data.toString()
                 if(directive === 'end') {
                     client.end()
+                    process.exit(0)
                 }
 
                 const reply = executeDirective(directive)
