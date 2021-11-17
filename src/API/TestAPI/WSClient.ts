@@ -63,10 +63,10 @@ export function clientTest(service:string):Promise<number> {
             })
             client.on('data', (data:any) => {
                 const directive = data.toString()
-                // console.log('directive', directive)
-                // if(directive.substring(0, 7) === 'appium:') {
-                //     return
-                // }
+                if(directive === 'end') {
+                    client.close(1000)
+                }
+
                 const reply = executeDirective(directive)
                 Promise.resolve(reply).then((res:string) => {
                     const srep = `${rcount}:${directive}=${res}`
