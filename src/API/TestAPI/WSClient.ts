@@ -63,10 +63,6 @@ export function clientTest(service:string):Promise<number> {
             })
             client.on('data', (data:any) => {
                 const directive = data.toString()
-                if(directive === 'end') {
-                    client.end()
-                    process.exit(0)
-                }
 
                 const reply = executeDirective(directive)
                 Promise.resolve(reply).then((res:string) => {
@@ -74,6 +70,9 @@ export function clientTest(service:string):Promise<number> {
                     rcount++
                     //   console.log('replying ', srep)
                     client.send(srep)
+                    if(directive === 'end') {
+                        client.end()
+                    }
                 })
             })
         })
