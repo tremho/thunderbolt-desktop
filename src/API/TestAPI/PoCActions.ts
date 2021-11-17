@@ -42,7 +42,7 @@ export function getReport() {
 }
 
 export async function executeDirective(action:string):Promise<string> {
-    // console.log('executeDirective', action)
+    console.log('executeDirective', action)
     const parts = action.split(' ')
     const cmd = parts[0]
     const arg1 = parts[1]
@@ -89,6 +89,7 @@ export async function executeDirective(action:string):Promise<string> {
     return Promise.resolve(res).then((rec) => {
         rec = typeof rec === 'object' ? JSON.stringify(rec) : ''+rec
         record(action, rec)
+        console.log('directive returns', rec)
         return rec
     })
 }
