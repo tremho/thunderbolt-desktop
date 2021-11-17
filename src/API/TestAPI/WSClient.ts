@@ -64,7 +64,7 @@ export function clientTest(service:string):Promise<number> {
             client.on('data', (data:any) => {
                 const directive = data.toString()
                 if(directive === 'end') {
-                    client.close(1000)
+                    client.end()
                 }
 
                 const reply = executeDirective(directive)
