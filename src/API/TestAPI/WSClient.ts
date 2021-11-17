@@ -57,7 +57,7 @@ export function clientTest(service:string):Promise<number> {
         connectClient(service).then((client:any) => {
             client.on('close', (data:any) => {
                 if(data.code === 1000) {// normal close
-                    // console.log('client closed normally', data.reason)
+                    console.log('client closed normally', data.reason)
                 } else {
                     console.warn('client closed abnormally', code, data.reason)
                 }
