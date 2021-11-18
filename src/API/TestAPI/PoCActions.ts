@@ -38,6 +38,7 @@ function record(action:string, result:any) {
 export function getReport() {
     const rpt = report
     report = ''
+    console.log("getReport returns", rpt)
     return rpt
 }
 
