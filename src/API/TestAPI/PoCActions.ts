@@ -30,19 +30,26 @@ async function doSomethingAsync():Promise<string> {
 }
 
 let report = ''
-
+let rptStart = 0
 function record(action:string, result:any) {
-    report += action + ' = ' + result + '\n'
+
+    let secs = Math.floor((Date.now() - rptStart)/1000)
+    let min = Math.floor(secs/60)
+    secs = secs % 60;
+
+    report += min+':'+secs+'  '+action + ' = ' + result + '\n'
 }
 
 export function getReport() {
     const rpt = report
     report = ''
+    rptStart = 0
     console.log("getReport returns", rpt)
     return rpt
 }
 
 export async function executeDirective(action:string):Promise<string> {
+    if(!rptStart) rptStart = Date.now()
     // console.log('executeDirective', action)
     const parts = action.split(' ')
     const cmd = parts[0]
