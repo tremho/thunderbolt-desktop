@@ -22,7 +22,7 @@ export class WSClient {
     }
 
     end(code:number = 1000) {
-        console.log('client ending with code ', code)
+        console.log('client ending with code ', code, this.ws)
         this.ws?.close(code)
     }
 

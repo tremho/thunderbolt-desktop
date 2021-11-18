@@ -74,6 +74,10 @@ export async function executeDirective(action:string):Promise<string> {
             res = await doSomethingAsync()
         }
         break;
+        case 'end': {
+            res = 1000
+        }
+        break;
         default: {
             const tactany:any = testActions
             const ta = tactany[cmd]
