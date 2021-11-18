@@ -82,6 +82,10 @@ export async function executeDirective(action:string):Promise<string> {
             res = await doSomethingAsync()
         }
         break;
+        case 'getReport': {
+            res = getReport()
+        }
+        break;
         case 'end': {
             res = 1000
         }
