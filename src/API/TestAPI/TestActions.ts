@@ -110,7 +110,7 @@ export async function time() {
 
 export async function tree() {
     console.log('calling TestOps.tree in common')
-    return await AppGateway.sendTestRequest('tree', [])
+    return await AppGateway.sendTestRequest('tree')
 }
 
 
