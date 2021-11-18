@@ -94,7 +94,7 @@ export async function callPageFunction(funcName:string, parameters:string[] = []
  * @param delay
  */
 export async function wait(delay:number) {
-    console.log('waiting for '+delay/1000+' seconds')
+    // console.log('waiting for '+delay/1000+' seconds')
     return new Promise(resolve => { setTimeout(resolve, delay)})
 }
 
@@ -104,10 +104,12 @@ export async function wait(delay:number) {
 // take + record screenshot
 
 export async function time() {
+    console.log('returning current time')
     return Date.now()
 }
 
 export async function tree() {
+    console.log('calling TestOps.tree in common')
     return await AppGateway.sendTestRequest('tree', [])
 }
 
