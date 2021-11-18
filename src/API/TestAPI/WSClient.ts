@@ -74,6 +74,7 @@ export function clientTest(service:string):Promise<number> {
                     if(directive === 'end') {
                         console.log("detecting end in clientTest, so ending")
                         client.end()
+                        resolve(code)
                     }
                 })
             })
