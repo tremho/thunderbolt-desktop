@@ -114,10 +114,27 @@ export async function tree() {
 }
 
 import * as electron from 'electron'
+import path from 'path'
+import fs, {mkdir} from 'fs'
 
-export async function screenshot() {
+export async function screenshot(name:string) {
     const ni = await electron.BrowserWindow.getAllWindows()[0].webContents.capturePage()
-    console.log('screenshot has native image', ni)
-    console.log('reminder of cwd', process.cwd())
+    if(ni) {
+        const rootPath = path.resolve('..')
+        if(fs.existsSync(path.join(rootPath, 'package.json'))) {
+            const dtf = "current"
+            const rptImgPath = path.join(rootPath, 'report', 'electron', dtf, 'images')
+            fs.mkdirSync(rptImgPath, {recursive:true})
+            const imgPath = path.join(rptImgPath, name+'.png')
+            const buffer = ni.toPNG()
+            fs.writeFileSync(imgPath, buffer)
+            return imgPath
+        } else {
+            console.error('Root path not detected at ', rootPath)
+        }
+    } else {
+        console.error('screenshot failed!')
+    }
+
 }
 
