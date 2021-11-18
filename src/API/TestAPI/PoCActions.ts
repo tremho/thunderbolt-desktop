@@ -33,18 +33,63 @@ let report = ''
 let rptStart = 0
 function record(action:string, result:any) {
 
-    let secs = Math.floor((Date.now() - rptStart)/1000)
-    let min = Math.floor(secs/60)
-    secs = secs % 60;
+    let raw = Date.now() - rptStart;
+    let ms:any = raw % 1000
+    let secs:any = Math.floor(raw/1000)
+    let min:any = '' + Math.floor(secs/60)
+    secs = '' + (secs % 60)
+    ms = ''+ms
+    while(ms.length < 3) {
+        ms = '0'+ms
+    }
+    while(secs.length < 2) {
+        secs = '0' + secs
+    }
+    while(min.length < 3) {
+        min = " "+min
+    }
+    let ts = `${min}:${secs}:${ms}`
 
-    report += min+':'+secs+'  '+action + ' = ' + result + '\n'
+    let ddt = new Date.toLocaleString()
+    if(!report) {
+        report = `
+<html>
+    <head>
+    <title>Test Report ${ddt}</title>
+    </head>
+    <body>
+    <h3>Test Report ${ddt}</h3>
+    <ul>            
+`
+    }
+
+    let rline = `        <li>`
+    rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
+    if(action.substring(0,10) === 'screenshot') {
+        let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
+        rline += `<div><img src="${result}" height="100px"><p class="cap">${name}</p></div>`
+    } else {
+        rline += `<span class="res">${result}</span>`
+    }
+
+    report += rline
+}
+
+function endReport() {
+    if(report) {
+        report += `
+    </ul>
+    </body>
+    </html>
+`
+    }
 }
 
 export function getReport() {
+    endReport()
     const rpt = report
     report = ''
     rptStart = 0
-    console.log("getReport returns", rpt)
     return rpt
 }
 
