@@ -113,4 +113,12 @@ export async function tree() {
     return await AppGateway.sendTestRequest('tree')
 }
 
+import * as injections from '../../AppBackRequirements'
+const BrowserWindow = injections.default.BrowserWindow
+
+export async function screenshot() {
+    const ni = await BrowserWindow.getAllWindows()[0].webContents.capturePage()
+    console.log('screenshot has native image', ni)
+    console.log('reminder of cwd', process.cwd())
+}
 
