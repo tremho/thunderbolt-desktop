@@ -50,7 +50,7 @@ function record(action:string, result:any) {
     }
     let ts = `${min}:${secs}:${ms}`
 
-    let ddt = new Date.toLocaleString()
+    let ddt = new Date().toLocaleString()
     if(!report) {
         report = `
 <html>
