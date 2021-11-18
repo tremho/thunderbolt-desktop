@@ -109,10 +109,8 @@ export async function time() {
 }
 
 export async function tree() {
-    console.log('returning not a tree object')
-    return {foo: "Not a tree"}
-    // console.log('calling TestOps.tree in common')
-    // return await AppGateway.sendTestRequest('tree')
+    console.log('calling TestOps.tree in common')
+    return await AppGateway.sendTestRequest('tree')
 }
 
 
