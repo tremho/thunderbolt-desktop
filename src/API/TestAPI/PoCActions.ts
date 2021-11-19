@@ -94,7 +94,7 @@ function startReport(title:string, ordinal:number) {
     startReportSection(title)
 }
 
-function startReportSection(title) {
+function startReportSection(title:string) {
 
     report += `
     <hr>
@@ -162,7 +162,7 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break;
         case 'startReport': {
-            res = startReport(arg1, arg2)
+            res = startReport(arg1, Number(arg2))
         }
         break;
         case 'getReport': {
