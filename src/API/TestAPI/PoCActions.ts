@@ -162,7 +162,9 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break;
         case 'startReport': {
-            res = startReport(arg1, Number(arg2))
+            const count = Number(arg1)
+            const title = parts.slice(2).join(' ')
+            res = startReport(title, count)
         }
         break;
         case 'getReport': {
