@@ -65,6 +65,8 @@ function record(action:string, result:any) {
 function startReport(title:string, ordinal:number) {
     let ddt = new Date().toLocaleString()
 
+    console.log('------ starting report')
+
     if(!ordinal) {
         console.log('sanity check: report should be empty', report === '')
     }
@@ -95,6 +97,8 @@ function startReport(title:string, ordinal:number) {
 }
 
 function startReportSection(title:string) {
+
+    console.log('-------starting report section for '+title)
 
     report += `
     <hr>
@@ -128,7 +132,6 @@ export function getReport() {
 }
 
 export async function executeDirective(action:string):Promise<string> {
-    if(!rptStart) rptStart = Date.now()
     // console.log('executeDirective', action)
     const parts = action.split(' ')
     const cmd = parts[0]
@@ -166,11 +169,11 @@ export async function executeDirective(action:string):Promise<string> {
             const title = parts.slice(2).join(' ')
             res = startReport(title, count)
         }
-        break;
+        return Promise.resolve('')
         case 'getReport': {
             res = getReport()
         }
-        break;
+        return Promise.resolve('')
         case 'end': {
             res = 1000
         }
