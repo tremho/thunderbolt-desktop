@@ -60,6 +60,7 @@ function record(action:string, result:any) {
     }
 
     report += rline
+    console.log('report line', rline)
 }
 
 function startReport(title:string, ordinal:number) {
@@ -108,6 +109,7 @@ function startReportSection(title:string) {
 
 }
 function endReportSection() {
+    console.log('---- ending report section')
     report += `
     </ul>
     <br/>    
@@ -115,6 +117,7 @@ function endReportSection() {
 }
 
 function endReport() {
+    console.log('---- ending report')
     if(report) {
         report += `
     </body>
@@ -128,6 +131,7 @@ export function getReport() {
     const rpt = report
     report = ''
     rptStart = 0
+    console.log('returning report', rpt)
     return rpt
 }
 
