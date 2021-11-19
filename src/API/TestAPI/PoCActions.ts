@@ -50,19 +50,6 @@ function record(action:string, result:any) {
     }
     let ts = `${min}:${secs}:${ms}`
 
-    let ddt = new Date().toLocaleString()
-    if(!report) {
-        report = `
-<html>
-    <head>
-    <title>Test Report ${ddt}</title>
-    </head>
-    <body>
-    <h3>Test Report ${ddt}</h3>
-    <ul>            
-`
-    }
-
     let rline = `        <li>`
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
@@ -75,10 +62,57 @@ function record(action:string, result:any) {
     report += rline
 }
 
+function startReport(title:string, ordinal:number) {
+    let ddt = new Date().toLocaleString()
+
+    if(!ordinal) {
+        console.log('sanity check: report should be empty', report === '')
+    }
+
+    if(!ordinal) report = `
+<html>
+    <head>
+    <title>Test Report ${ddt}</title>
+    <style>
+        .ts {
+            background-color: gold;
+            color: black;
+            font-family: monospace;
+            padding-right: 1em;
+        }
+        .act {
+            padding-right: 1em
+        }
+        .res {
+            color:green
+        }
+    </style>
+    </head>
+    <body>
+`
+    if(ordinal) endReportSection()
+    startReportSection(title)
+}
+
+function startReportSection(title) {
+
+    report += `
+    <hr>
+    <h3>${title}</h3>
+    <ul>        
+`
+
+}
+function endReportSection() {
+    report += `
+    </ul>
+    <br/>    
+    `
+}
+
 function endReport() {
     if(report) {
         report += `
-    </ul>
     </body>
     </html>
 `
@@ -125,6 +159,10 @@ export async function executeDirective(action:string):Promise<string> {
         break
         case 'fetch': {
             res = await doSomethingAsync()
+        }
+        break;
+        case 'startReport': {
+            res = startReport(arg1, arg2)
         }
         break;
         case 'getReport': {
