@@ -50,14 +50,14 @@ function record(action:string, result:any) {
     }
     let ts = `${min}:${secs}:${ms}`
     ts = ts.trim();
-    const k = 'class=' // weird issue fix attempt
-    let rline = `        <li ${k}"rline">`
-    rline += `<span ${k}"ts">${ts}</span><span ${k}"act">${action}</span>`
+    // const k = 'class=' // weird issue fix attempt
+    let rline = `        <li>`
+    rline += `<span >${ts}</span><span>${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
-        rline += `<div><img src="${result}" height="100px"><p ${k}"cap">${name}</p></div>`
+        rline += `<div><img src="${result}" height="100px"><p>${name}</p></div>`
     } else {
-        rline += `<span ${k}"res">${result}</span>`
+        rline += `<span>${result}</span>`
     }
     rline += '</li>'
 
