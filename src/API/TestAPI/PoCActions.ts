@@ -30,7 +30,7 @@ async function doSomethingAsync():Promise<string> {
 }
 
 let report = ''
-let rptStart = 0
+let rptStart = Date.now()
 function record(action:string, result:any) {
 
     let raw = Date.now() - rptStart;
@@ -81,13 +81,13 @@ function startReport(title:string, ordinal:number) {
             background-color: gold;
             color: black;
             font-family: monospace;
-            padding-right: 1em;
         }
         .act {
-            padding-right: 1em
+            padding-left: 1em;
+            padding-right: 1em;
         }
         .res {
-            color:green
+            color:green;
         }
     </style>
     </head>
@@ -131,7 +131,7 @@ export function getReport() {
     endReport()
     const rpt = report
     report = ''
-    rptStart = 0
+    rptStart = Date.now()
     console.log('returning report', rpt)
     return rpt
 }
@@ -174,11 +174,11 @@ export async function executeDirective(action:string):Promise<string> {
             const title = parts.slice(2).join(' ')
             res = startReport(title, count)
         }
-        return Promise.resolve('')
+        return Promise.resolve(res)
         case 'getReport': {
             res = getReport()
         }
-        return Promise.resolve('')
+        return Promise.resolve(res)
         case 'end': {
             res = 1000
         }
