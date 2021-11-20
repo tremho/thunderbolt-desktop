@@ -51,12 +51,12 @@ function record(action:string, result:any) {
     let ts = `${min}:${secs}:${ms}`
     ts = ts.trim();
     let rline = `        <li class--"rline">`
-    rline += `<span class--"ts">${ts}</span><span class--"act">${action}</span>`
+    rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
-        rline += `<div><img src--"${result}" height="100px"><p class--"cap">${name}</p></div>`
+        rline += `<div><img src="${result}" height="100px"><p class="cap">${name}</p></div>`
     } else {
-        rline += `<span class--"res">${result}</span>`
+        rline += `<span class="res">${result}</span>`
     }
     rline += '</li>'
 
@@ -130,7 +130,7 @@ function endReport() {
 
 export function getReport() {
     endReport()
-    const rpt = report
+    const rpt = report.replace(/=/g, '--') // change equal sign in flight to avoid parse issues on other side; reconstruct on receipt
     report = ''
     rptStart = Date.now()
     console.log('returning report', rpt)
