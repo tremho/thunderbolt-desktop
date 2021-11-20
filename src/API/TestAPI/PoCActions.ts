@@ -46,11 +46,11 @@ function record(action:string, result:any) {
         secs = '0' + secs
     }
     while(min.length < 3) {
-        min = " "+min
+        min = '\u00A0'+min
     }
     let ts = `${min}:${secs}:${ms}`
-
-    let rline = `        <li>`
+    ts = ts.trim();
+    let rline = `        <li class="rline">`
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
@@ -58,6 +58,7 @@ function record(action:string, result:any) {
     } else {
         rline += `<span class="res">${result}</span>`
     }
+    rline += '</li>'
 
     report += rline
     console.log('report line', rline)
@@ -103,7 +104,7 @@ function startReportSection(ordinal:number, title:string) {
 
     report += `
     <hr>
-    <h3>${ordinal}) ${title}</h3>
+    <h3>${ordinal+1}) ${title}</h3>
     <ul>        
 `
 
