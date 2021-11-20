@@ -94,16 +94,16 @@ function startReport(title:string, ordinal:number) {
     <body>
 `
     if(ordinal) endReportSection()
-    startReportSection(title)
+    startReportSection(ordinal, title)
 }
 
-function startReportSection(title:string) {
+function startReportSection(ordinal:number, title:string) {
 
     console.log('-------starting report section for '+title)
 
     report += `
     <hr>
-    <h3>${title}</h3>
+    <h3>${ordinal}) ${title}</h3>
     <ul>        
 `
 
@@ -119,6 +119,7 @@ function endReportSection() {
 function endReport() {
     console.log('---- ending report')
     if(report) {
+        endReportSection()
         report += `
     </body>
     </html>
