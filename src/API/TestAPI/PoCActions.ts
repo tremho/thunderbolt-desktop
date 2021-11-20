@@ -130,7 +130,7 @@ function endReport() {
 
 export function getReport() {
     endReport()
-    const rpt = report.replace(/classeq/g, 'class=')
+    const rpt = report
     report = ''
     rptStart = Date.now()
     console.log('returning report', rpt)
