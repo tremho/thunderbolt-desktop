@@ -50,13 +50,13 @@ function record(action:string, result:any) {
     }
     let ts = `${min}:${secs}:${ms}`
     ts = ts.trim();
-    let rline = `        <li class="rline">`
-    rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
+    let rline = `        <li classeq"rline">`
+    rline += `<span classeq"ts">${ts}</span><span classeq"act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
-        rline += `<div><img src="${result}" height="100px"><p class="cap">${name}</p></div>`
+        rline += `<div><img src="${result}" height="100px"><p classeq"cap">${name}</p></div>`
     } else {
-        rline += `<span class="res">${result}</span>`
+        rline += `<span classeq"res">${result}</span>`
     }
     rline += '</li>'
 
@@ -130,7 +130,7 @@ function endReport() {
 
 export function getReport() {
     endReport()
-    const rpt = report
+    const rpt = report.replace(/classeq/g, 'class=')
     report = ''
     rptStart = Date.now()
     console.log('returning report', rpt)
