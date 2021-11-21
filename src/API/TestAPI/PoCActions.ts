@@ -61,16 +61,16 @@ function record(action:string, result:any) {
     rline += '</li>'
 
     report += rline
-    console.log('report line', rline)
+    // console.log('report line', rline)
 }
 
 function startReport(title:string, ordinal:number) {
     let ddt = new Date().toLocaleString()
 
-    console.log('------ starting report')
+    // console.log('------ starting report')
 
     if(!ordinal) {
-        console.log('sanity check: report should be empty', report === '')
+        // console.log('sanity check: report should be empty', report === '')
     }
 
     if(!ordinal) report = `
@@ -100,7 +100,7 @@ function startReport(title:string, ordinal:number) {
 
 function startReportSection(ordinal:number, title:string) {
 
-    console.log('-------starting report section for '+title)
+    // console.log('-------starting report section for '+title)
 
     report += `
     <hr>
@@ -110,7 +110,7 @@ function startReportSection(ordinal:number, title:string) {
 
 }
 function endReportSection() {
-    console.log('---- ending report section')
+    // console.log('---- ending report section')
     report += `
     </ul>
     <br/>    
@@ -118,7 +118,7 @@ function endReportSection() {
 }
 
 function endReport() {
-    console.log('---- ending report')
+    // console.log('---- ending report')
     if(report) {
         endReportSection()
         report += `
@@ -133,7 +133,7 @@ export function getReport() {
     const rpt = report.replace(/=/g, '--') // change equal sign in flight to avoid parse issues on other side; reconstruct on receipt
     report = ''
     rptStart = Date.now()
-    console.log('returning report', rpt)
+    // console.log('returning report', rpt)
     return rpt
 }
 
