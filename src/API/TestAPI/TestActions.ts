@@ -123,7 +123,7 @@ export async function screenshot(name:string) {
         const rootPath = path.resolve('..')
         if(fs.existsSync(path.join(rootPath, 'package.json'))) {
             const dtf = "current"
-            const rptImgPath = path.join(rootPath, 'report', 'electron', dtf, 'images')
+            const rptImgPath = path.join(getCurrentReportFolder(rootPath), 'electron', 'images')
             fs.mkdirSync(rptImgPath, {recursive:true})
             const imgPath = path.join(rptImgPath, name+'.png')
             const buffer = ni.toPNG()
@@ -138,3 +138,20 @@ export async function screenshot(name:string) {
 
 }
 
+function getCurrentReportFolder(rootPath:string) {
+    const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    let dt = new Date()
+    let nm = `${month[dt.getMonth()]}-${dt.getDate()}`
+    let ordinal = 0
+    let cpth = path.join(rootPath, nm, '' + ordinal)
+    while (++ordinal) {
+        if (!fs.existsSync(cpth)) {
+            fs.mkdirSync(cpth, {recursive: true})
+            break;
+        }
+    }
+    let lnpth = path.join(rootPath, 'latest')
+    if(fs.existsSync(lnpth)) fs.unlinkSync(lnpth)
+    fs.linkSync(cpth, lnpth)
+    return cpth
+}
