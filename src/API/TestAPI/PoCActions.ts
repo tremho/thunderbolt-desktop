@@ -54,7 +54,7 @@ function record(action:string, result:any) {
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
-        rline += `<div><img src="${result}" width="30%"><p class="cap">${name}</p></div>`
+        rline += `<div><img class="ss" src="${result}"><p class="cap">${name}</p></div>`
     } else {
         rline += `<span class="res">${result}</span>`
     }
@@ -85,6 +85,10 @@ function startReport(title:string) {
         }
         .res {
             color:green;
+        }
+        .ss {
+            width: 50%;
+            margin-left: 20%;            
         }
         .cap {
             font-style: italic;
