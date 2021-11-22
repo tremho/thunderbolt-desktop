@@ -54,7 +54,7 @@ function record(action:string, result:any) {
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
-        rline += `<div><img src="${result}" height="100px"><p class="cap">${name}</p></div>`
+        rline += `<div><img src="${result}" width="30%"><p class="cap">${name}</p></div>`
     } else {
         rline += `<span class="res">${result}</span>`
     }
@@ -64,16 +64,12 @@ function record(action:string, result:any) {
     // console.log('report line', rline)
 }
 
-function startReport(title:string, ordinal:number) {
+function startReport(title:string) {
     let ddt = new Date().toLocaleString()
 
     // console.log('------ starting report')
 
-    if(!ordinal) {
-        // console.log('sanity check: report should be empty', report === '')
-    }
-
-    if(!ordinal) report = `
+    if(!report) report = `
 <html>
     <head>
     <title>Test Report ${ddt}</title>
@@ -90,21 +86,24 @@ function startReport(title:string, ordinal:number) {
         .res {
             color:green;
         }
+        .cap {
+            font-style: italic;
+            color: gray;
+        }
     </style>
     </head>
     <body>
 `
-    if(ordinal) endReportSection()
-    startReportSection(ordinal, title)
+    startReportSection(title)
 }
 
-function startReportSection(ordinal:number, title:string) {
+function startReportSection(title:string) {
 
     // console.log('-------starting report section for '+title)
 
     report += `
     <hr>
-    <h3>${ordinal+1}) ${title}</h3>
+    <h3>${title}</h3>
     <ul>        
 `
 
@@ -171,9 +170,8 @@ export async function executeDirective(action:string):Promise<string> {
         }
         break;
         case 'startReport': {
-            const count = Number(arg1)
             const title = parts.slice(2).join(' ')
-            res = startReport(title, count)
+            res = startReport(title)
         }
         return Promise.resolve(res)
         case 'getReport': {
