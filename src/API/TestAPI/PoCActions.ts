@@ -199,7 +199,7 @@ export async function executeDirective(action:string):Promise<string> {
     return Promise.resolve(res).then((rec) => {
         rec = typeof rec === 'object' ? JSON.stringify(rec) : ''+rec
         record(action, rec)
-        // console.log('directive returns', rec)
+        console.log(action + ' directive returns', rec)
         return rec
     })
 }
