@@ -123,7 +123,7 @@ export async function screenshot(name:string) {
         const rootPath = path.resolve('..')
         if(fs.existsSync(path.join(rootPath, 'package.json'))) {
             const dtf = "current"
-            const rptImgPath = path.join(getCurrentReportFolder(rootPath), 'images')
+            const rptImgPath = path.join(rootPath, 'report', 'latest', 'images')
             fs.mkdirSync(rptImgPath, {recursive:true})
             const imgPath = path.join(rptImgPath, name+'.png')
             const buffer = ni.toPNG()
@@ -138,27 +138,3 @@ export async function screenshot(name:string) {
 
 }
 
-function getCurrentReportFolder(rootPath:string):string {
-    const month = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-    let dt = new Date()
-    let nm = `${month[dt.getMonth()]}-${dt.getDate()}`
-    let cpth:string = path.join(rootPath, 'report', nm)
-
-    if(fs.existsSync(path.join(rootPath, 'package.json'))) {
-        let ordinal = 0
-        let cpth:string = path.join(rootPath, 'report', nm)
-        let ppath:string;
-        while (++ordinal) {
-            ppath = cpth
-            cpth = path.join(rootPath, 'report', nm, '' + ordinal)
-            if (!fs.existsSync(cpth)) {
-                cpth = ppath
-                break;
-            }
-        }
-    } else {
-        console.error('TEST REPORT: Root path not detected at ', rootPath)
-    }
-    const folderPath = path.join(cpth, 'electron')
-    return folderPath
-}
