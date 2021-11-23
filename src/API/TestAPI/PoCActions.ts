@@ -103,6 +103,7 @@ function startReport(title:string) {
             width: 35%;
         }
         .df {
+            margin-left: 2em;
             display: inline;
             width: 35%;        
         }
