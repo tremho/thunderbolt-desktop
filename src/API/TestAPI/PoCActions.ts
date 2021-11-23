@@ -59,10 +59,10 @@ function record(action:string, result:any) {
         let rpt = action.substring(14)
         let [imgName, pctDiff] = rpt.split(',')
         let plat = 'electron'
-        let cpath = path.resolve('report', 'comp', plat, imgName+'.png')
-        let dpath = path.resolve('report', 'latest', plat, 'images', imgName+'-diff.png')
+        let cpath = '../../comp/electron/'+imgName+'.png'
+        let dpath = '../../latest/electron/images/'+imgName+'-diff.png'
         let stats = `Image ${imgName} differs ${pctDiff}% from comp`
-        rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}><p class="cap">${stats}</p></div>`
+        rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}"><p class="cap">${stats}</p></div>`
     } else {
         rline += `<span class="res">${result}</span>`
     }
