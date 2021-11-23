@@ -56,6 +56,7 @@ function record(action:string, result:any) {
         let name = result.substring(result.lastIndexOf('/') + 1, result.lastIndexOf('.'))
         rline += `<div><img class="ss" src="${result}"><p class="cap">${name}</p></div>`
     } else if(action.substring(0,13) === 'compareReport') {
+        rline = `<span class="ts">${ts}</span><span class="im">Image mismatch</span>`
         let rpt = action.substring(14)
         let [imgName, pctDiff] = rpt.split(',')
         let cpath = '../../../comp/electron/'+imgName+'.png'
@@ -104,6 +105,11 @@ function startReport(title:string) {
         .df {
             display: inline;
             width: 20%;        
+        }
+        .im {
+            font-size: larger
+            color: red;
+            font-weight: bold;
         }
         .cap {
             margin:auto;
