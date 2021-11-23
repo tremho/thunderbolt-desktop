@@ -59,11 +59,12 @@ function record(action:string, result:any) {
         // TODO: Format an rline of 2 imgs: comp, diff with a stats line underneath
         // send compareReport with a formatted result line
         let [imgName, pctDiff] = result.split(',')
+        console.log('<debug>', result, imgName, pctDiff)
         let plat = 'electron'
         let cpath = path.join('report', 'comp', plat, imgName+'.png')
         let dpath = path.join('report', 'latest', plat, 'images', imgName+'-diff.png')
         let stats = `Image ${imgName} differs ${pctDiff}% from comp`
-        rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}><p class="cap">${stats}</p></div>"`
+        rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}><p class="cap">${stats}</p></div>`
     } else {
         rline += `<span class="res">${result}</span>`
     }
@@ -99,7 +100,17 @@ function startReport(title:string) {
             width: 50%;
             margin-left: 20%;            
         }
+        .cs {
+            display: inline;
+            width: 20%;
+        }
+        .df {
+            display: inline;
+            width: 20%;        
+        }
         .cap {
+            margin:auto;
+            text-align: center;
             font-style: italic;
             color: gray;
         }
