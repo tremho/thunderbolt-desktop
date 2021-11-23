@@ -55,7 +55,7 @@ function record(action:string, result:any) {
     if(action.substring(0,10) === 'screenshot') {
         let name = result.substring(result.lastIndexOf('/') + 1, result.lastIndexOf('.'))
         rline += `<div><img class="ss" src="${result}"><p class="cap">${name}</p></div>`
-    } else if(action === 'compareReport') {
+    } else if(action.substring(0,13) === 'compareReport') {
         // TODO: Format an rline of 2 imgs: comp, diff with a stats line underneath
         // send compareReport with a formatted result line
         let [imgName, pctDiff] = result.split(',')
