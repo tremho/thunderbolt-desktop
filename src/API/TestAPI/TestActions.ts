@@ -122,7 +122,7 @@ export async function screenshot(name:string) {
     if(ni) {
         const rootPath = path.resolve('..')
         if(fs.existsSync(path.join(rootPath, 'package.json'))) {
-            const dtf = "current"
+
             const rptImgPath = path.join(rootPath, 'report', 'latest', 'images')
             fs.mkdirSync(rptImgPath, {recursive:true})
             const imgPath = path.join(rptImgPath, name+'.png')

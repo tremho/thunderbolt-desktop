@@ -172,7 +172,6 @@ export async function executeDirective(action:string):Promise<string> {
     const cmd = parts[0]
     const arg1 = parts[1]
     const arg2 = parts[2]
-    const arg3 = parts[3]
     let res:any = ''
     switch(cmd) {
         case 'add': {
