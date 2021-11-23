@@ -58,10 +58,9 @@ function record(action:string, result:any) {
     } else if(action.substring(0,13) === 'compareReport') {
         let rpt = action.substring(14)
         let [imgName, pctDiff] = rpt.split(',')
-        console.log('<debug>', action, rpt, imgName, pctDiff)
         let plat = 'electron'
-        let cpath = path.join('report', 'comp', plat, imgName+'.png')
-        let dpath = path.join('report', 'latest', plat, 'images', imgName+'-diff.png')
+        let cpath = path.resolve('report', 'comp', plat, imgName+'.png')
+        let dpath = path.resolve('report', 'latest', plat, 'images', imgName+'-diff.png')
         let stats = `Image ${imgName} differs ${pctDiff}% from comp`
         rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}><p class="cap">${stats}</p></div>`
     } else {
