@@ -107,8 +107,9 @@ function startReport(title:string) {
             width: 20%;        
         }
         .im {
+            padding-left: 1em;
             font-size: larger
-            color: red;
+            color: red !important;
             font-weight: bold;
         }
         .cap {
