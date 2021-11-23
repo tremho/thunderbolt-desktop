@@ -1,6 +1,6 @@
 
 import * as testActions from './TestActions'
-import {readModelValue} from "./TestActions";
+import path from 'path'
 
 function add(num1:number, num2:number) {
     return num1+num2
@@ -53,8 +53,17 @@ function record(action:string, result:any) {
     let rline = `        <li class--"rline">`
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,10) === 'screenshot') {
-        let name = result.substring(result.lastIndexOf('/')+1, result.lastIndexOf('.'))
+        let name = result.substring(result.lastIndexOf('/') + 1, result.lastIndexOf('.'))
         rline += `<div><img class="ss" src="${result}"><p class="cap">${name}</p></div>`
+    } else if(action === 'compareReport') {
+        // TODO: Format an rline of 2 imgs: comp, diff with a stats line underneath
+        // send compareReport with a formatted result line
+        let [imgName, pctDiff] = result.split(',')
+        let plat = 'electron'
+        let cpath = path.join('report', 'comp', plat, imgName+'.png')
+        let dpath = path.join('report', 'latest', plat, 'images', imgName+'-diff.png')
+        let stats = `Image ${imgName} differs ${pctDiff}% from comp`
+        rline += `<div><img class="cs" src="${cpath}"><img class="df" src="${dpath}><p class="cap">${stats}</p></div>"`
     } else {
         rline += `<span class="res">${result}</span>`
     }
