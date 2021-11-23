@@ -100,15 +100,15 @@ function startReport(title:string) {
         }
         .cs {
             display: inline;
-            width: 20%;
+            width: 35%;
         }
         .df {
             display: inline;
-            width: 20%;        
+            width: 35%;        
         }
         .im {
             padding-left: 1em;
-            font-size: larger
+            font-size: larger;
             color: red !important;
             font-weight: bold;
         }
