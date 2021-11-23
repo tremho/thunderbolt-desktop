@@ -56,10 +56,9 @@ function record(action:string, result:any) {
         let name = result.substring(result.lastIndexOf('/') + 1, result.lastIndexOf('.'))
         rline += `<div><img class="ss" src="${result}"><p class="cap">${name}</p></div>`
     } else if(action.substring(0,13) === 'compareReport') {
-        // TODO: Format an rline of 2 imgs: comp, diff with a stats line underneath
-        // send compareReport with a formatted result line
-        let [imgName, pctDiff] = result.split(',')
-        console.log('<debug>', result, imgName, pctDiff)
+        let rpt = action.substring(14)
+        let [imgName, pctDiff] = rpt.split(',')
+        console.log('<debug>', action, rpt, imgName, pctDiff)
         let plat = 'electron'
         let cpath = path.join('report', 'comp', plat, imgName+'.png')
         let dpath = path.join('report', 'latest', plat, 'images', imgName+'-diff.png')
