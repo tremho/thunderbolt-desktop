@@ -118,6 +118,7 @@ function startReport(title:string) {
             text-align: center;
             font-style: italic;
             color: gray;
+            margin-bottom: 1.5em;
         }
     </style>
     </head>
