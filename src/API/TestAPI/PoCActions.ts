@@ -69,9 +69,7 @@ function record(action:string, result:any) {
     }
     rline += '</li>'
 
-    console.log('action is "'+action+'"')
-    if(action.trim().substring(0,11) === 'reportTitle') {
-        console.log('detected report title')
+    if(action.trim().substring(0,11) === 'remoteTitle') {
         let title = action.substring(11).replace(/\+/g, ' ')
         rline = `<hr/><p class="ttl">${title}</p>`
     }
