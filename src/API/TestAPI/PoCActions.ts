@@ -1,6 +1,6 @@
 
 import * as testActions from './TestActions'
-import path from 'path'
+import os from 'os'
 
 function add(num1:number, num2:number) {
     return num1+num2
@@ -120,7 +120,6 @@ function startReport(title:string) {
             font-weight: bold;
         }
         .ttl {
-            padding-left: 1em;
             font-size: larger;
             color: darkblue;
             font-weight: bold;        
@@ -135,34 +134,20 @@ function startReport(title:string) {
     </style>
     </head>
     <body>
-`
-    startReportSection(title)
-}
-
-function startReportSection(title:string) {
-
-    // console.log('-------starting report section for '+title)
-
-    report += `
     <hr>
     <h3>${title}</h3>
+    <p class="cap">Electron (${os.platform()}) ${ddt}</p>
     <ul>        
 `
 
-}
-function endReportSection() {
-    // console.log('---- ending report section')
-    report += `
-    </ul>
-    <br/>    
-    `
 }
 
 function endReport() {
     // console.log('---- ending report')
     if(report) {
-        endReportSection()
         report += `
+    </ul>
+    <br/>    
     </body>
     </html>
 `
