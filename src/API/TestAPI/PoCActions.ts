@@ -119,6 +119,12 @@ function startReport(title:string) {
             color: red !important;
             font-weight: bold;
         }
+        .ttl {
+            padding-left: 1em;
+            font-size: larger;
+            color: darkblue;
+            font-weight: bold;        
+        }
         .cap {
             margin:auto;
             text-align: center;
