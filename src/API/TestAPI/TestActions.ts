@@ -119,26 +119,6 @@ import fs, {mkdir} from 'fs'
 
 export async function screenshot(name:string) {
     const ni = await electron.BrowserWindow.getAllWindows()[0].webContents.capturePage()
-    if(ni) {
-        // To be the same as the mobile version, we could return a base64 data url here,
-        // but this already has been written to save the file directly.
-        // the return string from this (path) does not start with 'data:' so it will not result in writing to the
-        // image file back at the test process.  If we returned a data url, it would write it there.
-        const rootPath = path.resolve('..')
-        if(fs.existsSync(path.join(rootPath, 'package.json'))) {
-
-            const rptImgPath = path.join(rootPath, 'report', 'latest', 'images')
-            fs.mkdirSync(rptImgPath, {recursive:true})
-            const imgPath = path.join(rptImgPath, name+'.png')
-            const buffer = ni.toPNG()
-            fs.writeFileSync(imgPath, buffer)
-            return imgPath
-        } else {
-            console.error('Root path not detected at ', rootPath)
-        }
-    } else {
-        console.error('screenshot failed!')
-    }
-
+    return ni && ni.toDataURL()
 }
 
