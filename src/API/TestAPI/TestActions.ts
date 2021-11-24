@@ -104,12 +104,12 @@ export async function wait(delay:number) {
 // take + record screenshot
 
 export async function time() {
-    console.log('returning current time')
+    // console.log('returning current time')
     return Date.now()
 }
 
 export async function tree() {
-    console.log('calling TestOps.tree in common')
+    // console.log('calling TestOps.tree in common')
     return await AppGateway.sendTestRequest('tree')
 }
 
