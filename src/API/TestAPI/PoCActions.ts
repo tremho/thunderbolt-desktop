@@ -68,9 +68,9 @@ function record(action:string, result:any) {
         rline += `<span class="res">${result}</span>`
     }
     rline += '</li>'
-    
-    console.log('action is ', action)
-    if(action.substring(0,11) === 'reportTitle') {
+
+    console.log('action is "'+action+'"')
+    if(action.trim().substring(0,11) === 'reportTitle') {
         console.log('detected report title')
         let title = action.substring(11).replace(/\+/g, ' ')
         rline = `<hr/><p class="ttl">${title}</p>`
