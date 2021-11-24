@@ -141,7 +141,7 @@ function startReport(title:string) {
     <body>
     <hr>
     <h3>${title}</h3>
-    <p class="tcap">Electron (${os.platform()}) ${ddt}</p>
+    <p class="tcap">Electron (${os.platform()} ${os.version()}) ${ddt}</p>
     <ul>        
 `
 
