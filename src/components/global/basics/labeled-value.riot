@@ -1,0 +1,23 @@
+
+<labeled-value>
+    <div class="LabeledValue">
+        <span class="label">{state.label}</span><span>:&nbsp;</span><span class="value">{state.value}</span>
+    </div>
+    <style>
+        :host label {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+        isAlignable: true,
+
+        onClick(e) {
+          this.cm.getApp().callEventHandler('action', e)
+        }
+
+      }, StdComp)
+      export default sc
+    </script>
+</labeled-value>
