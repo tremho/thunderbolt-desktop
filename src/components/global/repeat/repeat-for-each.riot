@@ -8,6 +8,7 @@
           let subject
           if(this.com) {
             subject = this.com.evaluateBindExpression(props.subject)
+            subject = subject.value
           }
           console.log('subject', subject)
           const slots = this.slots
@@ -16,6 +17,7 @@
             let item
             for(let c of slots) {
               item = subject[i]
+              console.log('item', item)
               console.log('c = ', c)
               let html = c.html;
               console.log('html= ', html)
