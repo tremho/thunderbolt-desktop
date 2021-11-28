@@ -7,7 +7,7 @@
           console.log('repeat-for-each mounted')
           let subject
           if(this.com) {
-            subject = this.com.evaluateBindExpression(props.subject)
+            subject = this.com.evaluateBindExpression(props.subject, true)
             subject = subject.value
           }
           console.log('subject', subject)
@@ -29,7 +29,8 @@
                   const scope = {
                     b(arg1, ...more) {
                       console.log('b called with', arg1, ...more)
-                      console.log('eval =', eval(arg1))
+                      let prop = arg1.substring(indexOf('.')+1)
+                      return item[prop]
                     }
                   }
                   console.log(a.name, a.evaluate(scope))
