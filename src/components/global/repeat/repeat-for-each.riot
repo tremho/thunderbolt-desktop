@@ -2,35 +2,10 @@
     <div>
     </div>
     <script>
-        export default {
-
-          onBeforeMount(props, state) {
-            console.log('repeat-for-each BeforeMount')
-          }
-        }
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({}, StdComp)
+      console.log('repeat-for-each', sc)
+      export default sc
     </script>
-<!--    <script>-->
-<!--      import StdComp from 'Framework/app-core/StdComp'-->
-<!--      const sc =  Object.assign({-->
-<!--        postStdOnBeforeMount(props,state) {-->
-<!--          console.log('repeat-for-each postStdOnBeforeMount')-->
-<!--          if(this.com) {-->
-<!--            let d = this.get('subject')-->
-<!--            d = d.replace(/@@/g, '$%AT%$')-->
-<!--            let {directive, value} = this.evaluateBindExpression(d)-->
-<!--            value = value.replace(/\$%AT%\$/g, '@')-->
-<!--            console.log('subject parsed as ', directive, value)-->
-<!--          }-->
-<!--        },-->
-<!--        newSelection(index) {-->
-<!--          for(const item of this.state.items) {-->
-<!--            item.selected = item.index === index-->
-<!--            item.itemClass = item.selected ? 'selected' : 'normal'-->
-<!--          }-->
-<!--          this.update()-->
-<!--        }-->
-<!--      }, StdComp)-->
-<!--      export default sc-->
-<!--    </script>-->
 
 </repeat-for-each>
