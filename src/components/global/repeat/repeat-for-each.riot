@@ -16,7 +16,12 @@
               for(let bc of bindings) {
                 console.log(bc)
                 for(let a of bc.attributes) {
-                  console.log(a.name, bc.getComponent(a.name))
+                  const scope = {
+                    b(arg1, ...more) {
+                      console.log('b called with', arg1, ...more)
+                    }
+                  }
+                  console.log(a.name, a.evaluate(scope))
                 }
               }
             }
