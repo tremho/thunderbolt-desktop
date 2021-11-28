@@ -3,9 +3,17 @@
     </div>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
-      const sc =  Object.assign({}, StdComp)
-      sc.onBeforeMount = () => {console.log('repeat-for-each onBeforeMount')}
-      sc.onMounted = () => {console.log('repeat-for-each onMounted')}
+      const sc =  Object.assign({
+        preStdOnBeforeMount(props, state) {
+          console.log('repeat-for-each preStdOnBeforeMount')
+        },
+        postStdOnBeforeMount(props, state) {
+          console.log('repeat-for-each postStdOnBeforeMount')
+        },
+        preStdOnMounted(props, state) {
+          console.log('repeat-for-each preStdOnMounted')
+        }
+      }, StdComp)
       export default sc
     </script>
 
