@@ -7,7 +7,7 @@
           console.log('repeat-for-each mounted')
           let subject
           if(this.com) {
-            subject = this.com.evaluateBindExpression(this.subject)
+            subject = this.com.evaluateBindExpression(props.subject)
           }
           console.log('subject', subject)
           const slots = this.slots
