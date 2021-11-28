@@ -1,8 +1,11 @@
 <repeat-for-each>
+    <div>
+    </div>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         postStdOnBeforeMount(props,state) {
+          console.log('repeat-for-each postStdOnBeforeMount')
           if(this.com) {
             let d = this.get('subject')
             d = d.replace(/@@/g, '$%AT%$')
