@@ -5,9 +5,17 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           console.log('repeat-for-each mounted')
+          let subject:any
+          if(this.com) {
+            subject = this.com.evaluateBindExpression(this.subject)
+          }
+          console.log('subject', subject)
           const slots = this.slots
           if(slots) {
+            let i = 0;
+            let item:any;
             for(let c of slots) {
+              item = subject[i]
               console.log('c = ', c)
               let html = c.html;
               console.log('html= ', html)
@@ -19,6 +27,7 @@
                   const scope = {
                     b(arg1, ...more) {
                       console.log('b called with', arg1, ...more)
+                      console.log('eval =', eval(arg1))
                     }
                   }
                   console.log(a.name, a.evaluate(scope))
