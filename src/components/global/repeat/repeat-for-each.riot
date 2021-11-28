@@ -4,7 +4,8 @@
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({}, StdComp)
-      console.log('repeat-for-each', sc)
+      sc.onBeforeMount = () => {console.log('repeat-for-each onBeforeMount')}
+      sc.onMounted = () => {console.log('repeat-for-each onMounted')}
       export default sc
     </script>
 
