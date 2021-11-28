@@ -2,14 +2,18 @@
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
-        preStdOnBeforeMount(props, state) {
-          console.log('repeat-for-each preStdOnBeforeMount')
-        },
-        postStdOnBeforeMount(props, state) {
-          console.log('repeat-for-each postStdOnBeforeMount')
-        },
         preStdOnMounted(props, state) {
-          console.log('repeat-for-each preStdOnMounted')
+          console.log('repeat-for-each mounted')
+          const slots = this.slots
+          if(slots) {
+            for(let c of slots) {
+              console.log('c = ', c)
+              let html = c.html;
+              console.log('html= ', html)
+              let bindings = c.bindings
+              console.log('bindings=', bindings)
+            }
+          }
         }
       }, StdComp)
       export default sc
