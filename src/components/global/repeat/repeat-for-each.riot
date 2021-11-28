@@ -5,7 +5,7 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           console.log('repeat-for-each mounted')
-          let subject:any
+          let subject
           if(this.com) {
             subject = this.com.evaluateBindExpression(this.subject)
           }
@@ -13,7 +13,7 @@
           const slots = this.slots
           if(slots) {
             let i = 0;
-            let item:any;
+            let item
             for(let c of slots) {
               item = subject[i]
               console.log('c = ', c)
