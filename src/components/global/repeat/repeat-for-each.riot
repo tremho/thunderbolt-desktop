@@ -1,5 +1,5 @@
 <repeat-for-each>
-    <slot/>
+    <div/>
     <script>
       const riot = require('riot')
       import StdComp from 'Framework/app-core/StdComp'
@@ -34,7 +34,8 @@
                 let cc = document.createElement(cname)
                 let m = riot.mount(cc, cprops)
                 console.log(m)
-                this.root.addChild(cc)
+                let cont = this.elementFind('div')
+                cont.addChild(cc)
               }
             }
           }
