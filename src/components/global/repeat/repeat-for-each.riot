@@ -2,6 +2,7 @@
     <slot/>
     <script>
       import riot from 'riot'
+      const iRiot = riot__WEBPACK_IMPORTED_MODULE_1__
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
@@ -32,7 +33,7 @@
                 }
                 console.log('creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
-                let m = riot.mount(cc, cprops)
+                let m = iRiot.mount(cc, cprops)
                 console.log(m)
                 this.root.addChild(cc)
               }
