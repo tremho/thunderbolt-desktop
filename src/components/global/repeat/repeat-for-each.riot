@@ -29,8 +29,7 @@
                   const scope = {
                     b(arg1, ...more) {
                       console.log('b called with', arg1, ...more)
-                      let prop = arg1.substring(indexOf('.')+1)
-                      return item[prop]
+                      return eval(arg1)
                     }
                   }
                   console.log(a.name, a.evaluate(scope))
