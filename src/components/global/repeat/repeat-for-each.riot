@@ -21,7 +21,6 @@
               let bindings = c.bindings
               let g = '<'+cname+' '
               for(let bc of bindings) {
-                console.log(bc)
                 for(let a of bc.attributes) {
                   const scope = {
                     b(arg1, ...more) {
@@ -29,8 +28,9 @@
                       return eval(arg1)
                     }
                   }
-                  g += `${a.name}="${a.evaluate(scope)}" />`
+                  g += `${a.name}="${a.evaluate(scope)}" `
                 }
+                g += '\n'
               }
               console.log(g)
             }
