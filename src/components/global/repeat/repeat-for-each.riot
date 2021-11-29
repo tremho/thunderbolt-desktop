@@ -17,12 +17,9 @@
             let item
             for(let c of slots) {
               item = subject[i]
-              console.log('item', item)
-              console.log('c = ', c)
-              let html = c.html;
-              console.log('html= ', html)
+              let cname = c.html.substring(1, indexOf(' '))
               let bindings = c.bindings
-              console.log('bindings=', bindings)
+              let g = '<'+cname+' '
               for(let bc of bindings) {
                 console.log(bc)
                 for(let a of bc.attributes) {
@@ -32,9 +29,10 @@
                       return eval(arg1)
                     }
                   }
-                  console.log(a.name, a.evaluate(scope))
+                  g += `${a.name}="${a.evaluate(scope)}" />`
                 }
               }
+              console.log(g)
             }
           }
         }
