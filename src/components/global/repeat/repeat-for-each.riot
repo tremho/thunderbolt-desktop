@@ -7,7 +7,8 @@
           console.log('repeat-for-each mounted')
           let subject
           if(this.com) {
-            subject = this.com.evaluateBindExpression(props.subject) //, true)
+            let pure = false
+            subject = this.com.evaluateBindExpression(props.subject, pure)
             subject = subject.value
           }
           console.log('subject', subject)
