@@ -21,9 +21,8 @@
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
                     const scope = {
-                      b (arg1, ...more) {
-                        console.log('b called with', arg1, ...more)
-                        return eval(arg1)
+                      b (arg) {
+                        return eval(arg)
                       }
                     }
                     g += `${a.name}="${a.evaluate(scope)}" `
