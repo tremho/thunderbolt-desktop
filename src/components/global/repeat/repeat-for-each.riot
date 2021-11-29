@@ -13,26 +13,25 @@
           console.log('subject', subject)
           const slots = this.slots
           if(slots) {
-            let i = -1;
-            let item
-            for(let c of slots) {
-              item = subject[++i]
-              let cname = c.html.substring(1, c.html.indexOf(' '))
-              let bindings = c.bindings
-              let g = '<'+cname+' '
-              for(let bc of bindings) {
-                for(let a of bc.attributes) {
-                  const scope = {
-                    b(arg1, ...more) {
-                      console.log('b called with', arg1, ...more)
-                      return eval(arg1)
+            for (let item of subject) {
+              for (let c of slots) {
+                let cname = c.html.substring(1, c.html.indexOf(' '))
+                let bindings = c.bindings
+                let g = '<' + cname + ' '
+                for (let bc of bindings) {
+                  for (let a of bc.attributes) {
+                    const scope = {
+                      b (arg1, ...more) {
+                        console.log('b called with', arg1, ...more)
+                        return eval(arg1)
+                      }
                     }
+                    g += `${a.name}="${a.evaluate(scope)}" `
                   }
-                  g += `${a.name}="${a.evaluate(scope)}" `
+                  g += '/>\n'
                 }
-                g += '\n'
+                console.log(g)
               }
-              console.log(g)
             }
           }
         }
