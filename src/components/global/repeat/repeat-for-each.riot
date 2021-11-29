@@ -33,6 +33,7 @@
                 console.log('creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let m = riot.mount(cc, cprops)
+                console.log(m)
                 this.root.addChild(cc)
               }
             }
