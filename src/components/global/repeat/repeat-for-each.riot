@@ -5,13 +5,11 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          console.log('repeat-for-each mounted')
           let subject
           if(this.com) {
             subject = this.com.evaluateBindExpression(props.subject, true)
             subject = subject.value
           }
-          console.log('subject', subject)
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
@@ -26,16 +24,13 @@
                         return eval(arg)
                       }
                     }
-                    // todo: add to cprops
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
-                console.log('creating cc from ', cname, cprops)
+                // console.log('creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
-                let m = riot.mount(cc, cprops)
-                console.log(m)
-                let cont = this.elementFind('div')
-                cont.appendChild(cc)
+                riot.mount(cc, cprops)
+                this.root.appendChild(cc)
               }
             }
           }
