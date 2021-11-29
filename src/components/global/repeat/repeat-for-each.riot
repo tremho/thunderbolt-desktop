@@ -25,10 +25,14 @@
                         return eval(arg)
                       }
                     }
+                    // todo: add to cprops
                     g += `${a.name}="${a.evaluate(scope)}" `
                   }
                   g += '/>\n'
                 }
+                // TODO: make named component with cprops
+                let cc = document.createElement(cname)
+                console.log('cc = ',cc)
                 console.log(g)
               }
             }
