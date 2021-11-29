@@ -12,33 +12,33 @@
             subject = subject.value
           }
           console.log('subject', subject)
-        //   const slots = this.slots
-        //   if(slots) {
-        //     let i = 0;
-        //     let item
-        //     for(let c of slots) {
-        //       item = subject[i]
-        //       console.log('item', item)
-        //       console.log('c = ', c)
-        //       let html = c.html;
-        //       console.log('html= ', html)
-        //       let bindings = c.bindings
-        //       console.log('bindings=', bindings)
-        //       for(let bc of bindings) {
-        //         console.log(bc)
-        //         for(let a of bc.attributes) {
-        //           const scope = {
-        //             b(arg1, ...more) {
-        //               console.log('b called with', arg1, ...more)
-        //               let prop = arg1.substring(indexOf('.')+1)
-        //               return item[prop]
-        //             }
-        //           }
-        //           console.log(a.name, a.evaluate(scope))
-        //         }
-        //       }
-        //     }
-        //   }
+          const slots = this.slots
+          if(slots) {
+            let i = 0;
+            let item
+            for(let c of slots) {
+              item = subject[i]
+              console.log('item', item)
+              console.log('c = ', c)
+              let html = c.html;
+              console.log('html= ', html)
+              let bindings = c.bindings
+              console.log('bindings=', bindings)
+              for(let bc of bindings) {
+                console.log(bc)
+                for(let a of bc.attributes) {
+                  const scope = {
+                    b(arg1, ...more) {
+                      console.log('b called with', arg1, ...more)
+                      let prop = arg1.substring(indexOf('.')+1)
+                      return item[prop]
+                    }
+                  }
+                  console.log(a.name, a.evaluate(scope))
+                }
+              }
+            }
+          }
         }
       }, StdComp)
       export default sc
