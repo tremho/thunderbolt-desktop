@@ -1,6 +1,7 @@
 <repeat-for-each>
     <slot/>
     <script>
+      import riot from 'riot'
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
@@ -16,8 +17,8 @@
             for (let item of subject) {
               for (let c of slots) {
                 let cname = c.html.substring(1, c.html.indexOf(' '))
+                let cprops = {}
                 let bindings = c.bindings
-                let g = '<' + cname + ' '
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
                     const scope = {
@@ -26,14 +27,13 @@
                       }
                     }
                     // todo: add to cprops
-                    g += `${a.name}="${a.evaluate(scope)}" `
+                    cprops[a.name] = a.evaluate(scope)
                   }
-                  g += '/>\n'
                 }
-                // TODO: make named component with cprops
+                console.log('creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
-                console.log('cc = ',cc)
-                console.log(g)
+                let m = riot.mount(cc, cprops)
+                this.root.addChild(cc)
               }
             }
           }
