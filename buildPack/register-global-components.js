@@ -2,7 +2,7 @@
 import { register } from 'riot'
 
 const frameworkComponentsContext = require.context('FrameworkComponents', true, /[a-zA-Z0-9-]+\.riot/)
-const appPagesContext = require.context('Generated/Pages', true, /[a-zA-Z0-9-]+\.riot/)
+const appPagesContext = require.context('Generated/pages', true, /[a-zA-Z0-9-]+\.riot/)
 let appComponentsContext
 try {
   appComponentsContext = require.context('Generated/components', true, /[a-zA-Z0-9-]+\.riot/)
