@@ -202,22 +202,15 @@ function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
 /**
  * When all items have been added to menu template, this
  * realizes it into the menu bar
+ *
+ * Note: Node will issue a warning about more then 10 listeners with scary references to a memory leak.
+ * This can be ignored; it is just a warning about what might otherwise be a clue to uncleared listeners.
+ * We can't mitigate this without access to the Emitter object used by Electron, so I think we are out of luck there.
+ * It's just a warning; deal with it in documentation (not happy)
  */
 export function setToMenuBar(menuName:string) {
     // @ts-ignore
     const menu = menus[menuName]
     Menu.setApplicationMenu(menu)
-
-    mitigation()
 }
 
-import {getEventListeners, EventEmitter} from "events";
-
-function mitigation() {
-    console.log('++ just set a menu')
-    const et = new EventTarget()
-    const listeners = getEventListeners(et, 'addMenuItem');
-    for(let lst of listeners) {
-        console.log(lst)
-    }
-}
