@@ -30,6 +30,7 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
     try {
         // @ts-ignore
         if (!menus[menuName]) {
+            console.log('>> creating new empty menu named ', menuName)
             // @ts-ignore
             menus[menuName] = Menu.buildFromTemplate([]) // create a new menu of this name
         }
@@ -203,6 +204,7 @@ function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
  * realizes it into the menu bar
  */
 export function setToMenuBar(menuName:string) {
+    console.log('>> setting menu to bar ', menuName)
     // @ts-ignore
     const menu = menus[menuName]
     Menu.setApplicationMenu(menu)
