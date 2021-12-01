@@ -43,9 +43,9 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
             } else {
                 curMenu.insert(position, emi)
             }
-        } else {
-            setToMenuBar(menuName)
         }
+        setToMenuBar(menuName)
+
     } catch(e) {
         console.error("Unable to create menu bar menu "+menuName, e)
     }
@@ -207,4 +207,6 @@ export function setToMenuBar(menuName:string) {
     // @ts-ignore
     const menu = menus[menuName]
     Menu.setApplicationMenu(menu)
+    
+    console.log('++ just set a menu')
 }
