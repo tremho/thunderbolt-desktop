@@ -208,13 +208,13 @@ export function setToMenuBar(menuName:string) {
     const menu = menus[menuName]
     Menu.setApplicationMenu(menu)
 
-    console.log('++ just set a menu')
     mitigation()
 }
 
 import {getEventListeners, EventEmitter} from "events";
 
 function mitigation() {
+    console.log('++ just set a menu')
     const ee = new EventEmitter()
     const listeners = getEventListeners(ee, 'addMenuItem');
     for(let lst of listeners) {
