@@ -216,7 +216,7 @@ import {getEventListeners, EventEmitter} from "events";
 
 function mitigation() {
     const ee = new EventEmitter()
-    const listeners = getEventListeners(ee, 'foo');
+    const listeners = getEventListeners(ee, 'addMenuItem');
     for(let lst of listeners) {
         console.log(lst)
     }
