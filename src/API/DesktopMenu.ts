@@ -207,5 +207,6 @@ export function setToMenuBar(menuName:string) {
     console.log('>> setting menu to bar ', menuName)
     // @ts-ignore
     const menu = menus[menuName]
+    process.setMaxListeners(0)
     Menu.setApplicationMenu(menu)
 }
