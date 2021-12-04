@@ -100,7 +100,7 @@ export class AppGateway {
             const ex = `callTestRequest("${request}", ${tparams})`
             console.log('execute', ex)
             BrowserWindow.getAllWindows()[0].webContents.executeJavaScript(ex).then(rv => {
-                // console.log('then resolution of BrowserWindow call results in ', typeof rv, rv)
+                console.log('>> then resolution of BrowserWindow call results in ', typeof rv, rv)
                 resolve(rv)
             })
         })
