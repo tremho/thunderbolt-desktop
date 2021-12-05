@@ -11,7 +11,7 @@
             }
           }
           if(this.com) {
-            Object.hasOwnProperty(props).forEach(p => {
+            Object.getOwnPropertyNames(props).forEach(p => {
               try {
                 scope[p] = this.com.evaluateBindExpression(props.subject, true).value
               } catch(e) {}
