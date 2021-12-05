@@ -6,12 +6,17 @@
         preStdOnMounted(props, state) {
           let subject
           if(this.com) {
+            console.log(">> repeat-for-each evaluating ", props.subject)
             subject = this.com.evaluateBindExpression(props.subject, true)
+            console.log(">>> intermediate ", subject)
             subject = subject.value
+            console.log(">>> result subject ", subject)
+
           }
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
+              console.log(">>> item", item)
               for (let c of slots) {
                 let cname = c.html.substring(1, c.html.indexOf(' '))
                 let cprops = {}
@@ -26,7 +31,7 @@
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
-                // console.log('creating cc from ', cname, cprops)
+                console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 riot.mount(cc, cprops)
                 this.root.appendChild(cc)
