@@ -5,10 +5,18 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           let subject
+          const scope = {
+            b (arg) {
+              return eval(arg)
+            }
+          }
           if(this.com) {
-            subject = this.com.evaluateBindExpression(props.subject, true)
-            subject = subject.value
-
+            Object.hasOwnProperty(props).forEach(p => {
+              try {
+                scope[p] = this.com.evaluateBindExpression(props.subject, true).value
+              } catch(e) {}
+            })
+            subject = scope.subject
           }
           const slots = this.slots
           if(slots) {
@@ -19,11 +27,6 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
-                    const scope = {
-                      b (arg) {
-                        return eval(arg)
-                      }
-                    }
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
