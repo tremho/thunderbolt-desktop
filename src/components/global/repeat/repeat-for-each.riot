@@ -27,8 +27,8 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
-                    scope.item = item
-                    cprops[a.name] = a.evaluate(scope)
+                    const closure = Object.assign([item], scope)
+                    cprops[a.name] = a.evaluate(closure)
                   }
                 }
                 console.log('>>> creating cc from ', cname, cprops)
