@@ -27,12 +27,7 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
-                    const closure = {
-                      b (arg) {
-                        return eval(arg)
-                      }
-                    }
-                    cprops[a.name] = a.evaluate(closure)
+                    cprops[a.name] = a.evaluate(scope)
                   }
                 }
                 console.log('>>> creating cc from ', cname, cprops)
