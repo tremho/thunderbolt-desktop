@@ -27,6 +27,7 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
+                    scope.item = item
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
