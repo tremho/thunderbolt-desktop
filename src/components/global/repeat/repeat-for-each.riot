@@ -27,7 +27,11 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
-                    const closure = Object.assign([item], scope)
+                    const closure = {
+                      b (arg) {
+                        return eval(arg)
+                      }
+                    }
                     cprops[a.name] = a.evaluate(closure)
                   }
                 }
