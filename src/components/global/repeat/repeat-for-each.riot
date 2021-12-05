@@ -13,7 +13,7 @@
           if(this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
               try {
-                scope[p] = this.com.evaluateBindExpression(props[p], true).value
+                scope[p] = this.com.evaluateBindExpression(props[p], false).value
               } catch(e) {}
             })
             subject = scope.subject
