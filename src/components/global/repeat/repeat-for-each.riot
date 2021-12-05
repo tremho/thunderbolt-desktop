@@ -7,7 +7,9 @@
           let subject
           const scope = {
             b (arg) {
-              return eval(arg)
+              let rt;
+              try { eval(arg) }catch(e) { rt = e.toString() }
+              return rt
             }
           }
           if(this.com) {
