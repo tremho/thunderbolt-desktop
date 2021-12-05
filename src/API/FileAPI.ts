@@ -30,6 +30,14 @@ export function readFileText(pathName:string):string {
         throw e
     }
 }
+export function readFileJson(pathName:string):string {
+    let out:string = readFileText(pathName)
+    try {
+         out = JSON.parse(out)
+    } catch(e:any) {}
+    return out
+}
+
 export function fileExists(pathName:string):boolean {
     return fs.existsSync(pathName)
 }
