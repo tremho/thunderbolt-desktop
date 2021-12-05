@@ -29,7 +29,13 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
-                    scope.item = item
+                    const scope = {
+                      b (arg) {
+                        let rt;
+                        try { eval(arg) }catch(e) { rt = e.toString() }
+                        return rt
+                      }
+                    }
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
