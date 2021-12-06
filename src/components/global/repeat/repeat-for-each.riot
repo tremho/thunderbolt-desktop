@@ -30,6 +30,7 @@
                       b (arg) {
                         let rt;
                         try { rt = cm.evalInnerExpression(arg) } catch(e) { rt = e.toString() }
+                        try { rt = eval(rt) } catch(e) { rt = 'eval:' + e.toString() }
                         return rt
                       }
                     }
