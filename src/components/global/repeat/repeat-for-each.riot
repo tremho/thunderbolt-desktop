@@ -5,20 +5,16 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           let subject
-          const scope = {
-            b (arg) {
-              let rt;
-              try { eval(arg) }catch(e) { rt = e.toString() }
-              return rt
-            }
+          const vars = {
           }
           if(this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
               try {
-                scope[p] = this.com.evaluateBindExpression(props[p], true).value
+                vars[p] = this.com.evaluateBindExpression(props[p], true).value
               } catch(e) {}
             })
-            subject = scope.subject
+            subject = vars.subject
+            delete vars.subject
           }
           const slots = this.slots
           if(slots) {
@@ -32,7 +28,7 @@
                     const scope = {
                       b (arg) {
                         let rt;
-                        try { eval(arg) }catch(e) { rt = e.toString() }
+                        try { rt = cm.evalInnerExpression(arg) } catch(e) { rt = e.toString() }
                         return rt
                       }
                     }
