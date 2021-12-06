@@ -25,8 +25,8 @@
                 let bindings = c.bindings
                 for (let bc of bindings) {
                   for (let a of bc.attributes) {
+                    let cm = this.cm;
                     const scope = {
-                      cm: this.cm,
                       b (arg) {
                         let rt;
                         try { rt = cm.evalInnerExpression(arg) } catch(e) { rt = e.toString() }
