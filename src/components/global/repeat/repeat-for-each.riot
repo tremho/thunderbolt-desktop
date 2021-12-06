@@ -28,9 +28,10 @@
                     let cm = this.cm;
                     const scope = {
                       b (arg) {
+                        let ok= true;
                         let rt;
-                        try { rt = cm.evalInnerExpression(arg) } catch(e) { rt = e.toString() }
-                        try { rt = eval(rt) } catch(e) { rt = 'eval:' + e.toString()+", "+rt }
+                        try { rt = cm.evalInnerExpression(arg) } catch(e) { rt = e.toString(); ok = false; console.error(e) }
+                        if(ok) try { rt = eval(rt) } catch(e) { rt = 'eval:' + e.toString()+", "+rt; console.error('eval',e)}
                         return rt
                       }
                     }
