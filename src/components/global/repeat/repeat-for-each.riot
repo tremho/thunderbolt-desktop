@@ -3,7 +3,7 @@
       const riot = require('riot')
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
-        preStdOnMounted(props, state) {
+        preStdOnUpdate(props, state) {
           const vars = {}
           if (this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
@@ -14,12 +14,12 @@
             })
           }
           this.render(vars)
-          this.com.model.bind(this.riot, 'planet', 'fact', (name, value, updateAlways) => {
-            console.warn('fact binding fires ', name, value, updateAlways)
-            console.log('remounting...')
-            riot.unmount(this.root)
-            riot.mount(this.root, props)
-          })
+          // this.com.model.bind(this.riot, 'planet', 'fact', (name, value, updateAlways) => {
+          //   console.warn('fact binding fires ', name, value, updateAlways)
+          //   console.log('remounting...')
+          //   riot.unmount(this.root)
+          //   riot.mount(this.root, props)
+          // })
         },
         render(vars) {
           const subject = vars.subject
