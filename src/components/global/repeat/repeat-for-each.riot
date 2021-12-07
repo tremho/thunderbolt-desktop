@@ -41,7 +41,13 @@
                 }
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
-                riot.mount(cc, cprops)
+                let cmp = riot.mount(cc, cprops)
+                console.log('slot comp ', cmp)
+                if(cmp.com) {
+                  console.log(' -- it has a com')
+                  cmp.com.bindComponent2(vars)
+                  console.log(' -- and we bound the comp to ', vars)
+                }
                 this.root.appendChild(cc)
               }
             }
