@@ -4,7 +4,6 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          let subject
           const vars = {}
           if (this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
@@ -13,10 +12,8 @@
                 this.com.bindComponent2(props)
               } catch (e) {}
             })
-            subject = vars.subject
-            delete vars.subject
           }
-          this.render(subject)
+          this.render(vars)
           this.com.model.bind(this.riot, 'planet', 'fact', () => {
             console.warn('fact binding fires ', name, value, updateAlways)
             // this isn't firing.
@@ -25,7 +22,9 @@
             // after this.unmount().
           })
         },
-        render(subject) {
+        render(vars) {
+          const subject = vars.subject
+          delete vars.subject
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
