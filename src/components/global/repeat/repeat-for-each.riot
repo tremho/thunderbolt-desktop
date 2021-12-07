@@ -17,12 +17,12 @@
             delete vars.subject
           }
           this.render()
-          this.comBinder.applyComponentBindings(this.riot, '@planet.fact', (name, value, updateAlways) => {
-                console.warn('fact binding fires ', name, value, updateAlways)
-                // this isn't firing.
-                // unmount and remount?
-                // we would do that by getting our element (this.riot.root) and riot.mount(el, props)
-                // after this.unmount().
+          this.com.model.bind(this.riot, 'planet', 'fact', () => {
+            console.warn('fact binding fires ', name, value, updateAlways)
+            // this isn't firing.
+            // unmount and remount?
+            // we would do that by getting our element (this.riot.root) and riot.mount(el, props)
+            // after this.unmount().
           })
         },
         render() {
