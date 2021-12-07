@@ -5,8 +5,8 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           this.render(props)
-          this.com.model.bind(this.riot, 'planet', 'fact', (name, value, updateAlways) => {
-            console.warn('fact binding fires ', name, value, updateAlways)
+          this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
+            console.warn('fact binding fires ', comp, prop, value, old)
             this.render(props)
           })
         },
