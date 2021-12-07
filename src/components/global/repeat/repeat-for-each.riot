@@ -41,7 +41,7 @@
                 }
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
-                let cmp = riot.mount(cc, cprops)
+                let cmp = riot.mount(cc, cprops)[0]
                 console.log('slot comp ', cmp)
                 if(cmp.com) {
                   console.log(' -- it has a com')
