@@ -16,7 +16,7 @@
           this.render(vars)
           this.com.model.bind(this.riot, 'planet', 'fact', (name, value, updateAlways) => {
             console.warn('fact binding fires ', name, value, updateAlways)
-            render(vars)
+            this.render(vars)
           })
         },
         render(vars) {
