@@ -16,7 +16,7 @@
             subject = vars.subject
             delete vars.subject
           }
-          this.render()
+          this.render(subject)
           this.com.model.bind(this.riot, 'planet', 'fact', () => {
             console.warn('fact binding fires ', name, value, updateAlways)
             // this isn't firing.
@@ -25,7 +25,7 @@
             // after this.unmount().
           })
         },
-        render() {
+        render(subject) {
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
