@@ -14,10 +14,8 @@
 
           })
         },
-        preStdOnUpdated() {
-        },
         render(props) {
-          console.log('RENDERING --- ')
+          // console.log('RENDERING --- ')
           const vars = {}
           if (this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
@@ -52,7 +50,7 @@
                     cprops[a.name] = a.evaluate(scope)
                   }
                 }
-                console.log('>>> creating cc from ', cname, cprops)
+                // console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
                 this.root.appendChild(cc)
