@@ -45,8 +45,8 @@
                 console.log('slot comp ', cmp)
                 if(cmp.com) {
                   console.log(' -- it has a com')
-                  cmp.com.bindComponent2(props) 
-                  console.log(' -- and we bound the comp to ', vars)
+                  cmp.com.bindComponent2(cprops)
+                  console.log(' -- and we bound the comp to ', cprops)
                 }
                 this.root.appendChild(cc)
               }
