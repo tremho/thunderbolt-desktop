@@ -16,14 +16,11 @@
           this.render(vars)
           this.com.model.bind(this.riot, 'planet', 'fact', (name, value, updateAlways) => {
             console.warn('fact binding fires ', name, value, updateAlways)
-            console.log('remounting...')
-            riot.unmount(this.root)
-            // riot.mount(this.root, props)
+            render(vars)
           })
         },
         render(vars) {
           const subject = vars.subject
-          delete vars.subject
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
