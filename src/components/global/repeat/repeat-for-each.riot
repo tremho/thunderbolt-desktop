@@ -20,6 +20,11 @@
               } catch (e) {}
             })
           }
+          // clear all children
+          while(this.root.firstElementChild) {
+            document.removeChild(this.root.firstElementChild)
+          }
+          // this.root.innerHTML = '';
           const subject = vars.subject
           const slots = this.slots
           if(slots) {
