@@ -7,15 +7,14 @@
           this.render(props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
             console.warn('fact binding fires ', comp, prop, value, old)
-            if(!this._rendering) {
-              this._rendering = true
-              this.render(props)
-            }
+            clearTimeout(this._once)
+            this._once = setTimeout(() => {
+                this.render(props)
+            }, 100)
 
           })
         },
         preStdOnUpdated() {
-            this._rendering = false
         },
         render(props) {
           console.log('RENDERING --- ')
