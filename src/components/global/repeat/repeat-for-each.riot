@@ -7,10 +7,18 @@
           this.render(props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
             console.warn('fact binding fires ', comp, prop, value, old)
-            this.render(props)
+            if(!this._rendering) {
+              this._rendering = true
+              this.render(props)
+            }
+
           })
         },
+        preStdOnUpdated() {
+            this._rendering = false
+        },
         render(props) {
+          console.log('RENDERING --- ')
           const vars = {}
           if (this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
