@@ -5,18 +5,23 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           let subject
-          const vars = {
-          }
-          if(this.com) {
+          const vars = {}
+          if (this.com) {
             Object.getOwnPropertyNames(props).forEach(p => {
               try {
                 vars[p] = this.com.evaluateBindExpression(props[p], true).value
                 this.com.bindComponent2(props)
-              } catch(e) {}
+              } catch (e) {}
             })
             subject = vars.subject
             delete vars.subject
           }
+          this.render()
+          this.comBinder.applyComponentBindings(this.riot, '@planet.fact', (...args) => {
+              console.log('fact binding fires ', ...args)
+          })
+        },
+        render() {
           const slots = this.slots
           if(slots) {
             for (let item of subject) {
@@ -42,12 +47,6 @@
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
-                console.log('slot comp ', cmp)
-                if(cmp.com) {
-                  console.log(' -- it has a com')
-                  cmp.com.bindComponent2(cprops)
-                  console.log(' -- and we bound the comp to ', cprops)
-                }
                 this.root.appendChild(cc)
               }
             }
