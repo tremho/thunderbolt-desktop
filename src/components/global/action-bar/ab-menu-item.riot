@@ -16,7 +16,7 @@
                  height="{(props.iconSize && (props.iconSize[1] ||props.iconSize[0])) || 16 }"
             />
         </span>
-        {props.label}
+        {props.label.replace(/&/g, '')}
         </span>
     </p>
     <!-- submenu -->
