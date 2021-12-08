@@ -16,14 +16,14 @@
                  height="{(props.iconSize && (props.iconSize[1] ||props.iconSize[0])) || 16 }"
             />
         </span>
-        {props.label.replace(/&/g, '')}
+        {props.label.replace(/&&/g, '%+%').replace(/&/g, '').replace('%+%', '&')}
         </span>
     </p>
     <!-- submenu -->
     <p if="{props.children}"
        onclick="{openSubmenu}" class="{props.disabled?'disabled':''}" onmouseleave="{closeSubmenu}"
     >
-        {props.label} &#x25b8;
+        {props.label.replace(/&&/g, '%+%').replace(/&/g, '').replace('%+%', '&')} &#x25b8;
     </p>
 
     <!-- separator -->
