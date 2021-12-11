@@ -43,13 +43,14 @@
           // console.log(this.root.tagName, 'onBeforeMount', props, state, this.bound)
           // get the app (model) toolbar buttons and indicators
           try {
-            if(!props.toolbarId) props.toolbarId = 'main' // TO REFLECT "ONLY ONE" Change December '21
-            if(!props.indicatoresId) props.indicatorsId= 'main' // TO REFLECT "ONLY ONE" Change December '21
+            // TO REFLECT "ONLY ONE" Change December '21
+            let tbid = props.toolbarId || 'main'
+            let idid = props.indicatorsId || 'main'
 
-            state.tools = cm.getApp().model.getAtPath('toolbar.' + props.toolbarId)
-            console.log('>state.tools populated from toolbar.'+props.toolbarId+' = ', state.tools)
-            state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
-            console.log('>state.indicators populated from indicators.'+props.indicatorsId+' = ', state.indicators)
+            state.tools = cm.getApp().model.getAtPath('toolbar.' + tbid)
+            console.log('>state.tools populated from toolbar.'+tbid+' = ', state.tools)
+            state.indicators = cm.getApp().model.getAtPath('indicators.' + idid)
+            console.log('>state.indicators populated from indicators.'+idid+' = ', state.indicators)
           } catch(e) {
             console.error('@>toolbar & indicators populate:',e)
           }
