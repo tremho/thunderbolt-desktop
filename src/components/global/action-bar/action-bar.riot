@@ -43,6 +43,9 @@
           // console.log(this.root.tagName, 'onBeforeMount', props, state, this.bound)
           // get the app (model) toolbar buttons and indicators
           try {
+            if(!props.toolbarId) props.toolbarId = 'main' // TO REFLECT "ONLY ONE" Change December '21
+            if(!props.indicatoresId) props.indicatorsId= 'main' // TO REFLECT "ONLY ONE" Change December '21
+
             state.tools = cm.getApp().model.getAtPath('toolbar.' + props.toolbarId)
             console.log('>state.tools populated from toolbar.'+props.toolbarId+' = ', state.tools)
             state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
