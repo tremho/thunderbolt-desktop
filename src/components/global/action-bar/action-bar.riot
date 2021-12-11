@@ -5,7 +5,7 @@
         <ab-backbutton if="{!props.noBack}"/>
         <p if="{props.noBack}"/>
         <action-toolbar>
-             <ab-toolbutton each="{item in bound.tools}"
+             <ab-toolbutton each="{item in state.tools}"
                             label="{item.label}"
                             id="{item.id}"
                             state="{item.state}"
@@ -44,7 +44,9 @@
           // get the app (model) toolbar buttons and indicators
           try {
             state.tools = cm.getApp().model.getAtPath('toolbar.' + props.toolbarId)
+            console.log('>state.tools populated from toolbar.'+props.toolbarId+' = ', state.tools)
             state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
+            console.log('>state.indicators populated from indicators.'+props.indicatorsId+' = ', state.indicators)
           } catch(e) {
             // console.error(e)
           }
