@@ -51,7 +51,7 @@
             state.indicators = cm.getApp().model.getAtPath('indicators.' + props.indicatorsId)
             console.log('>state.indicators populated from indicators.'+props.indicatorsId+' = ', state.indicators)
           } catch(e) {
-            // console.error(e)
+            console.error('@>toolbar & indicators populate:',e)
           }
         },
         onMounted (props, state) {
