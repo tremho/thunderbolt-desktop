@@ -14,90 +14,90 @@
       console.log('>ab-toolbutton import trace 2')
       let cm;
       export default {
-        onBeforeMount(props, state) {
+        onBeforeMount (props, state) {
           console.log('>ab-toolbutton onBeforeMount ')
           cm = newCommon(this)
           this.bound = Object.assign({}, props)
           delete this.bound.icons
           state.state = props.state
           // apply type
-          if(props.type) {
+          if (props.type) {
             this.extension = cm.getApp().createExtensionType(props.type)
           }
-
         },
-        onMounted(props, state) {
-          // console.log(this.root.tagName, 'onBeforeMount', props, state)
-          let div = this.$('div')
-          div.style.cursor = 'pointer'
-          div.style.userSelect = 'none'
-          div.style.pointerEvents = 'auto'
-          // apply tooltip handling
-          div.setAttribute('title', props.tooltip || props.label)
-          let prevent = false
-          if(this.extension) {
-            // apply extension handling
-            div.onmousedown = (e) => {
-              let comp = cm.getComponent(e.srcElement)
-              prevent = this.extension.onPress({info:props, component: comp})
-              if(prevent) {
-                e.stopPropagation()
-                e.preventDefault()
-              }
-            }
-            div.onmouseup = (e) => {
-              let comp = cm.getComponent(e.srcElement)
-              prevent = this.extension.onRelease({info:props, component: comp})
-            }
-            this.extension.onSetToPage(this)
-          }
-          div.onclick = (e) => {
-            if(!prevent) this.performAction(e)
-          }
-          // bind to a state change on this component
-          // and update and call this.extension.onStateChange(comp, comp.bound.state)
-          cm.getCombinder().applyComponentBindings(this, "toolbar-"+this.bound.id+".state", (comp,prop,value) =>{
-            if(prop === 'state') { // sanity
-              if(comp.extension) comp.extension.onStateChange({info:props, component: comp}, value)
-              comp.update({ state: value })
-            }
-          })
-          this.onBeforeUpdate(props, state)
-        },
-        onBeforeUpdate(props, state) {
-          // console.log(this.root.tagName, 'onBeforeUpdate', props, state)
-          this.bound.state = state.state
-          let div = this.$('div')
-          // update dom attributes to match state
-          let stateValue = div.dataset.state = state.state || 'default'
-          this.bound.icon = props.icons && props.icons[stateValue] // pick the icon for the state
-          // for compabilitity with {N} solution:
-          // Sets a class name as a workaround for data attribute selector tool-state-<state>
-          let cn = div.className || ''
-          let n = cn.indexOf('tool-state')
-          if(n !== -1) {
-            let nn = cn.indexOf(' ', n)
-            if(nn === -1) nn = cn.length
-            cn = cn.substring(0, n) + cn.substring(nn)
-          }
-          cn = cn.trim()
-          cn += ' tool-state-'+ stateValue
-          div.className = cn
-          // console.log('toolbar '+this.bound.id+' class '+cn)
-        },
-        performAction(e) {
-          let comp = cm.getComponent(e.srcElement)
-          if(!comp.disabled) {
-            cm.getApp().onToolAction(comp.props)
-          }
-        },
-        fromAssets(path) {
-          if(path.charAt(0) === path.charAt(path.length-1) && (path.charAt(0) === '"' || path.charAt(0) === "'")) {
-            path = path.substring(1, path.length-1)
-          }
-          if(!path) return ''
-          return './assets/'+path
-        }
       }
+      //   onMounted(props, state) {
+      //     // console.log(this.root.tagName, 'onBeforeMount', props, state)
+      //     let div = this.$('div')
+      //     div.style.cursor = 'pointer'
+      //     div.style.userSelect = 'none'
+      //     div.style.pointerEvents = 'auto'
+      //     // apply tooltip handling
+      //     div.setAttribute('title', props.tooltip || props.label)
+      //     let prevent = false
+      //     if(this.extension) {
+      //       // apply extension handling
+      //       div.onmousedown = (e) => {
+      //         let comp = cm.getComponent(e.srcElement)
+      //         prevent = this.extension.onPress({info:props, component: comp})
+      //         if(prevent) {
+      //           e.stopPropagation()
+      //           e.preventDefault()
+      //         }
+      //       }
+      //       div.onmouseup = (e) => {
+      //         let comp = cm.getComponent(e.srcElement)
+      //         prevent = this.extension.onRelease({info:props, component: comp})
+      //       }
+      //       this.extension.onSetToPage(this)
+      //     }
+      //     div.onclick = (e) => {
+      //       if(!prevent) this.performAction(e)
+      //     }
+      //     // bind to a state change on this component
+      //     // and update and call this.extension.onStateChange(comp, comp.bound.state)
+      //     cm.getCombinder().applyComponentBindings(this, "toolbar-"+this.bound.id+".state", (comp,prop,value) =>{
+      //       if(prop === 'state') { // sanity
+      //         if(comp.extension) comp.extension.onStateChange({info:props, component: comp}, value)
+      //         comp.update({ state: value })
+      //       }
+      //     })
+      //     this.onBeforeUpdate(props, state)
+      //   },
+      //   onBeforeUpdate(props, state) {
+      //     // console.log(this.root.tagName, 'onBeforeUpdate', props, state)
+      //     this.bound.state = state.state
+      //     let div = this.$('div')
+      //     // update dom attributes to match state
+      //     let stateValue = div.dataset.state = state.state || 'default'
+      //     this.bound.icon = props.icons && props.icons[stateValue] // pick the icon for the state
+      //     // for compabilitity with {N} solution:
+      //     // Sets a class name as a workaround for data attribute selector tool-state-<state>
+      //     let cn = div.className || ''
+      //     let n = cn.indexOf('tool-state')
+      //     if(n !== -1) {
+      //       let nn = cn.indexOf(' ', n)
+      //       if(nn === -1) nn = cn.length
+      //       cn = cn.substring(0, n) + cn.substring(nn)
+      //     }
+      //     cn = cn.trim()
+      //     cn += ' tool-state-'+ stateValue
+      //     div.className = cn
+      //     // console.log('toolbar '+this.bound.id+' class '+cn)
+      //   },
+      //   performAction(e) {
+      //     let comp = cm.getComponent(e.srcElement)
+      //     if(!comp.disabled) {
+      //       cm.getApp().onToolAction(comp.props)
+      //     }
+      //   },
+      //   fromAssets(path) {
+      //     if(path.charAt(0) === path.charAt(path.length-1) && (path.charAt(0) === '"' || path.charAt(0) === "'")) {
+      //       path = path.substring(1, path.length-1)
+      //     }
+      //     if(!path) return ''
+      //     return './assets/'+path
+      //   }
+      // }
     </script>
 </ab-toolbutton>
