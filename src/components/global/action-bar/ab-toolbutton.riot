@@ -1,13 +1,12 @@
 <ab-toolbutton>
     <div class="tb-toolbutton { bound.className || '' }">
         <div style="vertical-align: middle; text-align: center">
-            TB
-<!--            -->
-<!--            <div style="position:absolute;">-->
-<!--                <img if="{bound.icon}" src="{fromAssets(bound.icon)}" class="tbIcon" alt=""> &lt;!&ndash; style="position:absolute; left:-0.5rem; top:-0.5rem;"> &ndash;&gt;-->
-<!--&lt;!&ndash;                <span style="position:absolute; left:-0.4rem; top:-0.5rem;">{props.label}</span>&ndash;&gt;-->
-<!--                <span class="tbLabel">{props.label}</span>-->
-<!--            </div>-->
+
+            <div style="position:absolute;">
+                <img if="{bound.icon}" src="{fromAssets(bound.icon)}" class="tbIcon" alt=""> <!-- style="position:absolute; left:-0.5rem; top:-0.5rem;"> -->
+<!--                <span style="position:absolute; left:-0.4rem; top:-0.5rem;">{props.label}</span>-->
+                <span class="tbLabel">{props.label}</span>
+            </div>
         </div>
     </div>
     <script>
