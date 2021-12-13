@@ -3,6 +3,7 @@
       const riot = require('riot')
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
+        slots:null,
         preStdOnMounted(props, state) {
           this.render(props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
