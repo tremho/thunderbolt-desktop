@@ -25,6 +25,11 @@
               } catch (e) {}
             })
           }
+          // clear all children / collect slot children
+          if(!this.slots) {
+            this.slots = collectChildSlots(this)
+          }
+          console.log('>> collected slots', this.slots)
           // clear all children
           this.root.innerHTML = '';
           const subject = vars.subject
@@ -59,6 +64,27 @@
           }
         }
       }, StdComp)
+      // gather the slot child hierarchy
+      function collectChildSlots(pView) {
+        const slots = []
+        let n = pView.getChildrenCount()
+        while (--n >=0) {
+          let ch = pView.getChildAt(n)
+          collectChildSlots(ch)
+          let cprops = {}
+          for(let p of Object.getOwnPropertyNames(ch)) {
+            if(p.charAt(0) === '_' || ignoreProps.indexOf(p) !== -1) continue
+            let v = ch.get(p)
+            if(typeof v === 'string' || typeof v === 'number') {
+              cprops[p] = ''+v
+            }
+          }
+          // console.log('adding slot', ch, cprops)
+          slots.push({parent: pView, view:ch, props:cprops})
+          pView.removeChild(ch)
+        }
+        return slots
+      }
       export default sc
     </script>
 
