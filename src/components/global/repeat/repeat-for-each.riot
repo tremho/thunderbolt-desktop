@@ -67,13 +67,13 @@
       }, StdComp)
       // gather the slot child hierarchy
       function collectChildSlots(pView) {
-        let pname = pView.constructor.name
+        let pname = pView.tagName
         console.warn('collectChildSlots for ', pname)
         const slots = []
-        let n = pView.getChildrenCount()
-        while (--n >=0) {
-          let ch = pView.getChildAt(n)
-          let cname = ch.constructor.name
+        const pEl = pView.root
+        while (pEl && pEl.firstChild) {
+          let ch = pEl.firstChild
+          let cname = ch.tag
           console.log('> ${cname} is a child of ${pname}')
           collectChildSlots(ch)
           let cprops = {}
@@ -85,8 +85,6 @@
             }
           }
           // console.log('adding slot', ch, cprops)
-          pname = pView.constructor.name
-          cname = ch.constructor.name
           console.log('> adding ${cname} as a child of ${pname} with props', cprops)
           slots.push({parent: pView, view:ch, props:cprops})
         }
