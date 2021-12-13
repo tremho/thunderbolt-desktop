@@ -10,13 +10,10 @@
         </div>
     </div>
     <script>
-      console.log('>ab-toolbutton import trace 1')
       import {newCommon} from 'Framework/app-core/ComCommon'
-      console.log('>ab-toolbutton import trace 2')
       let cm;
       export default {
         onBeforeMount (props, state) {
-          console.log('>ab-toolbutton onBeforeMount ')
           cm = newCommon(this)
           this.bound = Object.assign({}, props)
           delete this.bound.icons
