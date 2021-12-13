@@ -67,6 +67,7 @@
       // gather the slot child hierarchy
       function collectChildSlots(pView) {
         let pname = pView.constructor.name
+        console.warn('collectChildSlots for ', pname)
         const slots = []
         let n = pView.getChildrenCount()
         while (--n >=0) {
