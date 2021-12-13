@@ -4,7 +4,7 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          this.slots = null;
+          this.childSlots = null;
           this.render(props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
             console.warn('fact binding fires ', comp, prop, value, old)
@@ -27,14 +27,14 @@
             })
           }
           // clear all children / collect slot children
-          if(!this.slots) {
-            this.slots = collectChildSlots(this)
+          if(!this.childSlots) {
+            this.childSlots = collectChildSlots(this)
           }
           console.log('>> collected slots', this.slots)
           // clear all children
           this.root.innerHTML = '';
           const subject = vars.subject
-          const slots = this.slots
+          const slots = this.childSlots
           if(slots) {
             for (let item of subject) {
               for (let c of slots) {
