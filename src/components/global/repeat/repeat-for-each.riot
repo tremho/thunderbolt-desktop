@@ -110,8 +110,8 @@
       }
       function pushToHeirarchy(cslots, item) {
         const lastItem = cslots[cslots.length-1]
-        if((item.parent === (lastItem.name || 'root')
-        || (item.parent === lastItem.parent) && item.name !== lastItem.name)) {
+        if((item.parent === (lastItem?.name || 'root')
+        || (item.parent === lastItem?.parent) && item.name !== lastItem?.name)) {
           cslots.push(item)
         }
       }
