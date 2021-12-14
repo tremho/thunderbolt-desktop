@@ -88,7 +88,7 @@
                       return rt
                     }
                   }
-                  cprops[a.name] = a.evaluate(scope)
+                  cprops[ca.name] = ca.evaluate(scope)
                   collectChildSlots(cslots, cname, sl.bindings)
                 }
                 pushToHierarchy(cslots, {parent: parent, name: cname, props: cprops })
