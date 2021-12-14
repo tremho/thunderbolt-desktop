@@ -28,7 +28,7 @@
           }
           // clear all children / collect slot children
           if(!this.childSlots) {
-            this.childSlots = collectChildSlots(this)
+            this.childSlots = collectChildSlots(this.slots.bindings)
           }
           console.log('>> collected slots', this.slots)
           // clear all children
@@ -67,32 +67,32 @@
       }, StdComp)
 
       // gather the slot child hierarchy
-      // Note: Not likely to work because children are not mounted yet
-      function collectChildSlots(pView) {
-        let pname = pView.tagName
-        console.warn('collectChildSlots for ', pname)
-        const slots = []
-        const pEl = pView.root
-        let ch = pEl && pEl.firstChild
-        while(ch) {
-          let cname = ch.tagName
-          console.log('> ${cname} is a child of ${pname}')
-          collectChildSlots(ch)
-          let cprops = {}
-          for(let p of Object.getOwnPropertyNames(ch)) {
-            if(p.charAt(0) === '_' || ignoreProps.indexOf(p) !== -1) continue
-            let v = ch.get(p)
-            if(typeof v === 'string' || typeof v === 'number') {
-              cprops[p] = ''+v
-            }
+      function collectChildSlots(parent, slots = []) {
+        const cslots = []
+        for(sl of slots) {
+          if(sl.template && sl.template.bindingsData) {
+            return collectChildSlots(parent, sl.template.bindingsData)
           }
-          // console.log('adding slot', ch, cprops)
-          console.log('> adding ${cname} as a child of ${pname} with props', cprops)
-          slots.push({parent: pView, view:ch, props:cprops})
-          ch = ch.nextSibling
+          const cname = sl.html.substring(1).split(' ')[0]
+          const cprops = {}
+          for(let ca of sl.attributes) {
+            const scope = {
+              b (arg) {
+                let ok= true;
+                let rt;
+                try { rt = com.evalInnerExpression(arg,vars) } catch(e) { rt = e.toString(); ok = false; console.error(e) }
+                if(ok) try { rt = eval(rt) } catch(e) {}
+                return rt
+              }
+            }
+            cprops[a.name] = a.evaluate(scope)
+            collectChildSlots(cname, sl.bindings)
+          }
+          cslots.push({parent:parent, name:cname, props:cprops})
         }
-        return slots
-      }
+
+        console.log('>> cslots for', parent, cslots)
+        return cslots
       export default sc
     </script>
 
