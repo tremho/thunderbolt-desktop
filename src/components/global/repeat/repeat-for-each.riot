@@ -89,6 +89,8 @@
                     }
                   }
                   cprops[ca.name] = ca.evaluate(scope)
+                  console.log('assigning prop '+ca.name+' value = '+cprops[ca.name])
+
                   collectChildSlots(cslots, cname, sl.bindings)
                 }
                 pushToHierarchy(cslots, {parent: parent, name: cname, props: cprops })
