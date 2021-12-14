@@ -92,15 +92,14 @@
                   collectChildSlots(cname, sl.bindings)
                 }
                 cslots.push({ parent: parent, name: cname, props: cprops })
-              } else {
-                if (sl.bindings) {
-                  return collectChildSlots(parent, sl.bindings)
-                }
-                if (sl.template && sl.template.bindingsData) {
-                  return collectChildSlots(parent, sl.template.bindingsData)
-                }
               }
-            }
+              if (sl.bindings) {
+                collectChildSlots(parent, sl.bindings)
+              }
+              if (sl.template && sl.template.bindingsData) {
+                collectChildSlots(parent, sl.template.bindingsData)
+              }
+          }
         }
         console.log('>> cslots for', parent, cslots)
         return cslots
