@@ -91,7 +91,8 @@
                   cprops[a.name] = a.evaluate(scope)
                   cslots.splice(cslots.length, 0,  ...collectChildSlots(cslots, cname, sl.bindings))
                 }
-                cslots.push({ parent: parent, name: cname, props: cprops })
+                cslots.push({ type: sl.type, parent: parent, name: cname, props: cprops })
+                parent = cname;
               }
               if(sl.slots) {
                 cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.slots))
