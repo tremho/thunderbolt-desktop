@@ -89,19 +89,19 @@
                     }
                   }
                   cprops[a.name] = a.evaluate(scope)
-                  cslots.splice(cslots.length, 0,  ...collectChildSlots(cslots, cname, sl.bindings))
+                  collectChildSlots(cslots, cname, sl.bindings)
                 }
                 pushToHierarchy(cslots, {parent: parent, name: cname, props: cprops })
                 parent = cname;
               }
               if(sl.slots) {
-                collectChildSlots(cslots, parent, sl.slots))
+                collectChildSlots(cslots, parent, sl.slots)
               }
               if (sl.bindings) {
-                collectChildSlots(cslots, parent, sl.bindings))
+                collectChildSlots(cslots, parent, sl.bindings)
               }
               if (sl.template && sl.template.bindingsData) {
-                collectChildSlots(cslots, parent, sl.template.bindingsData))
+                collectChildSlots(cslots, parent, sl.template.bindingsData)
               }
           }
         }
