@@ -28,7 +28,7 @@
           }
           // clear all children / collect slot children
           if(!this.childSlots) {
-            this.childSlots = collectChildSlots(this.slots)
+            this.childSlots = collectChildSlots('root', this.slots)
           }
           console.log('>> collected slots', this.childSlots)
           // clear all children
