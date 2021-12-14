@@ -97,7 +97,10 @@
                 cslots.push({ parent: parent, name: cname, props: cprops })
               } else {
                 if (sl.template && sl.template.bindingsData) {
-                  cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.template.bindingsData))
+                  return collectChildSlots(parent, sl.template.bindingsData)
+                }
+                if(sl.slots) {
+                  cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.slots))
                 }
               }
           }
