@@ -28,7 +28,8 @@
           }
           // clear all children / collect slot children
           if(!this.childSlots) {
-            this.childSlots = collectChildSlots('root', this.slots)
+            this.childSlots = []
+            collectChildSlots(this.childSlots, 'root', this.slots)
           }
           console.log('>> collected slots', this.childSlots)
           // clear all children
@@ -67,8 +68,7 @@
       }, StdComp)
 
       // gather the slot child hierarchy
-      function collectChildSlots(parent, slots) {
-        const cslots = []
+      function collectChildSlots(cslots, parent, slots) {
         if (slots) {
             for (let sl of slots) {
               if(sl.html) {
@@ -89,18 +89,18 @@
                     }
                   }
                   cprops[a.name] = a.evaluate(scope)
-                  cslots.splice(cslots.length, 0,  ...collectChildSlots(cname, sl.bindings))
+                  cslots.splice(cslots.length, 0,  ...collectChildSlots(cslots, cname, sl.bindings))
                 }
                 cslots.push({ parent: parent, name: cname, props: cprops })
               }
-              if (sl.bindings) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.bindings))
+              if (sl.bindings && !sl.html) {
+                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.bindings))
               }
               if (sl.template && sl.template.bindingsData) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.template.bindingsData))
+                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.template.bindingsData))
               }
               if(sl.slots) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.slots))
+                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.slots))
               }
           }
         }
