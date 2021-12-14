@@ -70,7 +70,7 @@
       function collectChildSlots(parent, slots) {
         const cslots = []
         if (slots) {
-            for (sl of slots) {
+            for (let sl of slots) {
               if (sl.bindings) {
                 return collectChildSlots(parent, sl.bindings)
               }
