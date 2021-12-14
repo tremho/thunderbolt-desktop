@@ -71,9 +71,6 @@
         const cslots = []
         if (slots) {
             for (let sl of slots) {
-              if (sl.bindings) {
-                return collectChildSlots(parent, sl.bindings)
-              }
               if(sl.html) {
                 const cname = sl.html.substring(1).split(' ')[0]
                 const cprops = {}
@@ -96,11 +93,14 @@
                 }
                 cslots.push({ parent: parent, name: cname, props: cprops })
               } else {
+                if (sl.bindings) {
+                  return collectChildSlots(parent, sl.bindings)
+                }
                 if (sl.template && sl.template.bindingsData) {
                   return collectChildSlots(parent, sl.template.bindingsData)
                 }
                 if(sl.slots) {
-                  cslots.splice(cslots.length, 0, ...collectChildSlots(parent, sl.slots))
+                  return collectChildSlots(parent, sl.slots)
                 }
               }
           }
