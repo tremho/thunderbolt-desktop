@@ -74,7 +74,7 @@
               if(sl.html) {
                 const cname = sl.html.substring(1).split(' ')[0]
                 const cprops = {}
-                for (let ca of sl.attributes) {
+                for (let ca of sl.attributes || []) {
                   const scope = {
                     b (arg) {
                       let ok = true;
