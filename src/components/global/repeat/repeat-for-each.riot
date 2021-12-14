@@ -91,24 +91,24 @@
                   cprops[a.name] = a.evaluate(scope)
                   cslots.splice(cslots.length, 0,  ...collectChildSlots(cslots, cname, sl.bindings))
                 }
-                pushToHeirarchy(cslots, {parent: parent, name: cname, props: cprops })
+                pushToHierarchy(cslots, {parent: parent, name: cname, props: cprops })
                 parent = cname;
               }
               if(sl.slots) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.slots))
+                collectChildSlots(cslots, parent, sl.slots))
               }
               if (sl.bindings) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.bindings))
+                collectChildSlots(cslots, parent, sl.bindings))
               }
               if (sl.template && sl.template.bindingsData) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.template.bindingsData))
+                collectChildSlots(cslots, parent, sl.template.bindingsData))
               }
           }
         }
         console.log('>> cslots for', parent, cslots)
         return cslots
       }
-      function pushToHeirarchy(cslots, item) {
+      function pushToHierarchy(cslots, item) {
         const lastItem = cslots[cslots.length-1]
         if(( !lastItem && item.parent === 'root') // first entry from root
         || (item.parent === lastItem?.name)       // descendent child
