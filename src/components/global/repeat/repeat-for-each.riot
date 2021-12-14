@@ -28,9 +28,9 @@
           }
           // clear all children / collect slot children
           if(!this.childSlots) {
-            this.childSlots = collectChildSlots(this.slots.bindings)
+            this.childSlots = collectChildSlots(this.slots)
           }
-          console.log('>> collected slots', this.slots)
+          console.log('>> collected slots', this.childSlots)
           // clear all children
           this.root.innerHTML = '';
           const subject = vars.subject
@@ -70,6 +70,9 @@
       function collectChildSlots(parent, slots = []) {
         const cslots = []
         for (sl of slots) {
+          if(sl.bindings) {
+            return collectChildSlots(parent, sl.bindings)
+          }
           if (sl.template && sl.template.bindingsData) {
             return collectChildSlots(parent, sl.template.bindingsData)
           }
