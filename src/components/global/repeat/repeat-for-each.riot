@@ -93,14 +93,14 @@
                 }
                 cslots.push({ parent: parent, name: cname, props: cprops })
               }
-              if (sl.bindings && !sl.html) {
+              if(sl.slots) {
+                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.slots))
+              }
+              if (sl.bindings) {
                 cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.bindings))
               }
               if (sl.template && sl.template.bindingsData) {
                 cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.template.bindingsData))
-              }
-              if(sl.slots) {
-                cslots.splice(cslots.length, 0, ...collectChildSlots(cslots, parent, sl.slots))
               }
           }
         }
