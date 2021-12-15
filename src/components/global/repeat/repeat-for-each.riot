@@ -66,7 +66,7 @@
                 for (let bc of bindings) {
                   if(bc.attributes) {
                     for (let a of bc.attributes) {
-                      let {com,vars} = this.env;
+                      let {com,vars} = env;
                       const scope = {
                         b (arg) {
                           let ok = true;
