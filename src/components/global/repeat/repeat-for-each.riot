@@ -29,7 +29,11 @@
           // clear all children / collect slot children
           if(!this.childSlots) {
             this.childSlots = []
-            collectChildSlots(this.childSlots, 'root', this.slots, this.com)
+            this.env = {}
+            this.env.com = com
+            this.env.vars = vars
+
+            collectChildSlots(this.childSlots, 'root', this.slots, this.env)
           }
           console.log('>> collected slots', this.childSlots)
           // clear all children
@@ -41,22 +45,6 @@
               for (let c of slots) {
                 let cname = c.name
                 let cprops = Object.assign({},c.props)
-                // let bindings = c.bindings
-                // for (let bc of bindings) {
-                //   for (let a of bc.attributes) {
-                //     let com = this.com;
-                //     const scope = {
-                //       b (arg) {
-                //         let ok= true;
-                //         let rt;
-                //         try { rt = com.evalInnerExpression(arg,vars) } catch(e) { rt = e.toString(); ok = false; console.error(e) }
-                //         if(ok) try { rt = eval(rt) } catch(e) {}
-                //         return rt
-                //       }
-                //     }
-                //     cprops[a.name] = a.evaluate(scope)
-                //   }
-                // }
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
@@ -68,7 +56,7 @@
       }, StdComp)
 
       // gather the slot child hierarchy
-      function collectChildSlots(cslots, parent, slots, com) {
+      function collectChildSlots(cslots, parent, slots, env) {
         if (slots) {
             for (let sl of slots) {
               if(sl.html) {
@@ -78,7 +66,7 @@
                 for (let bc of bindings) {
                   if(bc.attributes) {
                     for (let a of bc.attributes) {
-                      // let com = this.com;
+                      let {com,vars} = this.env;
                       const scope = {
                         b (arg) {
                           let ok = true;
@@ -100,13 +88,13 @@
                 parent = cname;
               }
               if(sl.slots) {
-                collectChildSlots(cslots, parent, sl.slots, com)
+                collectChildSlots(cslots, parent, sl.slots, env)
               }
               if (sl.bindings) {
-                collectChildSlots(cslots, parent, sl.bindings, com)
+                collectChildSlots(cslots, parent, sl.bindings, env)
               }
               if (sl.template && sl.template.bindingsData) {
-                collectChildSlots(cslots, parent, sl.template.bindingsData, com)
+                collectChildSlots(cslots, parent, sl.template.bindingsData, env)
               }
           }
         }
