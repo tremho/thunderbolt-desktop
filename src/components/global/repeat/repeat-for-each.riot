@@ -46,10 +46,14 @@
                 let cname = c.name
                 let cprops = Object.assign({},c.props)
                 for(let p of Object.getOwnPropertyNames(cprops)) {
-                  let ev = cprops[p]
-                  let v = ev
-                  try { v = eval(ev) } catch (e) {}
-                  cprops[p] = v
+                  let ep = (cprops[p] || '').split(' ')
+                  let pv = ''
+                  for (let ev of ep) {
+                    let v = ev
+                    try { v = eval(ev) } catch (e) {}
+                    pv += v + ' '
+                  }
+                  cprops[p] = pv.trim()
                 }
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
