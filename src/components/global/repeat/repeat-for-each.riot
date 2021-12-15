@@ -30,7 +30,7 @@
           if(!this.childSlots) {
             this.childSlots = []
             this.env = {}
-            this.env.com = com
+            this.env.com = this.com
             this.env.vars = vars
 
             collectChildSlots(this.childSlots, 'root', this.slots, this.env)
