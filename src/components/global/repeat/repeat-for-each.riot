@@ -74,27 +74,29 @@
               if(sl.html) {
                 const cname = sl.html.substring(1).split(' ')[0]
                 const cprops = {}
-                for (let ca of sl.attributes || []) {
-                  const scope = {
-                    b (arg) {
-                      let ok = true;
-                      let rt;
-                      try { rt = com.evalInnerExpression(arg, vars) } catch (e) {
-                        rt = e.toString();
-                        ok = false;
-                        console.error(e)
+                let atts = sl.attributes
+                if (atts) {
+                  for (let ca of atts) {
+                    const scope = {
+                      b (arg) {
+                        let ok = true;
+                        let rt;
+                        try { rt = com.evalInnerExpression(arg, vars) } catch (e) {
+                          rt = e.toString();
+                          ok = false;
+                          console.error(e)
+                        }
+                        if (ok) try { rt = eval(rt) } catch (e) {}
+                        return rt
                       }
-                      if (ok) try { rt = eval(rt) } catch (e) {}
-                      return rt
                     }
+                    cprops[ca.name] = ca.evaluate(scope)
+                    console.log('assigning prop ' + ca.name + ' value = ' + cprops[ca.name])
+                    collectChildSlots(cslots, cname, sl.bindings)
                   }
-                  cprops[ca.name] = ca.evaluate(scope)
-                  console.log('assigning prop '+ca.name+' value = '+cprops[ca.name])
-
-                  collectChildSlots(cslots, cname, sl.bindings)
+                  pushToHierarchy(cslots, { parent: parent, name: cname, props: cprops })
+                  parent = cname;
                 }
-                pushToHierarchy(cslots, {parent: parent, name: cname, props: cprops })
-                parent = cname;
               }
               if(sl.slots) {
                 collectChildSlots(cslots, parent, sl.slots)
