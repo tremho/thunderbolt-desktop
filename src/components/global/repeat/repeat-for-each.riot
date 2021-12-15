@@ -4,7 +4,6 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          this.childSlots = null;
           this.render(props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
             console.warn('fact binding fires ', comp, prop, value, old)
@@ -16,6 +15,7 @@
           })
         },
         render(props) {
+          this.childSlots = null;
           // console.log('RENDERING --- ')
           const vars = {}
           if (this.com) {
