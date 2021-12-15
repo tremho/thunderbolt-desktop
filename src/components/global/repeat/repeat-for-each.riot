@@ -45,6 +45,12 @@
               for (let c of slots) {
                 let cname = c.name
                 let cprops = Object.assign({},c.props)
+                for(let p of Object.getOwnPropertyNames(cprops)) {
+                  let ev = cprops[p]
+                  let v = ev
+                  try { v = eval(ev) } catch (e) {}
+                  cprops[p] = v
+                }
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
@@ -76,7 +82,7 @@
                             ok = false;
                             console.error(e)
                           }
-                          if (ok) try { rt = eval(rt) } catch (e) {}
+                          // if (ok) try { rt = eval(rt) } catch (e) {}
                           return rt
                         }
                       }
