@@ -76,7 +76,9 @@
               if(sl.html) {
                 const cname = sl.html.substring(1).split(' ')[0]
                 let bindings = sl.bindings || []
+                let isContainer = false;
                 for (let bc of bindings) {
+                  if(bc.slots && bc.slots.length) isContainer = true;
                   const cprops = {}
                   if(bc.attributes) {
                     for (let a of bc.attributes) {
@@ -97,7 +99,6 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
-                  let isContainer = (sl.slots && sl.slots.length)
                   pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
                 parent = cname;
