@@ -85,7 +85,7 @@
                 for (let bc of bindings) {
                   cname = bc.evaluate()
                   if(bc.slots && bc.slots.length) isContainer = true;
-                  const cprops = {}
+                  const cprops = propsFromHtml(sl.html)
                   if(bc.attributes) {
                     for (let a of bc.attributes) {
                       let {com,vars} = env;
@@ -105,10 +105,6 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
-                  // hackery
-                  if(cname === 'stack-layout') {
-                    cprops.orientation = 'horizontal'
-                  }
                   pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
                 parent = cname;
@@ -126,6 +122,24 @@
         }
         console.log('>> cslots for', parent, cslots)
         return cslots
+      }
+      function propsFromHtml(html) {
+        let props = {}
+        html = html.substring(1, html.lastIndexOf('>'))
+        const pts = html.split(' ')
+        // stack-layout
+        // expr13="expr13"
+        // orientation="horizontal"
+        let name = pts[0]
+        for(let i=1; i< pts.length; i++) {
+          let p = pts[i]
+          let [key, value] = p.split('=')
+          if(value.charAt(0) === '"') value = value.substring(0, value.length-1)
+          if(key !== value) {
+            props[key] = value
+          }
+        }
+        return props
       }
       function pushToHierarchy(cslots, item) {
         const lastItem = cslots[cslots.length-1]
