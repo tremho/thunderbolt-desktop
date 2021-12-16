@@ -67,7 +67,7 @@
                 let cmp = riot.mount(cc, cprops)[0]
                 let parent = parentage[c.parent]
                 parent.appendChild(cc)
-                parentage[c.name] = cc
+                parentage[c.name] = cc.firstChild
                 if(c.isContainer) {
                   // parent = cc.firstChild // the initial div of all Jove Riot containers
                 } else {
