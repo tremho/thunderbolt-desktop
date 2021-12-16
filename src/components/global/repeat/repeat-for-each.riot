@@ -38,9 +38,9 @@
           }
           console.log('>> collected slots', this.childSlots)
           let parent = this.root.firstChild  // the initial div of all Jove Riot containers
-          // user-select: none; display: inline-flex; flex-flow: row nowrap; position: relative;
-          parent.style.display = 'inline-flex'
-          parent.style.flexFlow = 'row nowrap'
+          // style="user-select: none; display: flex; flex-flow: column nowrap; position: relative
+          parent.style.display = 'flex'
+          parent.style.flexFlow = 'column nowrap'
           parent.style.position = 'relative'
           const parentage = { root: parent }
           // clear all children
