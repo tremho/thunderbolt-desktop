@@ -42,6 +42,7 @@
           const slots = this.childSlots
           if(slots) {
             for (let item of subject) {
+              let parent = this.root
               for (let c of slots) {
                 let cname = c.name
                 let cprops = Object.assign({},c.props)
@@ -58,7 +59,10 @@
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
-                this.root.appendChild(cc)
+                parent.appendChild(cc)
+                if(c.isContainer) {
+                  parent = cc
+                }
               }
             }
           }
@@ -93,7 +97,8 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
-                  pushToHierarchy(cslots, { parent: parent, name: cname, props: cprops })
+                  let isContainer = (sl.slots && sl.slots.length)
+                  pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
                 parent = cname;
               }
