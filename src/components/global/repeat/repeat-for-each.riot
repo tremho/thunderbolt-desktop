@@ -1,4 +1,5 @@
 <repeat-for-each>
+    <div/>
     <script>
       const riot = require('riot')
       import StdComp from 'Framework/app-core/StdComp'
@@ -36,13 +37,13 @@
             collectChildSlots(this.childSlots, 'root', this.slots, this.env)
           }
           console.log('>> collected slots', this.childSlots)
+          let parent = this.root.firstChild // the initial div of all Jove Riot containers
           // clear all children
-          this.root.innerHTML = '';
+          parent.innerHTML = '';
           const subject = vars.subject
           const slots = this.childSlots
           if(slots) {
             for (let item of subject) {
-              let parent = this.root
               for (let c of slots) {
                 let cname = c.name
                 let cprops = Object.assign({},c.props)
@@ -61,7 +62,7 @@
                 let cmp = riot.mount(cc, cprops)[0]
                 parent.appendChild(cc)
                 if(c.isContainer) {
-                  parent = cc.firstChild
+                  parent = cc.firstChild // the initial div of all Jove Riot containers
                 } else {
                   cc.style.alignSelf = 'flex-start' // hackery
                 }
