@@ -73,8 +73,8 @@
                 const cname = sl.html.substring(1).split(' ')[0]
                 let bindings = sl.bindings || []
                 for (let bc of bindings) {
+                  const cprops = {}
                   if(bc.attributes) {
-                    const cprops = {}
                     for (let a of bc.attributes) {
                       let {com,vars} = env;
                       const scope = {
