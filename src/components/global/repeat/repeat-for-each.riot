@@ -76,10 +76,11 @@
         if (slots) {
             for (let sl of slots) {
               if(sl.html) {
-                const cname = sl.html.substring(1).split(' ')[0]
+                let cname = sl.html.substring(1).split(' ')[0]
                 let bindings = sl.bindings || []
                 let isContainer = false;
                 for (let bc of bindings) {
+                  cname = bc.evaluate()
                   if(bc.slots && bc.slots.length) isContainer = true;
                   const cprops = {}
                   if(bc.attributes) {
