@@ -134,7 +134,7 @@
         for(let i=1; i< pts.length; i++) {
           let p = pts[i]
           let [key, value] = p.split('=')
-          if(value.charAt(0) === '"') value = value.substring(0, value.length-1)
+          if(value.charAt(0) === '"') value = value.substring(1, value.length-1)
           if(key !== value) {
             props[key] = value
           }
