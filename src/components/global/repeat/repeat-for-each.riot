@@ -125,7 +125,7 @@
       }
       function propsFromHtml(html) {
         let props = {}
-        html = html.substring(1, html.lastIndexOf('>'))
+        html = html.substring(1, html.indexOf('>'))
         const pts = html.split(' ')
         // stack-layout
         // expr13="expr13"
