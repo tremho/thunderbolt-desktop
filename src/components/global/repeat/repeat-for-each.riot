@@ -68,11 +68,6 @@
                 let parent = parentage[c.parent]
                 parent.appendChild(cc)
                 parentage[c.name] = cc.firstChild
-                // if(c.isContainer) {
-                //   // parent = cc.firstChild // the initial div of all Jove Riot containers
-                // } else {
-                //   cc.style.alignSelf = 'flex-start' // hackery
-                // }
               }
             }
           }
@@ -113,9 +108,6 @@
                   // hackery
                   if(cname === 'stack-layout') {
                     cprops.orientation = 'horizontal'
-                  }
-                  if(!isContainer) {
-                    cprops.alignSelf = 'flex-start'
                   }
                   pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
