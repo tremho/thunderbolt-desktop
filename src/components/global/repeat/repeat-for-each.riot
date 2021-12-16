@@ -99,7 +99,7 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
-                  const tcmp = bc.getComponent()
+                  const tcmp = bc.getComponent(cname)
                   console.log('test comp for '+cname+' created as', tcmp)
                   pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
