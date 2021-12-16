@@ -37,7 +37,7 @@
             collectChildSlots(this.childSlots, 'root', this.slots, this.env)
           }
           console.log('>> collected slots', this.childSlots)
-          let parent = this.root.firstChild // the initial div of all Jove Riot containers
+          const parentage = { root: this.root.firstChild } // the initial div of all Jove Riot containers
           // clear all children
           parent.innerHTML = '';
           const subject = vars.subject
@@ -60,9 +60,11 @@
                 console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
+                let parent = parentage[c.parent]
                 parent.appendChild(cc)
+                parentage[c.name] = cc
                 if(c.isContainer) {
-                  parent = cc.firstChild // the initial div of all Jove Riot containers
+                  // parent = cc.firstChild // the initial div of all Jove Riot containers
                 } else {
                   cc.style.alignSelf = 'flex-start' // hackery
                 }
