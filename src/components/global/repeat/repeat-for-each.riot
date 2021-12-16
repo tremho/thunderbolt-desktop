@@ -62,6 +62,8 @@
                 parent.appendChild(cc)
                 if(c.isContainer) {
                   parent = cc.firstChild
+                } else {
+                  cc.style.alignSelf = 'flex-start' // hackery
                 }
               }
             }
@@ -99,8 +101,10 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
-                  const tcmp = bc.getComponent(cname)
-                  console.log('test comp for '+cname+' created as', tcmp)
+                  // hackery
+                  if(cname === 'stack-layout') {
+                    cprops.orientation = 'horizontal'
+                  }
                   pushToHierarchy(cslots, { isContainer, parent, name: cname, props: cprops })
                 }
                 parent = cname;
