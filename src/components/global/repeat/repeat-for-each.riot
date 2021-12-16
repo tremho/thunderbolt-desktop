@@ -15,7 +15,7 @@
           })
         },
         render(props) {
-          this.childSlots = null;
+          this.childSlots = null; // turns out we need to regenerate each time.
           // console.log('RENDERING --- ')
           const vars = {}
           if (this.com) {
@@ -93,8 +93,8 @@
                       cprops[a.name] = a.evaluate(scope)
                     }
                   }
+                  pushToHierarchy(cslots, { parent: parent, name: cname, props: cprops })
                 }
-                pushToHierarchy(cslots, { parent: parent, name: cname, props: cprops })
                 parent = cname;
               }
               if(sl.slots) {
