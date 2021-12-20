@@ -108,9 +108,9 @@ export async function time() {
     return Date.now()
 }
 
-export async function tree() {
-    // console.log('calling TestOps.tree in common')
-    return await AppGateway.sendTestRequest('tree')
+export async function tree(compName:string) {
+    console.log('calling TestOps.tree in common')
+    return await AppGateway.sendTestRequest('tree '+compName)
 }
 
 import * as electron from 'electron'
