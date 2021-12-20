@@ -216,6 +216,8 @@ export async function executeDirective(action:string):Promise<string> {
         case 'tree': {
             console.log('$$$$$$$$$$ Special trap for tree')
             res = testActions.tree(arg1)
+            console.log('$$$$$$$ trapped tree result = ',res)
+            return "trapped tree return -- see console"
         }
         break;
         default: {
