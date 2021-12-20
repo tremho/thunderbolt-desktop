@@ -213,6 +213,11 @@ export async function executeDirective(action:string):Promise<string> {
             res = 1000
         }
         break;
+        case 'tree': {
+            console.log('$$$$$$$$$$ Special trap for tree')
+            res = testActions.tree(arg1)
+        }
+        break;
         default: {
             const tactany:any = testActions
             const ta = tactany[cmd]
