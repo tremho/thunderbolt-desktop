@@ -14,6 +14,7 @@ export class WSClient {
             this.handleEvent('connect', serviceUrl)
         })
         this.ws.on('message', (message:string) => {
+            console.log('>WSCLIENT message', message)
             this.handleEvent('data', message)
         })
     }
@@ -22,7 +23,7 @@ export class WSClient {
     }
 
     end(code:number = 1000) {
-        // console.log('client ending with code ', code)
+        console.log('client ending with code ', code)
         this.ws?.close(code)
     }
 
@@ -30,6 +31,7 @@ export class WSClient {
         this.eventMap[event] = handler
     }
     handleEvent(event:string, data:any) {
+        console.log("WSCLIENT on", event)
         const fn = this.eventMap[event]
         if(fn) {
             fn(data)
