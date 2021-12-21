@@ -128,7 +128,7 @@
         let props = {}
         let ti = 0
         while(count--) {
-          ti = html.indexOf('</', ti)
+          ti = html.indexOf('</', ti+1)
         }
         ti = html.lastIndexOf('<'+cname, ti) +1
 
