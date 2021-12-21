@@ -6,6 +6,7 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           this.render(props)
+          console.log('>> repeat-for-each props', props)
           this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
             console.warn('fact binding fires ', comp, prop, value, old)
             clearTimeout(this._once)
