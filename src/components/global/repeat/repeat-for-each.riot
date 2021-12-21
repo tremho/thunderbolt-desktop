@@ -77,12 +77,12 @@
       // gather the slot child hierarchy
       function collectChildSlots(cslots, parent, slots, env) {
         if (slots) {
+          let count = 0
             for (let sl of slots) {
               if(sl.html) {
                 let cname = sl.html.substring(1).split(' ')[0]
                 let bindings = sl.bindings || []
                 let isContainer = false;
-                let count = 0
                 for (let bc of bindings) {
                   cname = bc.evaluate()
                   if(bc.slots && bc.slots.length) isContainer = true;
