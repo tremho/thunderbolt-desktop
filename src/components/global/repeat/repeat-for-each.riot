@@ -6,15 +6,23 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           this.render(props)
-          console.log('>> repeat-for-each props', props)
-          this.com.model.bind(this.riot, 'planet', 'fact', (comp, prop, value, old) => {
-            console.warn('fact binding fires ', comp, prop, value, old)
+          // console.log('>> repeat-for-each props', props)
+          const refire = (comp, prop, value, old)  => {
+            console.warn('repeat-for-each bind change fires ', comp, prop, value, old)
             clearTimeout(this._once)
             this._once = setTimeout(() => {
-                this.render(props)
+              this.render(props)
             }, 100)
-
-          })
+          }
+          for(let p of Object.getOwnPropertyNames(props)) {
+            let v = props[v]
+            let ai = v.indexOf('@')
+            let parts = []
+            if(ai !== -1) {
+              parts = v.substring(ai+1).split('.')
+              this.com.model.bind(this.riot, parts[0], parts[1], refire)
+            }
+          }
         },
         render(props) {
           this.childSlots = null; // turns out we need to regenerate each time.
