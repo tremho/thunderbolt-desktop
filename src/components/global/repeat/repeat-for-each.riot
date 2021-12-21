@@ -36,7 +36,7 @@
 
             collectChildSlots(this.childSlots, 'root', this.slots, this.env)
           }
-          console.log('>> collected slots', this.childSlots)
+          // console.log('>> collected slots', this.childSlots)
           let parent = this.root.firstChild  // the initial div of all Jove Riot containers
           // style="user-select: none; display: flex; flex-flow: column nowrap; position: relative
           parent.style.display = 'flex'
@@ -62,7 +62,7 @@
                   }
                   cprops[p] = pv.trim()
                 }
-                console.log('>>> creating cc from ', cname, cprops)
+                // console.log('>>> creating cc from ', cname, cprops)
                 let cc = document.createElement(cname)
                 let cmp = riot.mount(cc, cprops)[0]
                 let parent = parentage[c.parent]
@@ -120,7 +120,7 @@
               }
           }
         }
-        console.log('>> cslots for', parent, cslots)
+        // console.log('>> cslots for', parent, cslots)
         return cslots
       }
       function propsFromHtml(html) {

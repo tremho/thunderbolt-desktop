@@ -169,7 +169,7 @@ export function getReport() {
 }
 
 export async function executeDirective(action:string):Promise<string> {
-    console.log('executeDirective', action)
+    // console.log('executeDirective', action)
     const parts = action.split(' ')
     const cmd = parts[0]
     const arg1 = parts[1]
@@ -216,11 +216,11 @@ export async function executeDirective(action:string):Promise<string> {
         default: {
             const tactany:any = testActions
             const ta = tactany[cmd]
-            console.log('$$$$ looking for testAction', cmd)
+            // console.log('$$$$ looking for testAction', cmd)
             if(typeof ta === 'function') {
-                console.log('found', parts)
+                // console.log('found', parts)
                 res = await ta(...parts.slice(1))
-                if(cmd === 'tree') console.log('result is ', res)
+                // if(cmd === 'tree') console.log('result is ', res)
             }
         }
         break
