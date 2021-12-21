@@ -5,8 +5,7 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          this.render(props)
-          // console.log('>> repeat-for-each props', props)
+          console.log('>> repeat-for-each props', props)
           const refire = (comp, prop, value, old)  => {
             console.warn('repeat-for-each bind change fires ', comp, prop, value, old)
             clearTimeout(this._once)
@@ -24,6 +23,7 @@
               this.com.model.bind(this.riot, parts[0], parts[1], refire)
             }
           }
+          this.render(props)
         },
         render(props) {
           this.childSlots = null; // turns out we need to regenerate each time.
