@@ -126,7 +126,7 @@
       function propsFromHtml(cname,html) {
         let props = {}
         let ti = html.indexOf('<'+cname) +1
-        html = html.substring(ti, html.indexOf('>'))
+        html = html.substring(ti, html.indexOf('></'+cname))
         const pts = html.split(' ')
         // stack-layout
         // expr13="expr13"
