@@ -132,7 +132,7 @@
         }
         ti = html.lastIndexOf('<'+cname, ti) +1
 
-        html = html.substring(ti, html.indexOf('></'+cname))
+        html = html.substring(ti, html.indexOf('></'+cname, ti))
         const pts = html.split(' ')
         // stack-layout
         // expr13="expr13"
