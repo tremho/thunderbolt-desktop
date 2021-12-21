@@ -14,11 +14,12 @@ export class WSClient {
             this.handleEvent('connect', serviceUrl)
         })
         this.ws.on('message', (message:string) => {
-            console.log('>WSCLIENT message', message)
+            console.log('>WSCLIENT message', message.toString())
             this.handleEvent('data', message)
         })
     }
     send(data:any) {
+        console.log(">>WSCLIENT sending", data.toString())
         this.ws.send(data)
     }
 
@@ -34,6 +35,7 @@ export class WSClient {
         console.log("WSCLIENT on", event)
         const fn = this.eventMap[event]
         if(fn) {
+            console.log("WSCLIENT executing", fn)
             fn(data)
         }
     }
