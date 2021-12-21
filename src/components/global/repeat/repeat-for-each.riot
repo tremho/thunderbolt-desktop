@@ -20,6 +20,7 @@
             let parts = []
             if(ai !== -1) {
               parts = v.substring(ai+1).split('.')
+              console.log('>> repeat-for-each binding change for ', parts)
               this.com.model.bind(this.riot, parts[0], parts[1], refire)
             }
           }
