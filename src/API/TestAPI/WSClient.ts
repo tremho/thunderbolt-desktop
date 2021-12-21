@@ -73,7 +73,7 @@ export function clientTest(service:string):Promise<number> {
                 Promise.resolve(reply).then((res:string) => {
                     const srep = `${rcount}:${directive}=${res}`
                     rcount++
-                    console.log('replying ', srep)
+                    console.log('replying ', srep.substring(0, 200))
                     client.send(srep)
                     if(directive === 'end') {
                         console.log("detecting end in clientTest, so ending")
