@@ -82,10 +82,11 @@
                 let cname = sl.html.substring(1).split(' ')[0]
                 let bindings = sl.bindings || []
                 let isContainer = false;
+                let count = 0
                 for (let bc of bindings) {
                   cname = bc.evaluate()
                   if(bc.slots && bc.slots.length) isContainer = true;
-                  const cprops = propsFromHtml(cname, sl.html)
+                  const cprops = propsFromHtml(cname, ++count, sl.html)
                   if(bc.attributes) {
                     for (let a of bc.attributes) {
                       let {com,vars} = env;
@@ -123,9 +124,14 @@
         // console.log('>> cslots for', parent, cslots)
         return cslots
       }
-      function propsFromHtml(cname,html) {
+      function propsFromHtml(cname, count, html) {
         let props = {}
-        let ti = html.indexOf('<'+cname) +1
+        let ti = 0
+        while(count--) {
+          ti = html.indexOf('</', ti)
+        }
+        ti = html.lastIndexOf('<'+cname, ti) +1
+
         html = html.substring(ti, html.indexOf('></'+cname))
         const pts = html.split(' ')
         // stack-layout
