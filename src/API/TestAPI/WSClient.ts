@@ -10,7 +10,7 @@ export class WSClient {
     connect(serviceUrl:string) {
         this.ws = new WebSocket(serviceUrl)
         this.ws.on('open', () => {
-            // console.log('opened -- connected')
+            console.log('opened -- connected')
             this.handleEvent('connect', serviceUrl)
         })
         this.ws.on('message', (message:string) => {
@@ -42,7 +42,7 @@ export async function connectClient(service:string):Promise<WSClient> {
     const client = new WSClient()
     return new Promise(resolve => {
         client.on('connect', (data:any) => {
-            // console.log('connected to ', service)
+            console.log('connected to ', service)
             resolve(client)
         })
         client.connect(service)
