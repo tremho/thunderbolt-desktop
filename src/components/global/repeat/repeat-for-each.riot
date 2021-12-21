@@ -68,6 +68,7 @@
                   for (let ev of ep) {
                     let v = ev
                     try { v = eval(ev) } catch (e) {}
+                    if(typeof v === 'undefined') v = ''
                     pv += v + ' '
                   }
                   cprops[p] = pv.trim()
