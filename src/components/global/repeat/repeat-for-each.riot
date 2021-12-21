@@ -5,9 +5,9 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
-          console.log('>> repeat-for-each props', props)
+          // console.log('>> repeat-for-each props', props)
           const refire = (comp, prop, value, old)  => {
-            console.warn('repeat-for-each bind change fires ', comp, prop, value, old)
+            // console.warn('repeat-for-each bind change fires ', comp, prop, value, old)
             clearTimeout(this._once)
             this._once = setTimeout(() => {
               this.render(props)
@@ -19,7 +19,7 @@
             let parts = []
             if(ai !== -1) {
               parts = v.substring(ai+1).split('.')
-              console.log('>> repeat-for-each binding change for ', parts)
+              // console.log('>> repeat-for-each binding change for ', parts)
               this.com.model.bind(this.riot, parts[0], parts[1], refire)
             }
           }
