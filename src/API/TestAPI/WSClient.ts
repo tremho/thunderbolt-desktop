@@ -14,12 +14,13 @@ export class WSClient {
             this.handleEvent('connect', serviceUrl)
         })
         this.ws.on('message', (message:string) => {
-            console.log('>WSCLIENT message', message.toString())
+            console.log('\n>>>>>>>>>>>>>>>>>>>>>>>>>>  WSCLIENT message', message.toString())
             this.handleEvent('data', message)
         })
     }
     send(data:any) {
-        console.log(">>WSCLIENT sending", data.toString())
+        console.log('<<<<<<<<<<<<<<<<<<<<<\n')
+        // console.log(">>WSCLIENT sending", data.toString())
         this.ws.send(data)
     }
 
