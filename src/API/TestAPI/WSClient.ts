@@ -53,7 +53,7 @@ let rcount = 1
 let code = 1000
 export function clientTest(service:string):Promise<number> {
     return new Promise(resolve => {
-        // console.log('starting client test')
+        console.log('starting client test')
         connectClient(service).then((client:any) => {
             client.on('close', (data:any) => {
                 if(data.code === 1000) {// normal close
