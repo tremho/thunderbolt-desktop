@@ -6,8 +6,8 @@
       export default {
         onBeforeMount(props, state) {
           cm = newCommon(this)
-          this.width = props.width
-          this.height = props.height
+          this.root.width = props.width
+          this.root.height = props.height
         },
         onMounted(props, state) {
           // console.log(this.root.tagName)
