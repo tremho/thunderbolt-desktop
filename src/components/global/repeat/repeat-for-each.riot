@@ -74,7 +74,7 @@
                   }
                   cprops[p] = pv.trim()
                 }
-                if(testCondition(condition, item, vars)) {
+                if(testCondition(condition, item, vars, this.com)) {
                   // console.log('>>> creating cc from ', cname, cprops)
                   let cc = document.createElement(cname)
                   let cmp = riot.mount(cc, cprops)[0]
@@ -88,12 +88,12 @@
         }
       }, StdComp)
 
-      function testCondition(expr, item, vars) {
+      function testCondition(expr, item, vars, com) {
         let rt = expr
         try { rt = com.evalInnerExpression(arg, vars) } catch (e) {
           rt = e.toString();
-          // ok = false;
           console.error(e)
+          return true // condition has no effect on error 
         }
         return !!rt // force boolean
       }
