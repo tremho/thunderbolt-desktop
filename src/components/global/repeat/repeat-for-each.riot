@@ -74,7 +74,7 @@
                   }
                   cprops[p] = pv.trim()
                 }
-                if(testCondition.call(this, condition, item, vars, this.com)) {
+                if(testCondition.call(this.com.getApp().currentActivity, condition, item, vars, this.com)) {
                   // console.log('>>> creating cc from ', cname, cprops)
                   let cc = document.createElement(cname)
                   let cmp = riot.mount(cc, cprops)[0]
