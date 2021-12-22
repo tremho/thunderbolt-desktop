@@ -1,6 +1,7 @@
 
 import * as testActions from './TestActions'
 import os from 'os'
+import jsonFormatter from './JSON-formatter'
 
 function add(num1:number, num2:number) {
     return num1+num2
@@ -52,6 +53,10 @@ function record(action:string, result:any) {
     ts = ts.trim();
     let rline = `        <li class--"rline">`
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
+    if(action.substring(0,4) === 'tree') {
+        const jsfmt = jsonFormatter(result)
+        rline += `<span class="res">${jsfmt}</span>`
+    }
     if(action.substring(0,10) === 'screenshot') {
         let name = action.substring(11)
         let ipath = '../../../latest/images/'+name+'.png'
@@ -135,6 +140,22 @@ function startReport(title:string) {
             font-style: italic;
             color: darkmagenta;
             margin-bottom: 1.5em;
+        }
+        .json {
+            margin: 0;
+            background: #2c2c2c;
+            color: #AAA;
+            font-size:16px;
+            min-height: 100vh;
+        
+            code {word-spacing: 2px;background: #2c2c2c;color: #AAA;font-size:16px; display: block;}
+            code pre {outline: 1px solid #ccc;padding: 5px;margin: 5px;}
+            code .string {color: #6b8753;}
+            code .number {color: #6997C0;}
+            code .boolean {color: #cd7a1c;font-weight: bold;}
+            code .null {color: #cd7a1c;font-weight: bold;}
+            code .key {color: #9776ae;font-weight: bold;}
+       
         }
     </style>
     </head>
