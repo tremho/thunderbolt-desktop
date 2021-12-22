@@ -46,7 +46,7 @@ const getClassName = (match: string) => {
 }
 
 const getJsonToHtmlTemplate = (json: string) => `
-<div class="json"
+<code class="json"
 ${json}
-</div>
+</code>
 `
