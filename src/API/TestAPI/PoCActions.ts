@@ -153,10 +153,10 @@ function startReport(title:string) {
         code {word-spacing: 8px;background: lightgoldenrodyellow;color: darkcyan;font-size:10px; display: block;}
         code pre {outline: 1px solid black;padding: 10px;margin: 10px;}
         code .string {color: blue;}
-        code .number {color: darkblue;}
+        code .number {color: green;}
         code .boolean {color: darkorange;font-weight: bold;}
-        code .null {color: red;font-weight: bold;}
-        code .key {color: gray;font-weight: bold;}
+        code .null {color: gray;font-weight: bold;}
+        code .key {color: darkred;font-weight: bold;}
     </style>
     </head>
     <body>
