@@ -148,17 +148,15 @@ function startReport(title:string) {
             background: lightgoldenrodyellow;
             color: darkcyan;
             font-size:10px;
-            min-height: 100vh;
-        
-            code {word-spacing: 8px;background: lightgoldenrodyellow;color: darkcyan;font-size:10px; display: block;}
-            code pre {outline: 1px solid black;padding: 10px;margin: 10px;}
-            code .string {color: blue;}
-            code .number {color: darkblue;}
-            code .boolean {color: darkorange;font-weight: bold;}
-            code .null {color: red;font-weight: bold;}
-            code .key {color: gray;font-weight: bold;}
-       
+            min-height: 100vh;        
         }
+        code {word-spacing: 8px;background: lightgoldenrodyellow;color: darkcyan;font-size:10px; display: block;}
+        code pre {outline: 1px solid black;padding: 10px;margin: 10px;}
+        code .string {color: blue;}
+        code .number {color: darkblue;}
+        code .boolean {color: darkorange;font-weight: bold;}
+        code .null {color: red;font-weight: bold;}
+        code .key {color: gray;font-weight: bold;}
     </style>
     </head>
     <body>
