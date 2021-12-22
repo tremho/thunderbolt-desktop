@@ -59,7 +59,7 @@ function record(action:string, result:any) {
         const jsfmt = jsonFormatter(trobj)
         rline += `<span class="res">${jsfmt}</span>`
     }
-    if(action.substring(0,10) === 'screenshot') {
+    else if(action.substring(0,10) === 'screenshot') {
         let name = action.substring(11)
         let ipath = '../../../latest/images/'+name+'.png'
         rline += `<div><img class="ss" src="${ipath}"><p class="cap">${name}</p></div>`
@@ -145,18 +145,18 @@ function startReport(title:string) {
         }
         .json {
             margin: 0;
-            background: #2c2c2c;
-            color: #AAA;
-            font-size:16px;
+            background: lightgoldenrodyellow;
+            color: darkcyan;
+            font-size:20px;
             min-height: 100vh;
         
-            code {word-spacing: 2px;background: #2c2c2c;color: #AAA;font-size:16px; display: block;}
-            code pre {outline: 1px solid #ccc;padding: 5px;margin: 5px;}
-            code .string {color: #6b8753;}
-            code .number {color: #6997C0;}
-            code .boolean {color: #cd7a1c;font-weight: bold;}
-            code .null {color: #cd7a1c;font-weight: bold;}
-            code .key {color: #9776ae;font-weight: bold;}
+            code {word-spacing: 8px;background: lightgoldenrodyellow;color: darkcyan;font-size:20px; display: block;}
+            code pre {outline: 1px solid black;padding: 10px;margin: 10px;}
+            code .string {color: blue;}
+            code .number {color: darkblue;}
+            code .boolean {color: darkorange;font-weight: bold;}
+            code .null {color: red;font-weight: bold;}
+            code .key {color: gray;font-weight: bold;}
        
         }
     </style>

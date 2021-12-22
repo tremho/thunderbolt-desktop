@@ -1,3 +1,7 @@
+//
+// Code modified from github page hosted by https://github.com/AndreAntunesVieira
+//
+
 const valuePattern = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g
 
 export default function jsonToHtml(content: any) {
@@ -41,8 +45,6 @@ const getClassName = (match: string) => {
     return 'number'
 }
 
-//style="margin: 0;background: #2c2c2c;color: #AAA;font-size:16px;min-height: 100vh;"
-//${styles.darcula}
 const getJsonToHtmlTemplate = (json: string) => `
 <div class="json"
 ${json}
