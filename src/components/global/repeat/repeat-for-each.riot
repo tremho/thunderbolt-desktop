@@ -15,7 +15,7 @@
           }
           for(let p of Object.getOwnPropertyNames(props)) {
             let v = props[p]
-            let ai = v.indexOf('@')
+            let ai = typeof v === 'string' ? v.indexOf('@') : -1
             let parts = []
             if(ai !== -1) {
               parts = v.substring(ai+1).split('.')
