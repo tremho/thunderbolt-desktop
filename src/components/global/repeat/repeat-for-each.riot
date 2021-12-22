@@ -56,6 +56,7 @@
           // clear all children
           parent.innerHTML = '';
           const subject = vars.subject
+          const condition = vars.condition || 'true'
           const slots = this.childSlots
           if(slots) {
             for (let item of subject) {
@@ -73,17 +74,29 @@
                   }
                   cprops[p] = pv.trim()
                 }
-                // console.log('>>> creating cc from ', cname, cprops)
-                let cc = document.createElement(cname)
-                let cmp = riot.mount(cc, cprops)[0]
-                let parent = parentage[c.parent]
-                parent.appendChild(cc)
-                parentage[c.name] = cc.firstChild
+                if(testCondition(condition, item, vars)) {
+                  // console.log('>>> creating cc from ', cname, cprops)
+                  let cc = document.createElement(cname)
+                  let cmp = riot.mount(cc, cprops)[0]
+                  let parent = parentage[c.parent]
+                  parent.appendChild(cc)
+                  parentage[c.name] = cc.firstChild
+                }
               }
             }
           }
         }
       }, StdComp)
+
+      function testCondition(expr, item, vars) {
+        let rt = expr
+        try { rt = com.evalInnerExpression(arg, vars) } catch (e) {
+          rt = e.toString();
+          // ok = false;
+          console.error(e)
+        }
+        return !!rt // force boolean
+      }
 
       // gather the slot child hierarchy
       function collectChildSlots(cslots, parent, slots, env) {
