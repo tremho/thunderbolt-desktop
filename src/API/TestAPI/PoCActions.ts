@@ -54,7 +54,9 @@ function record(action:string, result:any) {
     let rline = `        <li class--"rline">`
     rline += `<span class="ts">${ts}</span><span class="act">${action}</span>`
     if(action.substring(0,4) === 'tree') {
-        const jsfmt = jsonFormatter(result)
+        let trobj
+        try {trobj = JSON.parse(result)} catch(e) {}
+        const jsfmt = jsonFormatter(trobj)
         rline += `<span class="res">${jsfmt}</span>`
     }
     if(action.substring(0,10) === 'screenshot') {
