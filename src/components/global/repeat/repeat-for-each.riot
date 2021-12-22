@@ -23,7 +23,9 @@
               this.com.model.bind(this.riot, parts[0], parts[1], refire)
             }
           }
-          this.render(props)
+          setTimeout(() => {
+            this.render(props)
+          }, 10)
         },
         render(props) {
           this.childSlots = null; // turns out we need to regenerate each time.
