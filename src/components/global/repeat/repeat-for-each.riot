@@ -90,10 +90,10 @@
 
       function testCondition(expr, item, vars, com) {
         let rt = expr
-        try { rt = com.evalInnerExpression(arg, vars) } catch (e) {
+        try { rt = com.evalInnerExpression(expr, vars) } catch (e) {
           rt = e.toString();
           console.error(e)
-          return true // condition has no effect on error 
+          return true // condition has no effect on error
         }
         return !!rt // force boolean
       }
