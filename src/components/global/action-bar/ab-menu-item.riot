@@ -21,7 +21,7 @@
     </p>
     <!-- submenu -->
     <p if="{props.children}"
-       onclick="{openSubmenu}" class="{props.disabled?'disabled':''}" onmouseleave="{closeSubmenu}"
+       onclick="{openSubmenu}" class="{props.disabled?'disabled':''}"
     >
         {props.label.replace(/&&/g, '%+%').replace(/&/g, '').replace('%+%', '&')} &#x25b8;
     </p>
@@ -33,7 +33,7 @@
     </div>
 
 
-    <div class="sub-menu" if="{state.submenu}" onmouseenter="{keepOpen}" onmouseleave="{allowClose}">
+    <div class="sub-menu" if="{state.submenu}" onmouseenter="{keepOpen}" >
         <ab-menu-item each="{item in props.children}"
                       label="{item.label}"
                       id="{item.id}"
@@ -71,10 +71,10 @@
             if(sm) {
               sm.style.top = state.submenu.top + 'px'
               sm.style.left = state.submenu.left + 'px'
-              sm.onmouseleave = (e) => {
-                let comp = cm.getComponent(e.srcElement)
-                comp.update({ submenu: false })
-              }
+              // sm.onmouseleave = (e) => {
+              //   let comp = cm.getComponent(e.srcElement)
+              //   comp.update({ submenu: false })
+              // }
 
             }
           }
