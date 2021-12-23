@@ -47,9 +47,10 @@
             if (mn) {
               mn.style.visibility = 'visible'
               mn.onmouseleave = (e) => {
-                mn.style.visibility = 'hidden'
-                let comp = cm.getComponent(e.srcElement)
-                comp.update({ open: false })
+                console.log('>> Bye Bye Mousey mouse')
+                // mn.style.visibility = 'hidden'
+                // let comp = cm.getComponent(e.srcElement)
+                // comp.update({ open: false })
               }
             }
           } else {
