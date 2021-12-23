@@ -132,6 +132,27 @@ function getSubmenuFromId(menuId:string) {
     return parentItem
 }
 
+export function getMenuItem(itemId:string) {
+    // @ts-ignore
+    let topItem = menus['main']
+    if(!topItem) {
+        throw Error('MENU NOT FOUND')
+    }
+    const findItem = (children:any[]):MenuItem|undefined => {
+        for (let ch of children) {
+            if (ch.id === itemId) {
+                return ch
+            }
+            if (ch.children?.length) {
+                let rt: MenuItem | undefined = findItem(ch.children)
+                if (rt) return rt;
+            }
+        }
+    }
+    return findItem(topItem.children || [])
+
+}
+
 export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
     const parentItem = getSubmenuFromId(menuId)
     const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items || []
@@ -144,14 +165,11 @@ export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
     }
 }
 
-export function checkMenuItem(menuId:string, itemId:string, checked: boolean) {
-    const parentItem = getSubmenuFromId(menuId)
-    const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items || []
-    for(let i=0; i< children.length; i++) {
-        let item = children[i]
+export function checkMenuItem(itemId:string, checked: boolean) {
+    const item:any = getMenuItem(itemId)
+    if(item) {
         if(item.id === itemId) {
             item.checked = checked
-            break;
         }
     }
 }
