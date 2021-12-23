@@ -46,11 +46,11 @@
             let mn = this.$('.menu-popover')
             if (mn) {
               mn.style.visibility = 'visible'
-              mn.onmouseleave = (e) => {
-                mn.style.visibility = 'hidden'
-                let comp = cm.getComponent(e.srcElement)
-                comp.update({ open: false })
-              }
+              // mn.onmouseleave = (e) => {
+              //   mn.style.visibility = 'hidden'
+              //   let comp = cm.getComponent(e.srcElement)
+              //   comp.update({ open: false })
+              // }
             }
           } else {
             let mn = this.$('.menu-popover')
