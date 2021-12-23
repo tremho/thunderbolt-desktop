@@ -33,7 +33,7 @@
     </div>
 
 
-    <div class="sub-menu" if="{state.submenu}" onmouseenter="{keepOpen}" > <!-- onmouseleave="{allowClose}" -->
+    <div class="sub-menu" if="{state.submenu}" onmouseenter="{keepOpen}" onmouseleave="{allowClose}">
         <ab-menu-item each="{item in props.children}"
                       label="{item.label}"
                       id="{item.id}"
@@ -73,9 +73,8 @@
               sm.style.top = state.submenu.top + 'px'
               sm.style.left = state.submenu.left + 'px'
               sm.onmouseleave = (e) => {
-                console.log('Bye bye submenu')
-                // let comp = cm.getComponent(e.srcElement)
-                // comp.update({ submenu: false })
+                let comp = cm.getComponent(e.srcElement)
+                comp.update({ submenu: false })
               }
 
             }
@@ -94,11 +93,11 @@
           comp.update({submenu: {top:itemBounds.top - 12, left:itemBounds.right }})
         },
         closeSubmenu(e) {
-          console.log('closeSubmenu?')
+          // console.log('closeSubmenu?')
           setTimeout(() => {
             // console.log('closeSubmenu')
             if(!inside) {
-              console.log('closeSubmenu!')
+              // console.log('closeSubmenu!')
                 let comp = cm.getComponent(e.srcElement)
                 if(comp) comp.update({ submenu: null })
               }
@@ -106,11 +105,11 @@
         },
         keepOpen(e) {
           inside++;
-          console.log('keep open '+inside)
+          // console.log('keep open '+inside)
         },
         allowClose(e) {
           inside--;
-          console.log('allow close '+inside)
+          // console.log('allow close '+inside)
         },
         fromAssets(path) {
           if(path.charAt(0) == path.charAt(path.length-1) && (path.charAt(0) === '"' || path.charAt(0) === "'")) {
