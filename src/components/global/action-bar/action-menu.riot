@@ -64,7 +64,7 @@
           // console.log('open menu')
           let comp = cm.getComponent(e.srcElement)
           const menuId = comp.props.menuId
-          const menu = cm.getApp().MenuApi.getSubmenuFromId(menuId)
+          const menu = cm.getApp().MenuApi.getSubmenuFromPath('main')
           const items = menu.children
           comp.update({open:true, items})
         }
