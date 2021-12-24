@@ -58,7 +58,7 @@ function convertMenuItem(item:any) {
         id: item.id,
         type: item.type,
         sublabel: item.sublabel,
-        toolTip: item.tooltip || 'this is a toolTip', // only for mac, but I'm not seeing evidence of it working!
+        toolTip: item.tooltip,  // only valid for mac, and it's kinda weird. supplied via a bracket option if used.
         enabled: !item.disabled,
         checked: item.checked,
         accelerator: item.accelerator,
@@ -139,6 +139,7 @@ export function getMenuItem(itemId:string) {
     }
     let found;
     const recurse = (mn:any) => {
+        console.log('gmi recurse...')
         if(Array.isArray(mn.items)) {
             for (let m of mn.items) {
                 console.log('considering', m.id)
@@ -148,9 +149,9 @@ export function getMenuItem(itemId:string) {
                     found = m;
                     break;
                 }
-                if (m.items) {
-                    console.log('>> has items, will recurse')
-                    recurse(m)
+                if (m.submenu) {
+                    console.log('>> has submenu, will recurse')
+                    recurse(m.submenu)
                 }
             }
         }
