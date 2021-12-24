@@ -14,26 +14,40 @@ const nativeImage = require('electron').nativeImage;
 
 let menus = {}
 
+/**
+ * Resets teh reference container for named menus
+ * internal use only.
+ */
 export function resetMenu() {
     menus = {}
 }
 
+/**
+ * Opens the Chrome Developer Tools Window for Electron
+ */
 export function openDevTools() {
     electron.BrowserWindow.getAllWindows()[0].webContents.openDevTools()
 }
 
-export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
+/**
+ * Adds or inserts a menu item to the system menu. Normally called from MenuAPI.
+ *
+ * @param {string} menuPath 'path using '-' to separate menu id's describing a positional hierarchy to a submenu location
+ * @param {MenuItem} item   Item to add
+ * @param {number} [position]  Optional position, if inserting an item
+ */
+export function addMenuItem(menuPath:string, item:MenuItem, position?:number) {
 
-    let n = menuId.indexOf('-')
-    if (n === -1) n = menuId.length;
-    const menuName = menuId.substring(0, n)
+    let n = menuPath.indexOf('-')
+    if (n === -1) n = menuPath.length;
+    const menuName = menuPath.substring(0, n)
     try {
         // @ts-ignore
         if (!menus[menuName]) {
             // @ts-ignore
             menus[menuName] = Menu.buildFromTemplate([]) // create a new menu of this name
         }
-        const parentItem = getSubmenuFromId(menuId)
+        const parentItem = getSubmenuFromPath(menuPath)
         const curMenu = parentItem.submenu || parentItem
         if (curMenu) {
             const emi = convertMenuItem(item)
@@ -51,6 +65,11 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
     }
 
 }
+
+/**
+ * Internal function to convert a MenuItem definition into an Electron menu item
+ * @param item
+ */
 function convertMenuItem(item:any) {
     const dmi:any =  {
         label: item.label,
@@ -103,24 +122,22 @@ function convertMenuItem(item:any) {
     return rt
 }
 
-// TODO: REMOVE AND REFACTOR
-// change all functions that call this to use getMenuItem instead.
-function getSubmenuFromId(menuId:string) {
-    let n = menuId.indexOf('-')
-    if(n === -1) n = menuId.length
-    let menuName = menuId.substring(0, n)
+/**
+ * Locates a submenu by its path
+ * @param {string} menuPath 'path using '-' to separate menu id's describing a positional hierarchy to a submenu location
+ */
+function getSubmenuFromPath(menuPath:string) {
     // @ts-ignore
-    let topItem = menus[menuName]
+    let topItem = menus['main']
     if(!topItem) {
-        console.error('menuId may not be complete ', menuId)
-        throw Error('MENU NOT FOUND: '+menuName)
+        throw Error('MENU NOT FOUND')
     }
-    const parts = menuId.split('-');
+    const parts = menuPath.split('-');
     if(!topItem.items) topItem.items = []
     let curMenu = topItem.items
     let parentItem = topItem;
-    let pid = menuName
-    for(let i=1; i<parts.length; i++) {
+    let pid = 'main'
+    for(let i=0; i<parts.length; i++) {
         pid = parts[i]
         for (let c = 0; c < curMenu.length; c++) {
             let cmitem = curMenu[c]
@@ -134,6 +151,12 @@ function getSubmenuFromId(menuId:string) {
     return parentItem
 }
 
+/**
+ * Locate a menu item in the desktop menu by its unique id.
+ * @param {string} itemId The menu item identifier
+ *
+ * @return {EMenuItem} Electron menu item
+ */
 export function getMenuItem(itemId:string) {
     // @ts-ignore
     let topItem = menus['main']
@@ -159,18 +182,29 @@ export function getMenuItem(itemId:string) {
 
 }
 
+/**
+ * Enables or disables a menu item.
+ * Disabled items appear grayed out and cannot be selected.
+ *
+ * @param {string} itemId   The menu identifier to enable/disable
+ * @param {boolean} enabled  `true` to enable, `false` to disable.
+ */
 export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
-    const parentItem = getSubmenuFromId(menuId)
-    const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items || []
-    for(let i=0; i< children.length; i++) {
-        let item = children[i]
+    const item:any = getMenuItem(itemId)
+    if(item) {
         if(item.id === itemId) {
             item.enabled = enabled
-            break;
         }
     }
 }
 
+/**
+ * Sets or unsets the checkmark for a checkbox item
+ * Menu Item must be a checkbox type.
+ *
+ * @param {string} itemId   The menu identifier to check or uncheck.
+ * @param {boolean} checked  `true` to check, `false` to uncheck.
+ */
 export function checkMenuItem(itemId:string, checked: boolean) {
     const item:any = getMenuItem(itemId)
     if(item) {
@@ -180,8 +214,13 @@ export function checkMenuItem(itemId:string, checked: boolean) {
     }
 }
 
-export function deleteMenuItem(menuId:string, itemId:string) {
-    const parentItem = getSubmenuFromId(menuId)
+/**
+ * Removes a menu item from a menu or submenu
+ * @param {string} menuPath menu Path describing the submenu where the item resides
+ * @param {string} itemId  the identifier of the item to be removed
+ */
+export function deleteMenuItem(menuPath:string, itemId:string) {
+    const parentItem = getSubmenuFromPath(menuPath)
     const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items
     for(let i=0; i< children.length; i++) {
         let item = children[i]
@@ -193,8 +232,14 @@ export function deleteMenuItem(menuId:string, itemId:string) {
     }
 }
 
+/**
+ * Replaces a menu item with another
+ * @param {string} menuPath menu Path describing the submenu where the item resides
+ * @param {string} itemId  the identifier of the item to be replaced
+ * @param {MenuItem} updatedItem  Defines the replacement item
+ */
 export function changeMenuItem(menuId:string, itemId:string, updatedItem:MenuItem) {
-    const parentItem = getSubmenuFromId(menuId)
+    const parentItem = getSubmenuFromPath(menuId)
     const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items || []
     for(let i=0; i< children.length; i++) {
         let item = children[i]
@@ -207,8 +252,12 @@ export function changeMenuItem(menuId:string, itemId:string, updatedItem:MenuIte
     }
 }
 
-export function clearMenu(menuId:string) {
-    const parentItem = getSubmenuFromId(menuId)
+/**
+ * Remove a menu or submenu
+ * @param {string} menuPath  The path describing the submenu location
+ */
+export function clearMenu(menuPath:string) {
+    const parentItem = getSubmenuFromPath(menuPath)
     const children = (parentItem.submenu && parentItem.submenu.items) || parentItem.items
     for(let i=0; i< children.length; i++) {
         let item = children[i]
@@ -217,6 +266,12 @@ export function clearMenu(menuId:string) {
     }
 }
 
+/**
+ * This function is called internally when an item is selected from the system menu
+ * @param {MenuItem} item   The item selected
+ * @param {*} browserWindow Electron BrowserWindow object
+ * @param {*} event Event structure
+ */
 function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
     let id = item.id
     // console.log('Clicked on Desktop menu item '+id)
