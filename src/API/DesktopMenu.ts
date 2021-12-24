@@ -138,22 +138,25 @@ export function getMenuItem(itemId:string) {
     if(!topItem) {
         throw Error('MENU NOT FOUND')
     }
-    const findItem = (children:any[]):MenuItem|undefined => {
-        console.log('>>findItem among', children?.length, 'children')
-        for (let ch of children) {
-            console.log('considering', ch.id)
-            if (ch.id === itemId) {
-                console.log('returning', ch)
-                return ch
-            }
-            if (ch.children?.length) {
-                let rt: MenuItem | undefined = findItem(ch.children)
-                if (rt) return rt;
+    let found;
+    const recurse = (mn:any) => {
+        if(Array.isArray(mn.items)) {
+            for (let m of mn.items) {
+                console.log('considering', m.id)
+                if(m.id === itemId) {
+                    console.log('found', m)
+                    found = m;
+                    break;
+                }
+                if (m.submenu) {
+                    recurse(m)
+                }
             }
         }
     }
     console.log('>getMenuItem', itemId)
-    return findItem(topItem.children || [])
+    recurse(topItem)
+    return found
 
 }
 
@@ -235,7 +238,18 @@ function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
 export function setToMenuBar(menuName:string) {
     // @ts-ignore
     const menu = menus[menuName]
-    menu.setMaxListeners(2000) // will this work?
+    // try this:
+    const recurse = (mn:any) => {
+        mn.setMaxListeners(64)
+        if(Array.isArray(mn.items)) {
+            for (let m of mn.items) {
+                if (m.submenu) {
+                    recurse(m)
+                }
+            }
+        }
+    }
+    recurse(menu)
     Menu.setApplicationMenu(menu)
 }
 
