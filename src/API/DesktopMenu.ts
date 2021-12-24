@@ -142,6 +142,7 @@ export function getMenuItem(itemId:string) {
         if(Array.isArray(mn.items)) {
             for (let m of mn.items) {
                 console.log('considering', m.id)
+                if(m.id === 'INFO') console.log(m)
                 if(m.id === itemId) {
                     console.log('found', m)
                     found = m;
