@@ -147,8 +147,8 @@ export function getMenuItem(itemId:string) {
                     found = m;
                     break;
                 }
-                if (m.submenu) {
-                    console.log('>> has submenu, will recurse')
+                if (m.items) {
+                    console.log('>> has items, will recurse')
                     recurse(m)
                 }
             }
