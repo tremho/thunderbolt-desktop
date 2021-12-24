@@ -36,6 +36,7 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
         const parentItem = getSubmenuFromId(menuId)
         const curMenu = parentItem.submenu || parentItem
         if (curMenu) {
+            curMenu.setMaxListeners(64)
             const emi = convertMenuItem(item)
 
             if (position === undefined) {
