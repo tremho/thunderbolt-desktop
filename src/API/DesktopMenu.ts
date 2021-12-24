@@ -238,18 +238,6 @@ function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
 export function setToMenuBar(menuName:string) {
     // @ts-ignore
     const menu = menus[menuName]
-    // try this:
-    const recurse = (mn:any) => {
-        mn.setMaxListeners(64)
-        if(Array.isArray(mn.items)) {
-            for (let m of mn.items) {
-                if (m.submenu) {
-                    recurse(m)
-                }
-            }
-        }
-    }
-    recurse(menu)
     Menu.setApplicationMenu(menu)
 }
 
