@@ -139,6 +139,7 @@ export function getMenuItem(itemId:string) {
         throw Error('MENU NOT FOUND')
     }
     const findItem = (children:any[]):MenuItem|undefined => {
+        console.log('>>findItem among', children?.length, 'children')
         for (let ch of children) {
             console.log('considering', ch.id)
             if (ch.id === itemId) {
@@ -151,7 +152,7 @@ export function getMenuItem(itemId:string) {
             }
         }
     }
-    console.log('getMenuItem', itemId, topItem)
+    console.log('>getMenuItem', itemId)
     return findItem(topItem.children || [])
 
 }
@@ -234,6 +235,7 @@ function onMenuItem(item:MenuItem, browserWindow:any, event:any) {
 export function setToMenuBar(menuName:string) {
     // @ts-ignore
     const menu = menus[menuName]
+    menu.setMaxListeners(2000) // will this work?
     Menu.setApplicationMenu(menu)
 }
 
