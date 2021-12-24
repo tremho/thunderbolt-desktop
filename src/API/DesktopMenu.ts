@@ -166,8 +166,10 @@ export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
 }
 
 export function checkMenuItem(itemId:string, checked: boolean) {
+    console.log(">>>> checkMenuItem", itemId, checked)
     const item:any = getMenuItem(itemId)
     if(item) {
+        console.log("item", item)
         if(item.id === itemId) {
             item.checked = checked
         }
