@@ -140,7 +140,9 @@ export function getMenuItem(itemId:string) {
     }
     const findItem = (children:any[]):MenuItem|undefined => {
         for (let ch of children) {
+            console.log('considering', ch.id)
             if (ch.id === itemId) {
+                console.log('returning', ch)
                 return ch
             }
             if (ch.children?.length) {
@@ -149,6 +151,7 @@ export function getMenuItem(itemId:string) {
             }
         }
     }
+    console.log('getMenuItem', itemId, topItem)
     return findItem(topItem.children || [])
 
 }
