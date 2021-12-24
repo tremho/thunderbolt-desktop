@@ -102,6 +102,9 @@ function convertMenuItem(item:any) {
     }
     return rt
 }
+
+// TODO: REMOVE AND REFACTOR
+// change all functions that call this to use getMenuItem instead.
 function getSubmenuFromId(menuId:string) {
     let n = menuId.indexOf('-')
     if(n === -1) n = menuId.length
@@ -139,24 +142,18 @@ export function getMenuItem(itemId:string) {
     }
     let found;
     const recurse = (mn:any) => {
-        console.log('gmi recurse...')
         if(Array.isArray(mn.items)) {
             for (let m of mn.items) {
-                console.log('considering', m.id)
-                if(m.id === 'INFO') console.log(m)
                 if(m.id === itemId) {
-                    console.log('found', m)
                     found = m;
                     break;
                 }
                 if (m.submenu) {
-                    console.log('>> has submenu, will recurse')
                     recurse(m.submenu)
                 }
             }
         }
     }
-    console.log('>getMenuItem', itemId)
     recurse(topItem)
     return found
 
@@ -175,10 +172,8 @@ export function enableMenuItem(menuId:string, itemId:string, enabled: boolean) {
 }
 
 export function checkMenuItem(itemId:string, checked: boolean) {
-    console.log(">>>> checkMenuItem", itemId, checked)
     const item:any = getMenuItem(itemId)
     if(item) {
-        console.log("item", item)
         if(item.id === itemId) {
             item.checked = checked
         }
