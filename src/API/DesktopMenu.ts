@@ -36,7 +36,6 @@ export function addMenuItem(menuId:string, item:MenuItem, position?:number) {
         const parentItem = getSubmenuFromId(menuId)
         const curMenu = parentItem.submenu || parentItem
         if (curMenu) {
-            curMenu.setMaxListeners(64)
             const emi = convertMenuItem(item)
 
             if (position === undefined) {
@@ -59,13 +58,12 @@ function convertMenuItem(item:any) {
         id: item.id,
         type: item.type,
         sublabel: item.sublabel,
-        tooltip: item.tooltip, // only for mac, but I'm not seeing evidence of it working!
+        toolTip: item.tooltip || 'this is a toolTip', // only for mac, but I'm not seeing evidence of it working!
         enabled: !item.disabled,
         checked: item.checked,
         accelerator: item.accelerator,
         click: onMenuItem
     }
-    dmi.tooltip = 'this is a tooltip' // todo: tooltip is not really supported. Drop from documented features and API exposure.
     if(item.icon) {
         // console.log('setting icon to ',item)
         try {
@@ -98,6 +96,9 @@ function convertMenuItem(item:any) {
     let rt
     try {
         rt = new EMenuItem(dmi)
+
+        // @ts-ignore
+        rt.submenu.setMaxListeners(64)
     }
     catch(e) {
         console.error("Error converting menu item", item, e)
@@ -150,6 +151,7 @@ export function getMenuItem(itemId:string) {
                     break;
                 }
                 if (m.submenu) {
+                    console.log('>> has submenu, will recurse')
                     recurse(m)
                 }
             }
