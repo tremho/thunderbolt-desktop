@@ -96,9 +96,6 @@ function convertMenuItem(item:any) {
     let rt
     try {
         rt = new EMenuItem(dmi)
-
-        // @ts-ignore
-        rt.submenu.setMaxListeners(64)
     }
     catch(e) {
         console.error("Error converting menu item", item, e)
