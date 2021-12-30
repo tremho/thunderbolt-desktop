@@ -43,11 +43,12 @@
           div.style.pointerEvents = 'auto'
           // apply tooltip handling
           div.setAttribute('title', props.tooltip || props.label)
+          let prevent = false
           if(this.extension) {
             // apply extension handling
             div.onmousedown = (e) => {
               let comp = cm.getComponent(e.srcElement)
-              let prevent = this.extension.onPress({info:props, component: comp})
+              prevent = this.extension.onPress({info:props, component: comp})
               if(prevent) {
                 e.stopPropagation()
                 e.preventDefault()
@@ -59,6 +60,10 @@
             }
             this.extension.onSetToPage({component:this, info:props})
           }
+          div.onclick = (e) => {
+            if(!prevent) this.performAction(e)
+          }
+
           // bind to a state change on this component
           // and update and call this.extension.onStateChange(comp, comp.bound.state)
           cm.getCombinder().applyComponentBindings(this, "indicator-"+this.bound.id+".state", (comp,prop,value) =>{
