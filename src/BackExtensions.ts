@@ -8,26 +8,31 @@ const registeredModules:any = {}
 
 // back side listener to dispatch to functions registered
 ipcMain.on('extApi', (event, msg) => {
-    console.log('>>> See message for extApi call', msg)
+    // console.log('>>> See message for extApi call', msg)
     const {moduleName, functionName, id, args} = msg
     const module = registeredModules[moduleName]
-    // console.log('module for '+moduleName, module)
+    console.log('module for '+moduleName, module)
 
-    let response:any, error:any;
-    if(!module.contextSent) {
-        if(typeof module.initContext === 'function') {
-            try {
-                module.initContext(AppBackRequirements, frameworkBackContext)
-                module.contextSent = true
-            } catch(e) {
-                error = e
+    let response:any, error:any, fn:any
+
+    if(!module) {
+        error = `module ${moduleName} is not registered`
+    } else {
+        if (module.contextSent) {
+            if (typeof module.initContext === 'function') {
+                try {
+                    module.initContext(AppBackRequirements, frameworkBackContext)
+                    module.contextSent = true
+                } catch (e) {
+                    error = e
+                }
             }
         }
-    }
-    const fn = module[functionName]
+        fn = module[functionName]
 
-    if(!fn) {
-        error = 'Function '+functionName+' does not exist in module "'+moduleName+'"'
+        if (!fn) {
+            error = 'Function ' + functionName + ' does not exist in module "' + moduleName + '"'
+        }
     }
     if(!error) {
         try {
