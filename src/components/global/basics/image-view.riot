@@ -1,6 +1,6 @@
 
 <image-view>
-    <img class="ImageView" src={state.src} onclick="{onClick}"/>
+    <img class="ImageView" src={assetsSrc} onclick="{onClick}"/>
     <style>
     </style>
     <script>
@@ -12,6 +12,10 @@
           console.log('onClick pressed')
           // call via binding context
           this.cm.getApp().callEventHandler('action', e)
+        },
+
+        assetsSrc() {
+          return this.com.baseFromAssest(state.src)
         }
 
       }, StdComp)
