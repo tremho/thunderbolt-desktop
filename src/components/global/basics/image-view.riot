@@ -8,12 +8,12 @@
       const sc =  Object.assign({
         isAlignable: true,
 
-        preStdOnMounted(state, props) {
+        preStdOnMounted() {
             let img = this.$('img')
             if(img) {
-              img.src = this.com.baseFromAssets(props.src)
-              img.width = props.width
-              img.height = props.height
+              img.src = this.com.baseFromAssets(this.props.src)
+              img.width = this.props.width
+              img.height = this.props.height
             }
         },
 
