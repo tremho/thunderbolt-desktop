@@ -8,12 +8,12 @@
       const sc =  Object.assign({
         isAlignable: true,
 
-        preStdOnBeforeMount(state, props) {
-            let img = this.$('img')
-            img.src = this.com.baseFromAssets(props.src)
-            img.width = props.width
-            img.height = props.height
-        },
+        // preStdOnBeforeMount(state, props) {
+        //     let img = this.$('img')
+        //     img.src = this.com.baseFromAssets(props.src)
+        //     img.width = props.width
+        //     img.height = props.height
+        // },
 
         onClick(e) {
           console.log('onClick pressed')
