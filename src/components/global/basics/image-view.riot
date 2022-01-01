@@ -11,7 +11,7 @@
         preStdOnMounted() {
             let img = this.$('img')
             if(img) {
-              img.src = this.com.baseFromAssets(this.props.src)
+              img.src = './assets/' + this.props.src
               img.width = this.props.width
               img.height = this.props.height
             }
