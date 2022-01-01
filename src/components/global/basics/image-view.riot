@@ -1,6 +1,6 @@
 
 <image-view>
-    <img class="ImageView" src={assetsSrc} onclick="{onClick}"/>
+    <img class="ImageView" onclick="{onClick}"/>
     <style>
     </style>
     <script>
@@ -8,14 +8,17 @@
       const sc =  Object.assign({
         isAlignable: true,
 
+        preStdOnBeforeMount(state, props) {
+            let img = this.$('img')
+            img.src = this.com.baseFromAssets(props.src)
+            img.width = props.width
+            img.height = props.height
+        },
+
         onClick(e) {
           console.log('onClick pressed')
           // call via binding context
           this.cm.getApp().callEventHandler('action', e)
-        },
-
-        assetsSrc() {
-          return this.com.baseFromAssets(state.src)
         }
 
       }, StdComp)
