@@ -1,0 +1,20 @@
+
+<image-view>
+    <img class="ImageView" src={state.src} onclick="{onClick}"/>
+    <style>
+    </style>
+    <script>
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+        isAlignable: true,
+
+        onClick(e) {
+          console.log('onClick pressed')
+          // call via binding context
+          this.cm.getApp().callEventHandler('action', e)
+        }
+
+      }, StdComp)
+      export default sc
+    </script>
+</image-view>
