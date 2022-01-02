@@ -11,7 +11,7 @@
         preStdOnMounted() {
             let img = this.$('img')
             if(img) {
-              let src = (this.com.evaluateBindExpression(props.src)?.value) || ''
+              let src = (this.com.evaluateBindExpression(this.props.src)?.value) || ''
               img.src = this.com.baseFromAssets(src)
               img.style.width = this.props.width;
               img.style.height = this.props.height;
