@@ -1,5 +1,5 @@
 
-import {dialog, MessageBoxOptions, MessageBoxReturnValue, nativeImage} from "electron"
+import {dialog, BrowserWindow, MessageBoxOptions, MessageBoxReturnValue, nativeImage} from "electron"
 
 export class DialogOptions {
     title?:string       // Does not display on Mac
@@ -27,6 +27,18 @@ export function openDialog(dialogOptions:DialogOptions):Promise<number> {
         return result.response
     })
 }
+
+// Message box with a timeout
+export async function timeoutBox(dialogOptions:DialogOptions, timeoutSeconds:number){
+    return new Promise(async (resolve, reject) => {
+        const slave = new BrowserWindow({width: 1, height: 1, show: true});
+        var resolved = false;
+        const dialogPromise =  openDialog(dialogOptions).catch(() => {})
+        const timeoutPromise = new Promise((resolve,reject)=> {setTimeout(reject, timeoutSeconds*1000)})
+        return Promise.race([dialogPromise, timeoutPromise])
+    });
+}
+
 
 // Dialog types from Nativescript (standard)
 // Alert, Action, Confirm, Login, Prompt
