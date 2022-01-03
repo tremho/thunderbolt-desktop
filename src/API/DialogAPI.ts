@@ -1,5 +1,6 @@
 
 import {dialog, BrowserWindow, MessageBoxOptions, MessageBoxReturnValue, nativeImage} from "electron"
+import {time} from "./TestAPI/TestActions";
 
 export class DialogOptions {
     title?:string       // Does not display on Mac
@@ -30,15 +31,46 @@ export function openDialog(dialogOptions:DialogOptions):Promise<number> {
 
 // Message box with a timeout
 export async function timeoutBox(dialogOptions:DialogOptions, timeoutSeconds:number){
-    return new Promise(async (resolve, reject) => {
-        const slave = new BrowserWindow({width: 1, height: 1, show: true});
-        var resolved = false;
-        const dialogPromise =  openDialog(dialogOptions).catch(() => {})
-        const timeoutPromise = new Promise((resolve,reject)=> {setTimeout(reject, timeoutSeconds*1000)})
-        return Promise.race([dialogPromise, timeoutPromise])
-    });
+    return new CancellablePopup(dialogOptions, timeoutSeconds*1000).promise
 }
+class CancellablePopup {
+    promise:Promise<any>|null
+    promiseReject:any
+    abortController:any
+    boxTimer:any
+    constructor (options:any, timeout:number) {
+        this.promise        = null
+        this.promiseReject  = null
+        this.abortController = new AbortController()
+        this.boxTimer       = null
 
+        // This is how to link the popup to the signal of AbortController
+        options.signal = this.abortController.signal
+
+        this.promise = new Promise ( ( resolve, reject ) => {
+            console.log ( "Opening popup ..." )
+            this.promiseReject = reject
+            let dummyWindow = new BrowserWindow({ width: 0, height: 0, show: false })
+            dialog.showMessageBox ( dummyWindow, options ).then ( (result) => {
+                clearTimeout ( this.boxTimer )
+                resolve ( result )
+            })
+
+            if ( timeout ) {
+                this.boxTimer = setTimeout ( () => {
+                    console.log ( "Popup has timed out!" )
+                    this.hide('timeout')
+                }, timeout )
+            }
+        })
+    }
+
+    hide( reason:string ) {
+        console.log ( "Hiding popup ..." )
+        this.abortController.abort()
+        this.promiseReject ( reason )
+    }
+}
 
 // Dialog types from Nativescript (standard)
 // Alert, Action, Confirm, Login, Prompt
