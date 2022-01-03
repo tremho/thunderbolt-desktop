@@ -89,6 +89,10 @@ export async function callPageFunction(funcName:string, parameters:string[] = []
     return await AppGateway.sendTestRequest('callPageFunction', [funcName, ...parameters])
 }
 
+export async function askAHuman(prompt:string, choices:string) {
+    return await AppGateway.sendTestRequest('askAHuman', [prompt, choices])
+}
+
 /**
  * wait for a given number of milliseconds
  * @param delay
