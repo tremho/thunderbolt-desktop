@@ -50,7 +50,7 @@ class CancellablePopup {
 
         this.promise = new Promise ( ( resolve, reject ) => {
             console.log ( "Opening popup ..." )
-            this.promiseReject = reject
+            this.promiseReject = resolve // reject
             let dummyWindow = new BrowserWindow({ width: 0, height: 0, show: false })
             dialog.showMessageBox ( dummyWindow, options ).then ( (result) => {
                 clearTimeout ( this.boxTimer )
