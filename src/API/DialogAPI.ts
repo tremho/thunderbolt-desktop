@@ -54,7 +54,7 @@ class CancellablePopup {
             let dummyWindow = new BrowserWindow({ width: 0, height: 0, show: false })
             dialog.showMessageBox ( dummyWindow, options ).then ( (result) => {
                 clearTimeout ( this.boxTimer )
-                resolve ( result )
+                resolve ( result.response )
             })
 
             if ( timeout ) {
