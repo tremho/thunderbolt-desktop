@@ -30,7 +30,7 @@ export function openDialog(dialogOptions:DialogOptions):Promise<number> {
 
 // Message box with a timeout
 export async function timeoutBox(dialogOptions:DialogOptions, timeoutSeconds:number){
-    console.log('timeoutBox', dialogOptions, timeoutSeconds)
+    // console.log('timeoutBox', dialogOptions, timeoutSeconds)
     return new CancellablePopup(dialogOptions, timeoutSeconds*1000).promise
 }
 class CancellablePopup {
@@ -49,7 +49,7 @@ class CancellablePopup {
         options.signal = this.abortController.signal
 
         this.promise = new Promise ( ( resolve, reject ) => {
-            console.log ( "Opening popup ..." )
+            // console.log ( "Opening popup ..." )
             this.promiseReject = resolve // reject
             let dummyWindow = new BrowserWindow({ width: 0, height: 0, show: false })
             dialog.showMessageBox ( dummyWindow, options ).then ( (result) => {
@@ -59,7 +59,7 @@ class CancellablePopup {
 
             if ( timeout ) {
                 this.boxTimer = setTimeout ( () => {
-                    console.log ( "Popup has timed out!" )
+                    // console.log ( "Popup has timed out!" )
                     this.hide('timeout')
                 }, timeout )
             }
@@ -67,7 +67,7 @@ class CancellablePopup {
     }
 
     hide( reason:string ) {
-        console.log ( "Hiding popup ..." )
+        // console.log ( "Hiding popup ..." )
         this.abortController.abort()
         this.promiseReject ( reason )
     }
