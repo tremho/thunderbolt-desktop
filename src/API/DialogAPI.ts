@@ -40,8 +40,6 @@ class CancellablePopup {
     boxTimer:any
     constructor (options:any, timeout:number) {
 
-        
-
         this.promise        = null
         this.promiseReject  = null
         this.abortController = new AbortController()
