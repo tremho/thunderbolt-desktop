@@ -37,7 +37,11 @@ export class WSClient {
         const fn = this.eventMap[event]
         if(fn) {
             console.log("WSCLIENT executing", fn)
-            fn(data)
+            try {
+                fn(data)
+            } catch(e) {
+                console.error(e)
+            }
         }
     }
 }
