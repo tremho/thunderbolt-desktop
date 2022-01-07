@@ -89,9 +89,9 @@ export async function callPageFunction(funcName:string, parameters:string[] = []
     return await AppGateway.sendTestRequest('callPageFunction', [funcName, ...parameters])
 }
 
-export async function askAHuman(prompt:string, choices:string, timeoutSeconds:number) {
+export async function askAHuman(prompt:string, choices:string, expect:string, timeoutSeconds:number) {
     // console.log('testactions: askAHuman ', prompt, choices, timeoutSeconds)
-    return await AppGateway.sendTestRequest('askAHuman', [prompt, choices, ''+timeoutSeconds])
+    return await AppGateway.sendTestRequest('askAHuman', [prompt, choices, expect, ''+timeoutSeconds])
 }
 
 /**
