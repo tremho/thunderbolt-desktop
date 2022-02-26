@@ -13,7 +13,8 @@
         postStdOnBeforeMount (props, state) {
           // Set up our attachments
           this.app = this.cm.app
-          this.canvas = this.elementFind('canvas')
+          let div = this.elementFind('div')
+          this.canvas = div.firstChild
         },
         postStdOnMounted(props, state) {
           // measure and complete sizing
