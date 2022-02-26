@@ -23,8 +23,6 @@
           if(!size) {
             size = (rect.height || rect.width)
           }
-          let sizeH = this.isAndroid ? size * 0.75 : size
-
           this.ctx = this.getContext()
           if(this.ctx) {
             this.ctx.canvas.width = size
