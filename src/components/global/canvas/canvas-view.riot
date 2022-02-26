@@ -1,0 +1,71 @@
+
+<canvas-view>
+    <div class="CanvasView" onclick="{onClick}">
+        <canvas>
+            <p>Canvas Not Supported</p>
+        </canvas>
+    </div>
+    <style>
+    </style>
+    <script>
+      import StdComp from 'Framework/app-core/StdComp'
+      const sc =  Object.assign({
+        postStdOnBeforeMount (props, state) {
+          // Set up our attachments
+          this.app = this.cm.app
+          this.canvas = this.elementFind('canvas')
+        },
+        postStdOnMounted(props, state) {
+          // measure and complete sizing
+          let div = this.elementFind('div')
+          this.setStyleProp(div, 'borderWidth', '1')
+          this.setStyleProp(div, 'borderStyle', 'solid')
+          this.setStyleProp(div, 'borderColor', 'black')
+          let size = Number(this.getProp('size'))
+          const rect = this.getElementBounds(div)
+          if(!size) {
+            size = (rect.height || rect.width)
+          }
+          let sizeH = this.isAndroid ? size * 0.75 : size
+
+          this.ctx = this.getContext()
+          if(this.ctx) {
+            this.ctx.canvas.width = size
+            this.ctx.canvas.height = size
+          }
+        },
+        getContext(type) {
+          if(!this.ctx || type) {
+            if (!type) type = this.getProp('type') || 'none'
+            type = (type && type.toLowerCase()) || ''
+            if (type === '2d' || type === 'webgl' || type === '3d') {
+              if(type === '3d') type = 'webgl' // 3d is synonymous with webGL 1.0
+              try {
+                let rctx = this.canvas.getContext(type)
+                this.ctx = rctx
+                if(this.ctx) {
+                  this.contextType = type
+                } else {
+                }
+
+              } catch (e) {
+                console.error('Canvas initialization has failed')
+                throw e;
+              }
+            } else {
+              throw Error('canvas type must be "2d" or "webgl"')
+            }
+          }
+          return this.ctx
+        },
+
+        onClick(e) {
+          console.log('onClick pressed')
+          // call via binding context
+          this.cm.getApp().callEventHandler('action', e)
+        }
+
+      }, StdComp)
+      export default sc
+    </script>
+</canvas-view>
