@@ -7,6 +7,11 @@
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
 
+        onClick(e) {
+          // call via binding context
+          cm.getApp().callEventHandler('action', e)
+        }
+
       }, StdComp)
       export default sc
     </script>
