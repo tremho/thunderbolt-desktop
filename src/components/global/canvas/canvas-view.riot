@@ -1,4 +1,5 @@
 
+
 <canvas-view>
     <div class="CanvasView" onclick="{onClick}">
         <canvas>
@@ -9,6 +10,7 @@
     </style>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
+      import { EventData } from 'Framework/app-core/EventData'
       const sc =  Object.assign({
         postStdOnMounted(props, state) {
           // measure and complete sizing
@@ -28,6 +30,19 @@
             this.ctx.canvas.width = size
             this.ctx.canvas.height = size
           }
+          let readyName = (this.getProp('ready') || 'canvasReady')
+          let app = this.cm.getApp()
+          const readyEvent = new EventData()
+          readyEvent.app = app
+          readyEvent.sourceComponent = this.component
+          readyEvent.eventType = "canvasReady"
+          readyEvent.tag = readyName
+          // value, platEvent undefined
+
+          setTimeout(() => {
+             app.callPageAction(readyName, readyEvent)
+          })
+
         },
         getContext(type) {
           if(!this.ctx || type) {
