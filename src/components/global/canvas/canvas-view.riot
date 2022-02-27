@@ -24,7 +24,8 @@
           let size = width || height
           const rect = this.getElementBounds(div)
           if(!size) {
-            size = (rect.width || rect.height)
+            size = Math.min(rect.width, rect.height)
+            if(!size) size = (rect.width || rect.height)
           }
           this.canvas.width = size;
           this.canvas.height = size;
