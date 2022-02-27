@@ -34,7 +34,7 @@
           let app = this.cm.getApp()
           const readyEvent = new EventData()
           readyEvent.app = app
-          readyEvent.sourceComponent = this.component
+          readyEvent.sourceComponent = this
           readyEvent.eventType = "canvasReady"
           readyEvent.tag = readyName
           // value, platEvent undefined
