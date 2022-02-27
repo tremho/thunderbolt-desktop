@@ -31,13 +31,8 @@
           }
           let readyName = (this.getProp('ready') || 'canvasReady')
           let app = this.cm.getApp()
-          const readyEvent = {
-            target : this,  // event consumer can get target.app and target.canvas and call target.getContext()
-            type  : "canvasReady"
-          }
-
           setTimeout(() => {
-             app.callPageAction(readyName, readyEvent)
+             app.callCanvasReady(this)
           })
 
         },
