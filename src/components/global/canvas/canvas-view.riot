@@ -32,7 +32,7 @@
           let readyName = (this.getProp('ready') || 'canvasReady')
           let app = this.cm.getApp()
           setTimeout(() => {
-             app.callCanvasReady(this) // this will call with an NS-looking 'event' argument.
+             app.callCanvasReady(this.canvas) // this will call with an NS-looking 'event' argument.
           })
         },
 
