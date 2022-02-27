@@ -29,10 +29,11 @@
             this.ctx.canvas.width = size
             this.ctx.canvas.height = size
           }
+          // note that for NS-side integration, the method name must be 'canvasReady'. But that's on that side, not here.
           let readyName = (this.getProp('ready') || 'canvasReady')
           let app = this.cm.getApp()
           setTimeout(() => {
-             app.callCanvasReady(this)
+             app.callCanvasReady(this) // this will call with an NS-looking 'event' argument.
           })
 
         },
