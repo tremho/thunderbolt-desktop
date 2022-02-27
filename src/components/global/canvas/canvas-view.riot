@@ -10,7 +10,6 @@
     </style>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
-      import { EventData } from 'Framework/app-core/EventData'
       const sc =  Object.assign({
         postStdOnMounted(props, state) {
           // measure and complete sizing
@@ -32,12 +31,10 @@
           }
           let readyName = (this.getProp('ready') || 'canvasReady')
           let app = this.cm.getApp()
-          const readyEvent = new EventData()
-          readyEvent.app = app
-          readyEvent.sourceComponent = this
-          readyEvent.eventType = "canvasReady"
-          readyEvent.tag = readyName
-          // value, platEvent undefined
+          const readyEvent = {
+            target : this,  // event consumer can get target.app and target.canvas and call target.getContext()
+            type  : "canvasReady"
+          }
 
           setTimeout(() => {
              app.callPageAction(readyName, readyEvent)
