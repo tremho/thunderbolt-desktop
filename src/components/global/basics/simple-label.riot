@@ -1,6 +1,6 @@
 
 <simple-label>
-    <div class="SimpleLabel" onclick="{onClick}">
+    <div class="SimpleLabel">
         {state.text}
     </div>
     <style>
@@ -10,12 +10,10 @@
       const sc =  Object.assign({
             isAlignable: true,
 
-        onClick(e) {
-          console.log('onClick pressed')
-          // call via binding context
-          this.cm.getApp().callEventHandler('action', e)
-        }
-
+            preStdOnMounted (props, state) {
+              let div = this.elementFind('div')
+              this.listenToAllGestures(div, 'action')
+            }
       }, StdComp)
       export default sc
     </script>

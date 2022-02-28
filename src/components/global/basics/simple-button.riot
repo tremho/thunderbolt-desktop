@@ -1,16 +1,16 @@
 
 <simple-button>
     <div class="SimpleButton">
-        <button onclick="{onClick}">{state.text}</button>
+        <button>{state.text}</button>
     </div>
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
 
-        onClick(e) {
-          // call via binding context
-          this.cm.getApp().callEventHandler('action', e)
-        }
+        preStdOnMounted (props, state) {
+          let div = this.elementFind('div')
+          this.listenToAllGestures(div, 'action')
+        },
 
       }, StdComp)
       export default sc

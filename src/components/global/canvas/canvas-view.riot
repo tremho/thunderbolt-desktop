@@ -11,11 +11,13 @@
     <script>
       import StdComp from 'Framework/app-core/StdComp'
       const sc =  Object.assign({
+
         postStdOnMounted(props, state) {
           // measure and complete sizing
           this.app = this.cm.app
           let div = this.elementFind('div')
           this.canvas = div.firstChild
+          this.listenToAllGestures(this.canvas, 'action')
           this.setStyleProp(div, 'borderWidth', '1')
           this.setStyleProp(div, 'borderStyle', 'solid')
           this.setStyleProp(div, 'borderColor', 'black')

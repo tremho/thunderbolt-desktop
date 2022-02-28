@@ -8,6 +8,7 @@
         postStdOnMounted(props, state) {
           this.innerTag = 'div'
           let div = this.$(this.innerTag)
+          this.listenToAllGestures(div, 'action')
           div.className = this.root.className
           this.root.className = ''
           if(props.orientation === 'horizontal') {

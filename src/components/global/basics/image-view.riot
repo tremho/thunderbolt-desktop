@@ -1,6 +1,6 @@
 
 <image-view>
-    <img class="ImageView" onclick="{onClick}"/>
+    <img class="ImageView"/>
     <style>
     </style>
     <script>
@@ -8,7 +8,10 @@
       const sc =  Object.assign({
         isAlignable: true,
 
+
         preStdOnMounted() {
+            let div = this.elementFind('div')
+            this.listenToAllGestures(div, 'action')
             let img = this.$('img')
             if(img) {
               let src = (this.com.evaluateBindExpression(this.props.src)?.value) || ''
@@ -16,12 +19,6 @@
               img.style.width = this.props.width;
               img.style.height = this.props.height;
             }
-        },
-
-        onClick(e) {
-          console.log('onClick pressed')
-          // call via binding context
-          this.cm.getApp().callEventHandler('action', e)
         }
 
       }, StdComp)

@@ -17,6 +17,7 @@
       const sc =  Object.assign({
         postStdOnMounted(props, state) {
           let div = this.$('div')
+          this.listenToAllGestures(div, 'action')
           div.addEventListener('click',(ev) => {
             props.parent.newSelection(this.bound.index)
             this.cm.app.callEventHandler('action', ev, {text: this.bound.text, index: this.bound.index})

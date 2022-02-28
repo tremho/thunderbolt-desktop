@@ -13,8 +13,9 @@
       const sc =  Object.assign({
         isAlignable: true,
 
-        onClick(e) {
-          this.cm.getApp().callEventHandler('action', e)
+        preStdOnMounted (props, state) {
+          let div = this.elementFind('div')
+          this.listenToAllGestures(div, 'action')
         }
 
       }, StdComp)
