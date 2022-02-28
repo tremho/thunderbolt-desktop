@@ -1,7 +1,7 @@
 
 
 <canvas-view>
-    <div class="CanvasView" onclick="{onClick}">
+    <div class="CanvasView">
         <canvas>
             <p>Canvas Not Supported</p>
         </canvas>
@@ -37,12 +37,6 @@
           setTimeout(() => {
              app.callCanvasReady(this.canvas) // this will call with an NS-looking 'event' argument.
           })
-        },
-
-        onClick(e) {
-          console.log('onClick pressed')
-          // call via binding context
-          this.cm.getApp().callEventHandler('action', e)
         }
 
       }, StdComp)
