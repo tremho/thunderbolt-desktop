@@ -17,8 +17,7 @@
           this.app = this.cm.app
           let div = this.elementFind('div')
           this.canvas = div.firstChild
-          this.listenToPressGestures(this.canvas, 'action')
-          this.listenToPRPGestures(div, 'motion')
+          this.listenToAllGestures(this.canvas, 'action')
           this.setStyleProp(div, 'borderWidth', '1')
           this.setStyleProp(div, 'borderStyle', 'solid')
           this.setStyleProp(div, 'borderColor', 'black')

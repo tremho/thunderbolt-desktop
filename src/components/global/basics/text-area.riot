@@ -8,8 +8,7 @@
       const sc =  Object.assign({
         preStdOnMounted (props, state) {
           let div = this.elementFind('div')
-          this.listenToPressGestures(div, 'action')
-          this.listenToPRPGestures(div, 'motion')
+          this.listenToAllGestures(div, 'action')
         }
       }, StdComp)
       export default sc
