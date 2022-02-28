@@ -6,7 +6,7 @@
       const sc =  Object.assign({
         preStdOnMounted(props, state) {
           let div = this.elementFind('div')
-          this.listenToAllGestures(div, 'action')
+          this.listenToPressGestures(div, 'action')
           // console.log('>> repeat-for-each props', props)
           const refire = (comp, prop, value, old)  => {
             // console.warn('repeat-for-each bind change fires ', comp, prop, value, old)

@@ -20,7 +20,7 @@
       const sc =  Object.assign({
         postStdOnBeforeMount (props, state) {
           let div = this.elementFind('div')
-          this.listenToAllGestures(div, 'action')
+          this.listenToPressGestures(div, 'action')
             const items = (props.items || '').split(',')
             state.items = []
             let i = 0

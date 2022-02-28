@@ -15,7 +15,8 @@
 
         preStdOnMounted (props, state) {
           let div = this.elementFind('div')
-          this.listenToAllGestures(div, 'action')
+          this.listenToPressGestures(div, 'action')
+          this.listenToPRPGestures(div, 'motion')
         }
 
       }, StdComp)
