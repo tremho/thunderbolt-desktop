@@ -23,6 +23,9 @@ const coreApp = new AppCore()
 
 let firstPage = 'main'
 
+let splash = riot.mount('splash-page')
+if(splash) firstPage = 'splash'
+
 // Add things from here to the environment. (required)
 coreApp._riotVersion = riot.version
 console.log('riot version communicated to  core as ', coreApp._riotVersion)
@@ -30,10 +33,10 @@ console.log('riot version communicated to  core as ', coreApp._riotVersion)
 // console.log('starting app...')
 coreApp.setupUIElements(AppFront).then(() => {
 
-    let splash = document.querySelector('.splash-background')
-    if(splash) {
-        firstPage = 'splash' // go via splash if we have one
-    }
+    // let splash = document.querySelector('.splash-background')
+    // if(splash) {
+    //     firstPage = 'splash' // go via splash if we have one
+    // }
 
     console.log('now mounting and running Riot app UI')
     mountApp(document.getElementById('root'), { app: coreApp })
