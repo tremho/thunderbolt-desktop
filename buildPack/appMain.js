@@ -32,7 +32,7 @@ coreApp.setupUIElements(AppFront).then(() => {
 
     let splash = coreApp.findPage('splash')
     if(splash) {
-        firstPage = 'splash'
+        firstPage = 'splash' // go via splash if we have one
     }
 
     console.log('now mounting and running Riot app UI')
