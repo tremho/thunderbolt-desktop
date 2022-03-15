@@ -21,6 +21,8 @@ riot.mount('[data-riot-component]')
 const mountApp = riot.component(App)
 const coreApp = new AppCore()
 
+let firstPage = 'main'
+
 // Add things from here to the environment. (required)
 coreApp._riotVersion = riot.version
 console.log('riot version communicated to  core as ', coreApp._riotVersion)
@@ -28,10 +30,15 @@ console.log('riot version communicated to  core as ', coreApp._riotVersion)
 // console.log('starting app...')
 coreApp.setupUIElements(AppFront).then(() => {
 
+    let splash = coreApp.findPage('splash')
+    if(splash) {
+        firstPage = 'splash'
+    }
+
     console.log('now mounting and running Riot app UI')
     mountApp(document.getElementById('root'), { app: coreApp })
     // go to main page
-    coreApp.navigateToPage('main')
+    coreApp.navigateToPage(firstPage)
 })
 
 
