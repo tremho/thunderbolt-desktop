@@ -30,7 +30,7 @@ console.log('riot version communicated to  core as ', coreApp._riotVersion)
 // console.log('starting app...')
 coreApp.setupUIElements(AppFront).then(() => {
 
-    let splash = true // determine we have a splash *somehow*
+    let splash = false // TODO: determine we have a splash *somehow*
     if(splash) {
         firstPage = 'splash' // go via splash if we have one
     }
