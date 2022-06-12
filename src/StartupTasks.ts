@@ -15,26 +15,26 @@ let passedEnvironment = {}
 export function readBuildEnvironment() {
     let be = {}
 
-    // console.log('>>$$$$ in readBuildEnvironment ')
+    console.log('>>$$$$ in readBuildEnvironment ')
 
     // get the native launch directory
     let nld = process.cwd()
-    // console.log('-------------------------')
-    // console.log('starting path conditions')
-    // console.log('current', process.cwd())
-    // console.log('argv', process.argv)
-    // console.log('argv0', process.argv0)
+    console.log('-------------------------')
+    console.log('starting path conditions')
+    console.log('current', process.cwd())
+    console.log('argv', process.argv)
+    console.log('argv0', process.argv0)
     let startPath = process.argv[0]
     if(startPath.indexOf('.app/Contents/MacOS/') !== -1) {
         startPath = path.join(startPath.substring(0, startPath.lastIndexOf('/')), '..', 'Resources')
         startPath = path.normalize(startPath)
-        // console.log('startPath ', startPath)
+        console.log('startPath ', startPath)
         if(fs.existsSync(path.join(startPath, 'app.asar.unpacked'))) {
-            // console.log('found our way to app.asar.unpacked')
+            console.log('found our way to app.asar.unpacked')
             process.chdir(path.join(startPath, 'app.asar.unpacked'))
         }
     }
-    // console.log('=========================')
+    console.log('=========================')
 
 
     // determine our launchDir based on this path
@@ -51,22 +51,22 @@ export function readBuildEnvironment() {
         launchDir = '.'
     }
     launchDir = path.resolve(launchDir)
-    // console.log('>>>>>>>>>> LaunchDir determined to be ', launchDir)
+    console.log('>>>>>>>>>> LaunchDir determined to be ', launchDir)
     if (launchDir.substring(launchDir.length - 5) === '.asar') {
         launchDir += '.unpacked'
-        // console.log('>>>>>>>>>> LaunchDir determined to be ', launchDir)
+        console.log('>>>>>>>>>> LaunchDir determined to be ', launchDir)
 
         process.chdir(launchDir) // so we are in sync from now on
-        // console.log('>>>>>>>>>> reset cwd', process.cwd())
+        console.log('>>>>>>>>>> reset cwd', process.cwd())
     } else {
         const lookFor = path.join(launchDir, 'resources', 'app.asar.unpacked')
         if (fs.existsSync(lookFor)) {
             // this will be a case on Windows
             launchDir = lookFor
-            // console.log('>>>>>>>>>> cwd moving to ', launchDir)
+            console.log('>>>>>>>>>> cwd moving to ', launchDir)
             process.chdir(launchDir) // so we are in sync from now on
         } else {
-            // console.log('>>>>>>>> Not changing cwd', process.cwd())
+            console.log('>>>>>>>> Not changing cwd', process.cwd())
         }
     }
 
@@ -74,7 +74,7 @@ export function readBuildEnvironment() {
     let text = ''
 
     let exists = fs.existsSync(beFile)
-    // console.log(beFile + ' exists? ', exists)
+    console.log(beFile + ' exists? ', exists)
     if(exists) {
         try {
             text = fs.readFileSync(beFile).toString()
@@ -94,7 +94,7 @@ export function readBuildEnvironment() {
             }
         }
     }
-    // console.log('returning build environment data as ', be)
+    console.log('returning build environment data as ', be)
     return mergeRuntimeInformation(be)
 }
 function mergeRuntimeInformation(buildEnv:any) {
@@ -125,7 +125,7 @@ function mergeRuntimeInformation(buildEnv:any) {
 }
 
 export function passEnvironmentAndGetTitles(): { appName:string, title:string } {
-    // console.log('passedEnvironment', passedEnvironment)
+    console.log('passedEnvironment', passedEnvironment)
     AppGateway.sendMessage('EV', {subject:'envInfo', data:passedEnvironment})
 
     let env:any = passedEnvironment
@@ -134,7 +134,7 @@ export function passEnvironmentAndGetTitles(): { appName:string, title:string } 
     }
     let appName = (env.build.app && env.build.app.name) || 'jove-app'
     let title = env.build.app.displayName || appName
-    // console.log('... appName, title', appName, title)
+    console.log('... appName, title', appName, title)
     return {appName, title}
 }
 
