@@ -16,6 +16,7 @@ const soundSets:any = {}
  * @return Promise<any> Resolving to a set of identifiers/buffers.
  */
 export function createSoundSet(name:string, set:object):Promise<any> {
+    console.log(">> audio createSoundSet", {name, set})
     const userPaths = getUserAndPathInfo("audioApi");
     const aset = set as any;
     for(let prop of Object.getOwnPropertyNames(aset)) {
@@ -26,9 +27,11 @@ export function createSoundSet(name:string, set:object):Promise<any> {
             aset[prop] = nv;
         }
     }
+    console.log("extended set", set);
     try {
         return load(set).then((bufs: any) => {
             soundSets[name] = bufs;
+            console.log("soundSets", soundSets);
         })
     } catch(e) {
         return e;
@@ -47,12 +50,16 @@ export function createSoundSet(name:string, set:object):Promise<any> {
  * @param [loop] defaults to false
  */
 export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
+    console.log(">> audio playSoundItem", {setName, itemName, volume, loop})
     let pause
     const setBufs = soundSets[setName];
     const buffer = setBufs ? setBufs[itemName] : null;
+    console.log("setbuffers from soundsets ", setBufs)
     if(!buffer) {
+        console.log("throwing...");
         throw "Buffer not found in audio set for "+setName+":"+itemName;
     }
+    console.log("continuing...");
     buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
     const opts = {
         start: 0,
