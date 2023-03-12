@@ -72,11 +72,15 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         autoplay: true
     }
 
-    let resolver;
+    let resolver:any;
     const promise =  new Promise(resolve => {
         resolver = resolve;
     });
     console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
-    pause = play(buffer, opts, resolver);
+    pause = play(buffer, opts, () => {
+        console.log("play is done, resolving");
+        resolver();
+    });
+    pause = null; // perhaps we can't do it this way.
     return {promise, pause}
 }
