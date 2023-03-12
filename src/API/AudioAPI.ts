@@ -1,5 +1,6 @@
 const play = require('audio-play')
 const load = require('audio-loader')
+import {getUserAndPathInfo} from "./FileAPI";
 
 /**
  * Loads a set of sound files from a simple object where object keys and values
@@ -11,11 +12,22 @@ const load = require('audio-loader')
  * @return Promise<any> Resolving to a set of identifiers/buffers.
  */
 export function aLoadSoundSet(set:any):Promise<any> {
-    console.log(">> aLoadSoundSet", set);
-    return load(set).then((bufs:any) => {
-        console.log("Returning bufs");
-        return bufs;
-    })
+    const userPaths = getUserAndPathInfo("audioApi");
+    for(let prop of Object.getOwnPropertyNames(set)) {
+        let v = set[prop];
+        if(v.charAt(0) !== '/') {
+            let nv = userPaths.assets;
+            if(nv.charAt(nv.length-1) !== '/') nv += '/'
+            set[prop] = nv;
+        }
+    }
+    try {
+        return load(set).then((bufs: any) => {
+            return bufs;
+        })
+    } catch(e) {
+        return e;
+    }
 }
 
 /**
@@ -29,7 +41,7 @@ export function aLoadSoundSet(set:any):Promise<any> {
  * @param [volume] defaults to 1.0
  * @param [loop] defaults to false
  */
-export function playSetItem(setBufs:any, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
+export function playSoundItem(setBufs:any, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
     let pause
     const buffer = setBufs[itemName];
     if(!buffer) {
@@ -51,6 +63,7 @@ export function playSetItem(setBufs:any, itemName:string, volume = 1, loop = fal
     const promise =  new Promise(resolve => {
         resolver = resolve;
     });
+    console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
     pause = play(buffer, opts, resolver);
     return {promise, pause}
 }
