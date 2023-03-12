@@ -11,7 +11,9 @@ const load = require('audio-loader')
  * @return Promise<any> Resolving to a set of identifiers/buffers.
  */
 export function aLoadSoundSet(set:any):Promise<any> {
+    console.log(">> aLoadSoundSet", set);
     return load(set).then((bufs:any) => {
+        console.log("Returning bufs");
         return bufs;
     })
 }
