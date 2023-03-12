@@ -24,7 +24,7 @@ export function createSoundSet(name:string, set:object):Promise<any> {
         if(v.charAt(0) !== '/') {
             let nv = userPaths.assets;
             if(nv.charAt(nv.length-1) !== '/') nv += '/'
-            aset[prop] = nv;
+            aset[prop] = nv + v;
         }
     }
     console.log("extended set", set);
