@@ -54,10 +54,11 @@ export class AppGateway {
                 const id = data.id
                 const callArgs = data.args || []
 
-                let response, error;
+                let response = undefined, error = undefined;
                 try {
+                    console.log("ApiGateway calling api", fn, callArgs);
                     response = fn(...callArgs)
-                    console.log(`ApiGateway: response for ${fname}(${callArgs}) ${id} direct:`, response);
+                    console.log("ApiGateway: response for ${fname}(${callArgs}) ${id} direct:", response);
                     Promise.resolve(response).then((presp: any) => {
                         console.log("ApiGateway: resolved response", presp);
                         event.sender.send(fname, {id, response: presp})
@@ -73,7 +74,7 @@ export class AppGateway {
                     // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
                     // console.log(fname, id)
                 }
-                console.log("ApiGateway, serializing response", {id,response,error})
+                console.log("ApiGateway, serializing response", {id, response, error})
                 event.sender.send(fname, {id, response, error})
             })
         })
