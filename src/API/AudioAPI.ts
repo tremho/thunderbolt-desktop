@@ -28,14 +28,10 @@ export function createSoundSet(name:string, set:object):Promise<any> {
         }
     }
     console.log("extended set", set);
-    try {
-        return load(set).then((bufs: any) => {
-            soundSets[name] = bufs;
-            console.log("soundSets", soundSets);
-        })
-    } catch(e) {
-        return e;
-    }
+    return load(set).then((bufs: any) => {
+        soundSets[name] = bufs;
+        console.log("soundSets", soundSets);
+    })
 }
 
 /**
