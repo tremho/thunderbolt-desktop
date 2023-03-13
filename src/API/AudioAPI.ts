@@ -1,18 +1,36 @@
 const play = require('audio-play')
 const load = require('audio-loader')
+import {getUserAndPathInfo} from "./FileAPI";
+
+const soundSets:any = {}
 
 /**
  * Loads a set of sound files from a simple object where object keys and values
- * hold identifiers and pathnames respectively.
+ * hold identifiers and pathnames respectively
+ * The resulting audio buffers are stored under "name".
  * In return, an object with the same keys, but with the path values having been
  * replaced by AudioBuffer data from the file path or url the path represented
  * instead of the strings of the path / url of the incoming set.
- * @param set A se of identifiers/pathnames.
+ * @param name Name to store the set buffers and refer to the set by
+ * @param set A set of identifiers:pathnames as a simple prop:value object
  * @return Promise<any> Resolving to a set of identifiers/buffers.
  */
-export function aLoadSoundSet(set:any):Promise<any> {
-    return load(set).then((bufs:any) => {
-        return bufs;
+export function createSoundSet(name:string, set:object):Promise<any> {
+    console.log(">> audio createSoundSet", {name, set})
+    const userPaths = getUserAndPathInfo("audioApi");
+    const aset = set as any;
+    for(let prop of Object.getOwnPropertyNames(aset)) {
+       let v = aset[prop];
+        if(v.charAt(0) !== '/') {
+            let nv = userPaths.assets;
+            if(nv.charAt(nv.length-1) !== '/') nv += '/'
+            aset[prop] = nv + v;
+        }
+    }
+    console.log("extended set", set);
+    return load(set).then((bufs: any) => {
+        soundSets[name] = bufs;
+        console.log("soundSets", soundSets);
     })
 }
 
@@ -22,17 +40,22 @@ export function aLoadSoundSet(set:any):Promise<any> {
  * and pause can be used as a call to pause the playback.
  * When pause is called, it returns a call for a resume() function that
  * can resume playback, which in turn returns another pause() function.
- * @param setBufs
+ * @param setName
  * @param itemName
  * @param [volume] defaults to 1.0
  * @param [loop] defaults to false
  */
-export function playSetItem(setBufs:any, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
+export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
+    console.log(">> audio playSoundItem", {setName, itemName, volume, loop})
     let pause
-    const buffer = setBufs[itemName];
+    const setBufs = soundSets[setName];
+    const buffer = setBufs ? setBufs[itemName] : null;
+    console.log("setbuffers from soundsets ", setBufs)
     if(!buffer) {
-        throw "Buffer not found in audio set for "+itemName;
+        console.log("throwing...");
+        throw "Buffer not found in audio set for "+setName+":"+itemName;
     }
+    console.log("continuing...");
     buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
     const opts = {
         start: 0,
@@ -45,10 +68,20 @@ export function playSetItem(setBufs:any, itemName:string, volume = 1, loop = fal
         autoplay: true
     }
 
-    let resolver;
+    let resolver:any;
     const promise =  new Promise(resolve => {
         resolver = resolve;
     });
-    pause = play(buffer, opts, resolver);
+    console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
+    try {
+        pause = play(buffer, opts, () => {
+            console.log("play is done, resolving");
+            resolver();
+        });
+    }
+    catch(e) {
+        console.error("Audio Play exception", e);
+    }
+    // pause = null; // perhaps we can't do it this way.
     return {promise, pause}
 }
