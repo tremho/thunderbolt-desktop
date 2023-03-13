@@ -58,12 +58,11 @@ export class AppGateway {
                 try {
                     response = fn(...callArgs)
                     console.log(`ApiGateway: response direct:`, response);
-                    if (response.then) {
-                        response.then((presp: any) => {
-                            event.sender.send(fname, {id, response: presp})
-                        })
-                        return
-                    }
+                    Promise.resolve(response).then((presp: any) => {
+                        console.log("ApiGateway: resolved response", presp);
+                        event.sender.send(fname, {id, response: presp})
+                    })
+                    return
                 } catch (e) {
                     console.error("ApiGateway: exception direct", e);
                     error = e;
