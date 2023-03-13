@@ -57,7 +57,7 @@ export class AppGateway {
                 let response, error;
                 try {
                     response = fn(...callArgs)
-                    console.log(`ApiGateway: response direct:`, response);
+                    console.log(`ApiGateway: response for ${fname}(${callArgs}) ${id} direct:`, response);
                     Promise.resolve(response).then((presp: any) => {
                         console.log("ApiGateway: resolved response", presp);
                         event.sender.send(fname, {id, response: presp})
