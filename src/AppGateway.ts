@@ -5,7 +5,7 @@ import * as dialogApi from "./API/DialogAPI"
 import * as webApi from "./API/WebAPI"
 import * as settingsApi from './API/SettingsAPI'
 import * as testApi from "./API/TestAPI/testApi"
-// import * as audioApi from "./API/AudioAPI"
+import * as audioApi from "./API/AudioAPI"
 
 import {passEnvironmentAndGetTitles} from "./StartupTasks";
 
@@ -23,7 +23,7 @@ const exportedFunctions = {
     ...dialogApi,
     ...webApi,
     ...settingsApi,
-    // ...audioApi,
+    ...audioApi,
     ...testApi
 }
 
