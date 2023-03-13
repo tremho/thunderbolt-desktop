@@ -57,6 +57,7 @@ export class AppGateway {
                 let response, error;
                 try {
                     response = fn(...callArgs)
+                    console.log(`ApiGateway: response direct:`, response);
                     if (response.then) {
                         response.then((presp: any) => {
                             event.sender.send(fname, {id, response: presp})
@@ -64,6 +65,7 @@ export class AppGateway {
                         return
                     }
                 } catch (e) {
+                    console.error("ApiGateway: exception direct", e);
                     error = e;
                 }
                 if (fname === 'messageInit') {
@@ -71,6 +73,7 @@ export class AppGateway {
                     // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
                     // console.log(fname, id)
                 }
+                console.log("ApiGateway, serializing response", {id,response,error})
                 event.sender.send(fname, {id, response, error})
             })
         })

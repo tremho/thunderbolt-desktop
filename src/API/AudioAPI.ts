@@ -77,10 +77,15 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         resolver = resolve;
     });
     console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
-    pause = play(buffer, opts, () => {
-        console.log("play is done, resolving");
-        resolver();
-    });
-    pause = null; // perhaps we can't do it this way.
+    try {
+        pause = play(buffer, opts, () => {
+            console.log("play is done, resolving");
+            resolver();
+        });
+    }
+    catch(e) {
+        console.error("Audio Play exception", e);
+    }
+    // pause = null; // perhaps we can't do it this way.
     return {promise, pause}
 }
