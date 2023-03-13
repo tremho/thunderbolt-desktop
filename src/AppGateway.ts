@@ -61,6 +61,7 @@ export class AppGateway {
                     Promise.resolve(response).then((presp: any) => {
                         console.log("ApiGateway: resolved response", presp);
                         event.sender.send(fname, {id, response: presp})
+                        console.log("sender sent response for", {fname, id})
                     })
                     return
                 } catch (e) {
