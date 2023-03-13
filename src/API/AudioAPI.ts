@@ -52,3 +52,6 @@
 //     pause = play(buffer, opts, resolver);
 //     return {promise, pause}
 // }
+export function NothingToSeeHereFolks() {
+    // need something to replace former version though
+}
