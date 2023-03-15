@@ -68,21 +68,19 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         autoplay: true
     }
 
-    let resolver:any;
     const promise =  new Promise(resolve => {
-        resolver = resolve;
+        console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
+        try {
+            pause = play(buffer, opts, () => {
+                console.log("play is done, resolving");
+                resolve(0);
+            });
+            console.log("play called w/o exception");
+        }
+        catch(e) {
+            console.error("Audio Play exception", e);
+        }
     });
-    console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
-    try {
-        pause = play(buffer, opts, () => {
-            console.log("play is done, resolving");
-            resolver();
-        });
-        console.log("play called w/o exception");
-    }
-    catch(e) {
-        console.error("Audio Play exception", e);
-    }
     // pause = null; // perhaps we can't do it this way.
     return {promise, pause}
 }
