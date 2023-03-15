@@ -69,19 +69,17 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
     }
 
     return new Promise((resolve:any) => {
-        console.log(">> Audio Playing:", {itemName, length:opts.end, volume, loop})
-        console.log("Not really playing, resolve immediately");
-        resolve(); // sanity test
-        // try {
-        //     pause = play(buffer, opts, () => {
-        //         console.log("play is done, resolving");
-        //         pause();
-        //         resolve(0);
-        //     });
-        //     console.log("play called w/o exception");
-        // }
-        // catch(e) {
-        //     console.error("Audio Play exception", e);
-        // }
+        console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
+        try {
+            pause = play(buffer, opts, () => {
+                console.log("play is done, resolving");
+                pause();
+                resolve();
+            });
+            console.log("play called w/o exception");
+        }
+        catch(e) {
+            console.error("Audio Play exception", e);
+        }
     });
 }
