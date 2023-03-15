@@ -74,8 +74,17 @@ export class AppGateway {
                         // console.log(fname, id)
                     }
                     // resolve out of a promise
-                    while(response && typeof response.then === 'function') {
-                        response = Promise.resolve(response)
+                    // while(response && typeof response.then === 'function') {
+                    //     response = Promise.resolve(response)
+                    // }
+                    if(response && response.then) {
+                        console.log("Response is a promise")
+                        response = Promise.resolve(response);
+                        console.log("resolves as", response)
+                    }
+                    if(response === undefined) {
+                        console.log("forcing response to null")
+                        response = null;
                     }
                     console.log("API Gateway - sending response", {fname, id, response, error})
                     event.sender.send(fname, {id, response, error})
