@@ -73,11 +73,8 @@ export class AppGateway {
                         // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
                         // console.log(fname, id)
                     }
-                    try {
+                        console.log("API Gateway - sending response", {fname, id, response, error})
                         event.sender.send(fname, {id, response, error})
-                    } catch(e) {
-                        console.error("API Gateway - exception seding response", {fname, id, response, error, e})
-                    }
                 })
             }
             catch(e) {
