@@ -55,28 +55,32 @@ class Responder {
 
 fnames.forEach(fname => {
   api[fname] = function (...args) {
-
-    const resp = new Responder()
-    const data = {
-      id: resp.id,
-      args
-    }
-    ipcRenderer.send(fname, data)
-    ipcRenderer.on(fname, (event, data) => {
-      // console.log(`in response handler for ${fname} ${data.id}`)
-      const respIn = responders[data.id]
-      if(respIn) {
-        if (data.error) {
-          respIn.error(data.error)
-        } else {
-          respIn.respond(data.response)
+      try {
+        const resp = new Responder()
+        const data = {
+          id: resp.id,
+          args
         }
-      }
-    })
-    return resp.promise.catch(e => {
-      const respIn = responders[data.id]
-      if(respIn) respIn.error(e)
-    })
+        ipcRenderer.send(fname, data)
+        ipcRenderer.on(fname, (event, data) => {
+          // console.log(`in response handler for ${fname} ${data.id}`)
+          const respIn = responders[data.id]
+          if (respIn) {
+            if (data.error) {
+              respIn.error(data.error)
+            } else {
+              respIn.respond(data.response)
+            }
+          }
+        })
+        return resp.promise.catch(e => {
+          const respIn = responders[data.id]
+          if (respIn) respIn.error(e)
+        })
+    }
+    catch(e) {
+      console.error("IPC Error on render side", {data, args, exception: e})
+    }
   }
 })
 
