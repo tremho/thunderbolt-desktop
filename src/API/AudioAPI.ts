@@ -56,7 +56,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         throw "Buffer not found in audio set for "+setName+":"+itemName;
     }
     console.log("continuing...");
-    buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
+    // buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
     const opts = {
         start: 0,
         end: buffer.duration,
