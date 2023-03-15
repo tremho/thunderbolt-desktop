@@ -73,8 +73,12 @@ export class AppGateway {
                         // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
                         // console.log(fname, id)
                     }
-                        console.log("API Gateway - sending response", {fname, id, response, error})
-                        event.sender.send(fname, {id, response, error})
+                    // resolve out of a promise
+                    while(typeof response.then === 'function') {
+                        response = Promise.resolve(response)
+                    }
+                    console.log("API Gateway - sending response", {fname, id, response, error})
+                    event.sender.send(fname, {id, response, error})
                 })
             }
             catch(e) {
