@@ -45,7 +45,7 @@ export function createSoundSet(name:string, set:object):Promise<any> {
  * @param [volume] defaults to 1.0
  * @param [loop] defaults to false
  */
-export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
+export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):Promise<any> {
     console.log(">> audio playSoundItem", {setName, itemName, volume, loop})
     let pause:any
     const setBufs = soundSets[setName];
@@ -68,7 +68,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         autoplay: true
     }
 
-    const promise =  new Promise((resolve:any) => {
+    return new Promise((resolve:any) => {
         console.log(">> Audio Playing:", {itemName, length:opts.end, volume, loop})
         console.log("Not really playing, resolve immediately");
         resolve(); // sanity test
@@ -84,6 +84,4 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         //     console.error("Audio Play exception", e);
         // }
     });
-    // pause = null; // perhaps we can't do it this way.
-    return {promise, pause}
 }
