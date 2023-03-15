@@ -59,7 +59,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
     buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
     const opts = {
         start: 0,
-        end: 1.5, // TODO: Debug only shoudl be: buffer.duration,
+        end: buffer.duration,
         loop: loop,
         rate: 1,
         detune: 0,
@@ -73,7 +73,6 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         try {
             pause = play(buffer, opts, () => {
                 console.log("play is done, resolving");
-                pause();
                 resolve();
             });
             console.log("play called w/o exception");
