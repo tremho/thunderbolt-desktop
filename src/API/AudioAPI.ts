@@ -59,7 +59,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
     buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
     const opts = {
         start: 0,
-        end: buffer.duration,
+        end: 1.5, // TODO: Debug only shoudl be: buffer.duration,
         loop: loop,
         rate: 1,
         detune: 0,
@@ -78,6 +78,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
             console.log("play is done, resolving");
             resolver();
         });
+        console.log("play called w/o exception");
     }
     catch(e) {
         console.error("Audio Play exception", e);

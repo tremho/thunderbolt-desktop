@@ -49,30 +49,36 @@ export class AppGateway {
         Object.getOwnPropertyNames(exportedFunctions).forEach(fname => {
             // @ts-ignore
             const fn = exportedFunctions[fname]
-            this.ipcMain.on(fname, (event: any, ...args: any) => {
-                const data = args[0]
-                const id = data.id
-                const callArgs = data.args || []
 
-                let response, error;
-                try {
-                    response = fn(...callArgs)
-                    if (response.then) {
-                        response.then((presp: any) => {
+            try {
+                this.ipcMain.on(fname, (event: any, ...args: any) => {
+                    const data = args[0]
+                    const id = data.id
+                    const callArgs = data.args || []
+
+                    let response, error;
+                    try {
+                        response = fn(...callArgs)
+                        console.log("APIGateway - raw response", response)
+                        Promise.resolve(response).then((presp: any) => {
+                            console.log("APIGateway - resolved response", presp)
                             event.sender.send(fname, {id, response: presp})
                         })
-                        return
+                    } catch (e) {
+                        error = e;
+                        console.error("exception calling ipc:",{id, fname, data, callArgs, fn});
                     }
-                } catch (e) {
-                    error = e;
-                }
-                if (fname === 'messageInit') {
-                    AppGateway.ipcMessageSender = event.sender;
-                    // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
-                    // console.log(fname, id)
-                }
-                event.sender.send(fname, {id, response, error})
-            })
+                    if (fname === 'messageInit') {
+                        AppGateway.ipcMessageSender = event.sender;
+                        // console.log('set ipcMessageSender to ', AppGateway.ipcMessageSender)
+                        // console.log(fname, id)
+                    }
+                    event.sender.send(fname, {id, response, error})
+                })
+            }
+            catch(e) {
+                console.error("Failed to send ipc for", fname )
+            }
         })
     }
 
