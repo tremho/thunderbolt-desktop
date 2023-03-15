@@ -70,6 +70,7 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
 
     const promise =  new Promise((resolve:any) => {
         console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
+        console.log("Not really playing, resolve immediately");
         resolve(); // sanity test
         // try {
         //     pause = play(buffer, opts, () => {
