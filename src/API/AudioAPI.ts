@@ -47,7 +47,7 @@ export function createSoundSet(name:string, set:object):Promise<any> {
  */
 export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):{promise:Promise<any>, pause:any} {
     console.log(">> audio playSoundItem", {setName, itemName, volume, loop})
-    let pause
+    let pause:any
     const setBufs = soundSets[setName];
     const buffer = setBufs ? setBufs[itemName] : null;
     console.log("setbuffers from soundsets ", setBufs)
@@ -68,18 +68,20 @@ export function playSoundItem(setName:string, itemName:string, volume = 1, loop 
         autoplay: true
     }
 
-    const promise =  new Promise(resolve => {
+    const promise =  new Promise((resolve:any) => {
         console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
-        try {
-            pause = play(buffer, opts, () => {
-                console.log("play is done, resolving");
-                resolve(0);
-            });
-            console.log("play called w/o exception");
-        }
-        catch(e) {
-            console.error("Audio Play exception", e);
-        }
+        resolve(); // sanity test
+        // try {
+        //     pause = play(buffer, opts, () => {
+        //         console.log("play is done, resolving");
+        //         pause();
+        //         resolve(0);
+        //     });
+        //     console.log("play called w/o exception");
+        // }
+        // catch(e) {
+        //     console.error("Audio Play exception", e);
+        // }
     });
     // pause = null; // perhaps we can't do it this way.
     return {promise, pause}
