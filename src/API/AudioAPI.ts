@@ -1,84 +1,316 @@
-const play = require('audio-play')
-const load = require('audio-loader')
-import {getUserAndPathInfo} from "./FileAPI";
+import readline from "readline";
 
-const soundSets:any = {}
+/** Audio API for Jove */
 
-/**
- * Loads a set of sound files from a simple object where object keys and values
- * hold identifiers and pathnames respectively
- * The resulting audio buffers are stored under "name".
- * In return, an object with the same keys, but with the path values having been
- * replaced by AudioBuffer data from the file path or url the path represented
- * instead of the strings of the path / url of the incoming set.
- * @param name Name to store the set buffers and refer to the set by
- * @param set A set of identifiers:pathnames as a simple prop:value object
- * @return Promise<any> Resolving to a set of identifiers/buffers.
- */
-export function createSoundSet(name:string, set:object):Promise<any> {
-    console.log(">> audio createSoundSet", {name, set})
-    const userPaths = getUserAndPathInfo("audioApi");
-    const aset = set as any;
-    for(let prop of Object.getOwnPropertyNames(aset)) {
-       let v = aset[prop];
-        if(v.charAt(0) !== '/') {
-            let nv = userPaths.assets;
-            if(nv.charAt(nv.length-1) !== '/') nv += '/'
-            aset[prop] = nv + v;
-        }
-    }
-    console.log("extended set", set);
-    return load(set).then((bufs: any) => {
-        soundSets[name] = bufs;
-        console.log("soundSets", soundSets);
-    })
+const audioPlay = require('audio-play')
+const audioLoad = require('audio-loader')
+
+// const audioRegistry:any = {}
+const channelRegistry:any = {}
+
+// Attribute options affecting the audio buffer to be played
+export class
+AudioAttributes {
+    rateMultiplier ?: number = 1 // <positive, float> playback speed adjust. defaults to 1.
+    startOffset ?: number = 0// offset (in samples) into the buffer playback starts (default 0)
+    endOffset ?: number = -1 // offset (in samples) into the buffer playback ends. default to buffer end.
 }
 
-/**
- * Plays an item by name from the set of stashed buffers.
- * Returns a {promise, pause} object whose promise will resolve at end of play
- * and pause can be used as a call to pause the playback.
- * When pause is called, it returns a call for a resume() function that
- * can resume playback, which in turn returns another pause() function.
- * @param setName
- * @param itemName
- * @param [volume] defaults to 1.0
- * @param [loop] defaults to false
- */
-export function playSoundItem(setName:string, itemName:string, volume = 1, loop = false):Promise<any> {
-    console.log(">> audio playSoundItem", {setName, itemName, volume, loop})
-    let pause:any
-    const setBufs = soundSets[setName];
-    const buffer = setBufs ? setBufs[itemName] : null;
-    console.log("setbuffers from soundsets ", setBufs)
-    if(!buffer) {
-        console.log("throwing...");
-        throw "Buffer not found in audio set for "+setName+":"+itemName;
+class AudioRegistryEntry {
+    name ?:string
+    path ?:string
+    attributes ?: AudioAttributes
+    buffer ?: AudioBuffer
+}
+
+class ChannelOptions { // TODO: ChannelOptions
+    start = 0
+    end  = 0
+    loop = false
+    rate = 1
+    detune = 0
+    volume =  1.0
+    device =  'hw:1,0'
+    autoplay =  false
+}
+
+class ChannelEntry {
+    name ?: string
+    audioName ?: string
+    playlist : AudioRegistryEntry[] = [];
+    playlistIndex = 0;
+    loopPlaylist = false;
+    playlistAdvances = false;
+    status ?: AudioStatus
+    playback ?: any // .play(), .pause()
+    options = new ChannelOptions()
+    eventCallbacks : any = {}
+}
+
+// Throw for when a named audio is not in the registration set
+export class
+AudioDoesNotExist extends Error {
+    public constructor(message ?: string) {
+        super(message ?? "Audio does not exist");
     }
-    console.log("continuing...");
-    // buffer.sampleRate = buffer.sampleRate * buffer.numberOfChannels
-    const opts = {
-        start: 0,
-        end: buffer.duration,
-        loop: loop,
-        rate: 1,
-        detune: 0,
-        volume: volume,
-        device: 'hw:1,0',
-        autoplay: true
+}
+// Throw for when a named channel is not in the registration set
+export class ChannelDoesNotExist extends Error {
+    public constructor(message ?: string) {
+        super(message ?? "Channel does not exist");
+    }
+}
+// Throw for when a named channel already exists and will not be replaced
+export class ChannelExists extends Error {
+    public constructor(message ?: string) {
+        super(message ?? "Channel already exists");
+    }
+}
+// Throw for when the channel is not in a state receptive of the requested action.
+// for example, trying to pause a stopped channel
+// May not be thrown for a redundant request (e.g. play on a playing channel, pause when paused, etc).
+export class InvalidState extends Error {
+    public constructor(message ?: string) {
+        super(message ?? "Channel already exists");
+    }
+}
+
+// Status of audio playback
+export enum AudioStatus {
+    Empty,
+    Stopped,
+    Playing,
+    Paused,
+    Error
+}
+
+// Type of events we can listen to with onPlayEvent
+export enum PlayEvent {
+    PlaybackEnds,
+    PlaybackStarts,
+    PlaybackPaused,
+    PlaybackResumes,
+    PlaylistEnds
+}
+
+// Callback function for onPlayEvent
+// *also defines Promise resolve object for onPlayEventPromise)
+export type PlayEventCallback = (
+    eventType:PlayEvent,
+    channelName: string,
+    audioName: string
+) => void;
+
+// creates and registers a playback channel by name
+export function
+createChannel(
+    name: string  // name of the channel to register
+
+)
+// throws ChannelExists Exception
+{
+    if(channelRegistry[name]) throw new ChannelExists();
+    channelRegistry[name] = new ChannelEntry();
+    channelRegistry[name].name = name;
+    channelRegistry[name].status = AudioStatus.Stopped;
+}
+
+function getChannel(name:string):ChannelEntry
+{
+    if(!channelRegistry[name]) throw new ChannelDoesNotExist();
+    return channelRegistry[name]
+}
+
+// Loads one or more audio files that become the playlist for this channel.
+export function
+loadChannelAudio(
+    channelName: string,    // name of the channel to load sudio file(s) into
+    audioFilePaths: string|string[] // file path, comma-separated file paths, or an array of file paths
+
+) : Promise<any>
+// throws ChannelDoesNotExist Exception
+// throws AudioDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    const paths = Array.isArray(audioFilePaths) ? audioFilePaths : audioFilePaths.split(',');
+    const all = [];
+    channel.playlist = [];
+    channel.playlistIndex = 0;
+    for (const path of paths) {
+        all.push(audioLoad(path).then((buf:AudioBuffer) => {
+            const entry = new AudioRegistryEntry();
+            entry.name = path.substring(path.lastIndexOf('/')+1);
+            entry.path = path;
+            entry.attributes = new AudioAttributes()
+            entry.buffer = buf;
+            channel.playlist.push(entry)
+            channel.status = AudioStatus.Stopped;
+        }))
     }
 
-    return new Promise((resolve:any) => {
-        console.log("Audio Playing:", {itemName, length:opts.end, volume, loop})
-        try {
-            pause = play(buffer, opts, () => {
-                console.log("play is done, resolving");
-                resolve();
-            });
-            console.log("play called w/o exception");
-        }
-        catch(e) {
-            console.error("Audio Play exception", e);
-        }
-    });
+    return Promise.all(all);
+}
+
+function callbackEvent(eventType:PlayEvent, channel:ChannelEntry) {
+    if(channel.eventCallbacks[eventType]) {
+        channel.eventCallbacks[eventType](eventType, channel.name, channel.audioName)
+    }
+
+}
+// begins play at the start of the channel
+export function
+play(
+    channelName: string // channel to start playing
+
+)
+// throws ChannelDoesNotExist Exception
+// throws InvalidState Exception
+{
+    const channel:ChannelEntry = getChannel(channelName)
+    if(channel.status !== AudioStatus.Stopped) throw new InvalidState("Channel must be stopped to set audio")
+    const entry = channel.playlist[channel.playlistIndex]
+    console.log("index", channel.playlistIndex)
+    if(entry) {
+        channel.options.loop = false;
+        channel.options.end = entry.buffer?.duration ?? 0;
+        channel.playback = audioPlay(entry.buffer, channel.options, () => {
+            stop(channelName);
+            callbackEvent(PlayEvent.PlaybackEnds, channel);
+            if(channel.playlistAdvances) {
+                if (channel.status !== AudioStatus.Paused) {
+                    if (++channel.playlistIndex < channel.playlist.length) {
+                        play(channelName)
+                    } else {
+                        if (channel.loopPlaylist) {
+                            channel.playlistIndex = 0;
+                            play(channelName);
+                        } else {
+                            callbackEvent(PlayEvent.PlaylistEnds, channel)
+                        }
+                    }
+                }
+            }
+        });
+        channel.playback.play(); // we started off paused
+        channel.status = AudioStatus.Playing;
+        callbackEvent(PlayEvent.PlaybackStarts, channel);
+    }
+}
+
+// turn looping of playlist on/off
+export function
+setPlaylistLooping(
+    channelName: string,
+    looping: boolean
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    channel.loopPlaylist = looping
+}
+
+// Sets the current playlist index
+export function
+setPlaylistIndex(
+    channelName: string,
+    index: number
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    channel.playlistIndex = index
+}
+// Sets the current playlist index
+export function
+setPlaylistAdvances(
+    channelName: string,
+    advances: boolean
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    channel.playlistAdvances = advances
+}
+
+
+// Pauses playback of a channel
+export function
+pause(
+    channelName: string
+
+)
+// throws ChannelDoesNotExist Exception
+// throws InvalidState Exception
+{
+    const channel = getChannel(channelName)
+    if(
+        channel.status !== AudioStatus.Playing &&
+        channel.status !== AudioStatus.Paused
+    ) throw new InvalidState("Channel not playing or paused")
+    channel.status = AudioStatus.Paused;
+    channel.playback.pause();
+    callbackEvent(PlayEvent.PlaybackPaused, channel);
+
+}
+
+// resumes paused playback of a channel
+function
+resume(
+    channelName: string
+
+)
+// throws ChannelDoesNotExist Exception
+// throws InvalidState Exception
+{
+    const channel = getChannel(channelName)
+    if( !channel.playback) throw new InvalidState("Channel not paused")
+    channel.playback.play();
+    channel.status = AudioStatus.Playing;
+    callbackEvent(PlayEvent.PlaybackResumes, channel);
+}
+
+// stops all playback on the given channel
+function
+stop(
+    channelName: string
+
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    if(channel.status == AudioStatus.Stopped) return;
+    // pause,
+    pause(channelName)
+    //  then reset to starting state
+    channel.status = AudioStatus.Stopped;
+    channel.playback = null
+
+}
+
+// Sets a listening callback for a play event on a channel
+function
+onPlayEvent(
+    channelName: string,
+    playEvent:PlayEvent,
+    callback:PlayEventCallback
+
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    channel.eventCallbacks[playEvent] = callback;
+}
+
+// Creates a promise return for a listening callback.
+// Must call again to listen again.
+export function
+onPlayEventPromise(
+    channelName: string,
+    playEvent: PlayEvent
+)
+// throws ChannelDoesNotExist Exception
+{
+    return new Promise(resolve => {
+        onPlayEvent(channelName, playEvent, resolve)
+    })
 }
