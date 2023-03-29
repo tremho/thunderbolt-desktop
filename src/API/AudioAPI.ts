@@ -280,7 +280,7 @@ resume(
 }
 
 // stops all playback on the given channel
-function
+export function
 stop(
     channelName: string
 
