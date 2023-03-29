@@ -184,7 +184,9 @@ play(
         channel.options.loop = false;
         channel.options.end = entry.buffer?.duration ?? 0;
         channel.playback = audioPlay(entry.buffer, channel.options, () => {
+            console.log("playback ends trapped...")
             stop(channelName);
+            console.log('calling event listener for PlaybackEnds')
             callbackEvent(PlayEvent.PlaybackEnds, channel);
             if(channel.playlistAdvances) {
                 if (channel.status !== AudioStatus.Paused) {
@@ -321,6 +323,9 @@ onPlayEventPromise(
 // throws ChannelDoesNotExist Exception
 {
     return new Promise(resolve => {
-        onPlayEvent(channelName, playEvent, resolve)
+        onPlayEvent(channelName, playEvent, (playEvent:PlayEvent, channelName:string, audioName:string) => {
+            console.log(">>> Resolving playEvent",{playEvent, channelName, audioName});
+            resolve({playEvent, channelName, audioName})
+        })
     })
 }
