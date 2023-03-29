@@ -1,9 +1,8 @@
-import readline from "readline";
-
 /** Audio API for Jove */
 
 const audioPlay = require('audio-play')
 const audioLoad = require('audio-loader')
+import {getUserAndPathInfo} from "./FileAPI";
 
 // const audioRegistry:any = {}
 const channelRegistry:any = {}
@@ -133,19 +132,30 @@ loadChannelAudio(
 {
     const channel = getChannel(channelName)
     const paths = Array.isArray(audioFilePaths) ? audioFilePaths : audioFilePaths.split(',');
+    const userPaths = getUserAndPathInfo("audioApi");
     const all = [];
     channel.playlist = [];
     channel.playlistIndex = 0;
-    for (const path of paths) {
-        all.push(audioLoad(path).then((buf:AudioBuffer) => {
-            const entry = new AudioRegistryEntry();
-            entry.name = path.substring(path.lastIndexOf('/')+1);
-            entry.path = path;
-            entry.attributes = new AudioAttributes()
-            entry.buffer = buf;
-            channel.playlist.push(entry)
-            channel.status = AudioStatus.Stopped;
-        }))
+    for (let path of paths) {
+        if(path.charAt(0) != '/') {
+            let nv = userPaths.assets;
+            if (nv.charAt(nv.length - 1) !== '/') nv += '/'
+            path = nv + path
+        }
+        try {
+            all.push(audioLoad(path).then((buf: AudioBuffer) => {
+                const entry = new AudioRegistryEntry();
+                entry.name = path.substring(path.lastIndexOf('/') + 1);
+                entry.path = path;
+                entry.attributes = new AudioAttributes()
+                entry.buffer = buf;
+                channel.playlist.push(entry)
+                channel.status = AudioStatus.Stopped;
+            }))
+        } catch(e:any) {
+            // file not found
+            console.error("Error loading audio: ", e.message);
+        }
     }
 
     return Promise.all(all);
