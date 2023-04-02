@@ -1,4 +1,4 @@
-// implemented with nom unirest module
+// implemented with npm unirest module
 const unirest = require('unirest')
 
 /**

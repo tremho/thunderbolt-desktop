@@ -3,6 +3,7 @@
 const audioPlay = require('audio-play')
 const audioLoad = require('audio-loader')
 import {getUserAndPathInfo} from "./FileAPI";
+import {AppGateway} from "../AppGateway";
 
 // const audioRegistry:any = {}
 const channelRegistry:any = {}
@@ -316,16 +317,17 @@ onPlayEvent(
 // Creates a promise return for a listening callback.
 // Must call again to listen again.
 export function
-onPlayEventPromise(
+onPlayEventReport(
     channelName: string,
-    playEvent: PlayEvent
+    playEvent: PlayEvent,
+    messageName: string
 )
 // throws ChannelDoesNotExist Exception
 {
     return new Promise(resolve => {
         onPlayEvent(channelName, playEvent, (playEvent:PlayEvent, channelName:string, audioName:string) => {
-            console.log(">>> Resolving playEvent",{playEvent, channelName, audioName});
-            resolve({playEvent, channelName, audioName})
+            console.log(">>> messaging playEvent",{playEvent, channelName, audioName});
+            AppGateway.sendMessage(messageName, {playEvent, channelName, audioName})
         })
     })
 }
