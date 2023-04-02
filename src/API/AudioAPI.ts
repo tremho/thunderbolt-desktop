@@ -331,6 +331,7 @@ onPlayEventReport(
 )
 // throws ChannelDoesNotExist Exception
 {
+    console.log(`registering to send message ${messageName} on PlayEvent ${playEvent} for channel ${channelName}`)
     onPlayEvent(channelName, playEvent, (playEvent:PlayEvent, channelName:string, audioName:string) => {
         console.log(">>> messaging playEvent",{playEvent, channelName, audioName});
         AppGateway.sendMessage(messageName, {playEvent, channelName, audioName})
