@@ -163,10 +163,15 @@ loadChannelAudio(
 }
 
 function callbackEvent(eventType:PlayEvent, channel:ChannelEntry) {
-    console.log('... callbackEvent', {eventType, channel});
+    console.log('... callbackEvent', {eventType, channelName: channel.name});
     if(channel.eventCallbacks[eventType]) {
         console.log('... found, calling', channel.eventCallbacks[eventType]);
         channel.eventCallbacks[eventType](eventType, channel.name, channel.audioName)
+    } else {
+        console.log("-<-<-<-<-<-<>->->->->-")
+        console.log('no callback event found for', {eventType})
+        console.log(channel.eventCallbacks)
+        console.log("-<-<-<-<-<-<>->->->->-")
     }
 
 }
