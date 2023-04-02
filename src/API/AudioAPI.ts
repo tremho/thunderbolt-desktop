@@ -163,7 +163,9 @@ loadChannelAudio(
 }
 
 function callbackEvent(eventType:PlayEvent, channel:ChannelEntry) {
+    console.log('... callbackEvent', {eventType, channel});
     if(channel.eventCallbacks[eventType]) {
+        console.log('... found, calling', channel.eventCallbacks[eventType]);
         channel.eventCallbacks[eventType](eventType, channel.name, channel.audioName)
     }
 
@@ -324,10 +326,8 @@ onPlayEventReport(
 )
 // throws ChannelDoesNotExist Exception
 {
-    return new Promise(resolve => {
-        onPlayEvent(channelName, playEvent, (playEvent:PlayEvent, channelName:string, audioName:string) => {
-            console.log(">>> messaging playEvent",{playEvent, channelName, audioName});
-            AppGateway.sendMessage(messageName, {playEvent, channelName, audioName})
-        })
+    onPlayEvent(channelName, playEvent, (playEvent:PlayEvent, channelName:string, audioName:string) => {
+        console.log(">>> messaging playEvent",{playEvent, channelName, audioName});
+        AppGateway.sendMessage(messageName, {playEvent, channelName, audioName})
     })
 }
