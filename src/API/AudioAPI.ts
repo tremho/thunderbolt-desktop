@@ -38,6 +38,7 @@ class ChannelEntry {
     name ?: string
     audioName ?: string
     playlist : AudioRegistryEntry[] = [];
+    playlistMap: number[] = [];
     playlistIndex = 0;
     loopPlaylist = false;
     playlistAdvances = false;
@@ -144,6 +145,7 @@ loadChannelAudio(
             path = nv + path
         }
         try {
+            let mapIndex = 0;
             all.push(audioLoad(path).then((buf: AudioBuffer) => {
                 const entry = new AudioRegistryEntry();
                 entry.name = path.substring(path.lastIndexOf('/') + 1);
@@ -151,6 +153,7 @@ loadChannelAudio(
                 entry.attributes = new AudioAttributes()
                 entry.buffer = buf;
                 channel.playlist.push(entry)
+                channel.playlistMap.push(mapIndex++);
                 channel.status = AudioStatus.Stopped;
             }))
         } catch(e:any) {
@@ -186,8 +189,9 @@ play(
 {
     const channel:ChannelEntry = getChannel(channelName)
     if(channel.status !== AudioStatus.Stopped) throw new InvalidState("Channel must be stopped to set audio")
-    const entry = channel.playlist[channel.playlistIndex]
-    console.log("index", channel.playlistIndex)
+    const indexToPlay = channel.playlistMap[channel.playlistIndex]
+    const entry = channel.playlist[indexToPlay]
+    console.log(`playlist item ${channel.playlistIndex}:${indexToPlay} = ${entry.name}`)
     if(entry) {
         channel.options.loop = false;
         channel.options.end = entry.buffer?.duration ?? 0;
@@ -239,6 +243,28 @@ setPlaylistIndex(
 {
     const channel = getChannel(channelName)
     channel.playlistIndex = index
+}
+
+// set the playlist items to play after the current one ends, and optionally force current to end
+export function
+setPlaylistMapAhead(
+    channelName:string,
+    selections:number[],
+    force = false
+)
+// throws ChannelDoesNotExist Exception
+{
+    const channel = getChannel(channelName)
+    let plindex = channel.playlistIndex;
+    let max = channel.playlist.length;
+    for(let selection of selections) {
+        if (++plindex >= max) plindex = 0
+        channel.playlistMap[plindex] = selection;
+    }
+    if(force) {
+        channel.playback.pause();
+    }
+
 }
 // Sets the current playlist index
 export function
