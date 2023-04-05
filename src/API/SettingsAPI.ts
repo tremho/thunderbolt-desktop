@@ -30,14 +30,14 @@ export function hasSettingsKey(
 
 // gets the type of the value recorded at the given key
 export async function getSettingsType(key:string):Promise<string> {
-    return appConfig.get('type.'+prefix+'.'+key).then(value => {
+    return appConfig.get('type.'+prefix+'.'+key).then((value:any) => {
        return (value?.toString() || 'string')
     })
 }
 
 // gets the value recorded for the given key
 export async function getSettingsValue(key:string):Promise<any> {
-    return appConfig.get(prefix+'.'+key).then(value => {
+    return appConfig.get(prefix+'.'+key).then((value:any) => {
         return getSettingsType(key).then(type => {
             if(type === 'number') {
                 return Number(value)
@@ -82,7 +82,7 @@ export async function removeSettingsKey(key:string) {
     })
 }
 
-// forces a write to persistence
+// forces write to persistence
 export async function flushSettings() {
     // electron does this automatically
 }

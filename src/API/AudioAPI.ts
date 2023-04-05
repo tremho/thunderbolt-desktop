@@ -237,12 +237,15 @@ setPlaylistLooping(
 export function
 setPlaylistIndex(
     channelName: string,
-    index: number
+    index: number,
+    syncMap = true
 )
 // throws ChannelDoesNotExist Exception
 {
     const channel = getChannel(channelName)
     channel.playlistIndex = index
+    if(syncMap) channel.playlistMap[index] = index
+    console.log(`playlist index for ${channelName} is now ${index}:${channel.playlistMap[index]}`)
 }
 
 // set the playlist items to play after the current one ends, and optionally force current to end
