@@ -12,8 +12,8 @@ const channelRegistry:any = {}
 export class
 AudioAttributes {
     rateMultiplier ?: number = 1 // <positive, float> playback speed adjust. defaults to 1.
-    startOffset ?: number = 100// offset (in samples) into the buffer playback starts (default 0)
-    endOffset ?: number = -100 // offset (in samples) into the buffer playback ends. default to buffer end.
+    startOffset ?: number = 1000// offset (in samples) into the buffer playback starts (default 0)
+    endOffset ?: number = -1000 // offset (in samples) into the buffer playback ends. default to buffer end.
 }
 
 class AudioRegistryEntry {
