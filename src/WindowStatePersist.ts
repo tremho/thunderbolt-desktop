@@ -7,8 +7,8 @@ import appConfig from 'electron-settings';
 class WindowState {
     public x?: number;
     public y?: number;
-    public width: number = 800;
-    public height: number = 600;
+    public width?: number
+    public height?: number;
     public isMaximized? : boolean;
 }
 
@@ -55,23 +55,22 @@ export class WindowStatePersist {
     }
 
     restore():Promise<unknown> {
-        return Promise.resolve();
-        // return new Promise(resolve => {
-        //     // Restore from appConfig
-        //     let oldState = this.windowState // in case we haven't saved before
-        //     try {
-        //         appConfig.get(`windowState.${this.windowName}`).catch((e:any) => {throw e}).then((ws:any) => {
-        //             // console.log('data from appConfig', ws)
-        //             this.windowState = (ws as unknown as WindowState) || oldState
-        //             resolve(undefined)
-        //         }) // avoid unhandled catch in promise
-        //     } catch(e:any) {
-        //         console.warn(e.message)
-        //         resolve(undefined)
-        //     }
-        // }).catch((e:any) => {
-        //     console.warn(e.message)
-        // })
+        return new Promise(resolve => {
+            // Restore from appConfig
+            let oldState = this.windowState // in case we haven't saved before
+            try {
+                appConfig.get(`windowState.${this.windowName}`).catch((e:any) => {throw e}).then((ws:any) => {
+                    // console.log('data from appConfig', ws)
+                    this.windowState = (ws as unknown as WindowState) || oldState
+                    resolve(undefined)
+                }) // avoid unhandled catch in promise
+            } catch(e:any) {
+                console.warn(e.message)
+                resolve(undefined)
+            }
+        }).catch((e:any) => {
+            console.warn(e.message)
+        })
     }
 
     track(window:BrowserWindow) {
