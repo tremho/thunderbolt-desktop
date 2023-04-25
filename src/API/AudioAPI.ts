@@ -1,7 +1,14 @@
 /** Audio API for Jove */
 
-const audioPlay = require('audio-play')
-const audioLoad = require('audio-loader')
+// DISABLE AUDIO IMPLEMENTATION - it won't build for packaging with this here until resolved
+    // also - put this back into package.json when we do restore (double-check latest versions)
+//    "audio-loader": "^1.0.3",
+//    "audio-play": "^2.3.1",
+
+// const audioPlay = require('audio-play')
+// const audioLoad = require('audio-loader')
+const audioPlay = (...args:any) => Promise.resolve();
+const audioLoad = (...args:any) => Promise.resolve(new AudioBuffer({length:0, numberOfChannels:0, sampleRate:0}));
 import {getUserAndPathInfo} from "./FileAPI";
 import {AppGateway} from "../AppGateway";
 
