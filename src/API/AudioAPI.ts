@@ -271,7 +271,7 @@ setPlaylistMapAhead(
         if (++plindex >= max) plindex = 0
         channel.playlistMap[plindex] = selection;
     }
-    if(force) {
+    if(force && typeof(channel?.playback.pause) == 'function') {
         channel.playback.pause();
     }
 
@@ -285,7 +285,9 @@ setPlaylistAdvances(
 // throws ChannelDoesNotExist Exception
 {
     const channel = getChannel(channelName)
-    channel.playlistAdvances = advances
+    if(channel?.playlistAdvances) {
+        channel.playlistAdvances = advances
+    }
 }
 
 
@@ -304,7 +306,9 @@ pause(
         channel.status !== AudioStatus.Paused
     ) throw new InvalidState("Channel not playing or paused")
     channel.status = AudioStatus.Paused;
-    channel.playback.pause();
+    if(typeof (channel?.playback?.pause) === 'function') {
+        channel.playback.pause();
+    }
     callbackEvent(PlayEvent.PlaybackPaused, channel);
 
 }
@@ -320,7 +324,9 @@ resume(
 {
     const channel = getChannel(channelName)
     if( !channel.playback) throw new InvalidState("Channel not paused")
-    channel.playback.play();
+    if(typeof(channel?.playback?.play) === 'function') {
+        channel.playback.play();
+    }
     channel.status = AudioStatus.Playing;
     callbackEvent(PlayEvent.PlaybackResumes, channel);
 }

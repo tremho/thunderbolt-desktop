@@ -87,7 +87,11 @@ export class AppGateway {
                         response = null;
                     }
                     console.log("API Gateway - sending response", {fname, id, response, error})
-                    event.sender.send(fname, {id, response, error})
+                    try {
+                        event.sender.send(fname, {id, response, error})
+                    } catch(e) {
+                        console.log("probably failed to serialize.. ignoring");
+                    }
                 })
             }
             catch(e) {
