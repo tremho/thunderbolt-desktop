@@ -192,9 +192,9 @@ export function getUserAndPathInfo(appName:string): UserPathInfo {
         res = path.join(out.cwd, 'front') // if we aren't packaged
     }
     res = path.join(res, 'assets')
-    if(fs.existsSync(res)) {
-        out.assets = res  // out.assets will be undefined if we can't locate assets folder
-    }
+    // if(fs.existsSync(res)) {
+        out.assets = res
+    // }
     out.userName = userInfo.username
     out.uid = userInfo.uid
     out.gid = userInfo.gid
