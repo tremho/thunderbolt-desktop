@@ -189,7 +189,7 @@ export function getUserAndPathInfo(appName:string): UserPathInfo {
     out.cwd =  process.cwd()
     let res = path.join(out.cwd, 'resources', 'app.asar.unpacked') // if we are packaged alternate 1
     if(!fs.existsSync(res)) {
-        res = path.join(out.cwd, 'resources', 'app.asar') // if we are packaged alternate 2
+        res = path.join(out.cwd, 'resources', 'app.asar', 'front') // if we are packaged alternate 2
     }
     if(!fs.existsSync(res)) {
         res = path.join(out.cwd, 'front') // if we aren't packaged
