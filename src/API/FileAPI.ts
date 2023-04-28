@@ -187,7 +187,10 @@ export function getUserAndPathInfo(appName:string): UserPathInfo {
     const out = new UserPathInfo()
     out.home = userInfo.homedir
     out.cwd =  process.cwd()
-    let res = path.join(out.cwd, 'resources', 'app.asar.unpacked') // if we are packaged
+    let res = path.join(out.cwd, 'resources', 'app.asar.unpacked') // if we are packaged alternate 1
+    if(!fs.existsSync(res)) {
+        res = path.join(out.cwd, 'resources', 'app.asar') // if we are packaged alternate 2
+    }
     if(!fs.existsSync(res)) {
         res = path.join(out.cwd, 'front') // if we aren't packaged
     }
